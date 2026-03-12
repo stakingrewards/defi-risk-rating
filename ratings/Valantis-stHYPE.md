@@ -3,6 +3,7 @@
 **Rating Date**: 2026-02-25
 **Final Grade**: B
 **Total Score**: 690.8/900 points
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
 
 ---
 
@@ -252,29 +253,23 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 
 ## Final Score Calculation
 
-| Category | Subcategory | Weight | Current Score | Max Score | Current % | Potential Score |
-|----------|-------------|--------|---------------|-----------|-----------|-----------------|
-| Security | Smart Contract Security | 20% | 158.2 | 180 | 87.9% | 180.0 |
-| Security | Key Management | 20% | 128.6 | 180 | 71.4% | 180.0 |
-| **Security Total** | | **40%** | **286.8** | **360** | **79.7%** | **360.0** |
-| Strategy | Protocol Mechanics | 5% | 45.0 | 45 | 100.0% | 45.0 |
-| Strategy | Collateral | 5% | 37.5 | 45 | 83.3% | 37.5 |
-| Strategy | Infra Counterparty | 5% | 41.25 | 45 | 91.7% | 41.25 |
-| Strategy | Protocol Counterparty | 5% | 33.0 | 45 | 73.3% | 45.0 |
-| Strategy | Liquidity | 5% | 32.1 | 45 | 71.4% | 40.7 |
-| Strategy | Market | 5% | 45.0 | 45 | 100.0% | 45.0 |
-| **Strategy Total** | | **30%** | **233.9** | **270** | **86.6%** | **254.5** |
-| Operations | Governance | 7.5% | 22.5 | 67.5 | 33.3% | 67.5 |
-| Operations | Team & Legal | 7.5% | 54.6 | 67.5 | 80.9% | 61.1 |
-| Operations | Documentation | 7.5% | 67.5 | 67.5 | 100.0% | 67.5 |
-| Operations | Financial Resilience | 7.5% | 25.5 | 67.5 | 37.8% | 67.5 |
-| **Operations Total** | | **30%** | **170.1** | **270** | **63.0%** | **263.6** |
-| **GRAND TOTAL** | | **100%** | **690.8** | **900** | **76.8%** | **878.0** |
-
-**Current Grade: B** (690.8 falls in 685-710 range)
-**Potential Grade: AA-** (878.0 falls in 876-882 range)
-
----
-
+| Category | Subcategory | Current Points | Max Points | Potential Points |
+|----------|-------------|----------------|------------|------------------|
+| **Security** | Smart Contract Security | 158.2 | 180 | 180.0 |
+| | Key Management | 128.6 | 180 | 180.0 |
+| | **Security Subtotal** | **286.8** | **360** | **360.0** |
+| **Strategy** | Protocol Mechanics | 45.0 | 45 | 45.0 |
+| | Collateral | 37.5 | 45 | 37.5 |
+| | Infra Counterparty | 41.25 | 45 | 41.25 |
+| | Protocol Counterparty | 33.0 | 45 | 45.0 |
+| | Liquidity | 32.1 | 45 | 40.7 |
+| | Market | 45.0 | 45 | 45.0 |
+| | **Strategy Subtotal** | **233.9** | **270** | **254.5** |
+| **Operations** | Governance | 22.5 | 67.5 | 67.5 |
+| | Team & Legal | 54.6 | 67.5 | 61.1 |
+| | Documentation | 67.5 | 67.5 | 67.5 |
+| | Financial Resilience | 25.5 | 67.5 | 67.5 |
+| | **Operations Subtotal** | **170.1** | **270** | **263.6** |
+| **TOTAL** | | **690.8** | **900** | **878.0** |
 
 ---

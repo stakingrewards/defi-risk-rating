@@ -3,6 +3,7 @@
 **Rating Date**: 2026-02-12
 **Final Grade**: CCC
 **Total Score**: 509.9/900 points
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
 
 ---
 
@@ -275,8 +276,5 @@ Potential Operations: 67.5 + 61.1 + 67.5 + 55.5 = 251.6/270 (93.2%)
 | | Financial Resilience | 5 | 5 | 0 | 31 | 45 | 46.5 | 67.5 | 68.9% |
 | | **Operations Subtotal** | **24** | **20** | **4** | | | **140.1** | **270** | **51.9%** |
 | **TOTAL** | | **83** | **76** | **7** | | | **509.9** | **900** | **56.7%** |
-
----
-
 
 ---

@@ -3,6 +3,7 @@
 **Rating Date**: 2026-02-13
 **Final Grade**: BB+
 **Total Score**: 801.2/900 points
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
 
 ---
 
@@ -297,8 +298,5 @@
 | | Financial Resilience | 49.5 | 67.5 | 67.5 |
 | | **Operations Subtotal** | **230.6** | **270** | **270.0** |
 | **TOTAL** | | **801.2** | **900** | **893.3** |
-
----
-
 
 ---

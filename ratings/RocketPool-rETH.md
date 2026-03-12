@@ -3,6 +3,7 @@
 **Rating Date**: 2026-02-18
 **Final Grade**: BB
 **Total Score**: 781.5/900 points
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
 
 ---
 
@@ -251,29 +252,5 @@
 | | Financial Resilience (5 Q) | 5 | 0 | 39 | 45 | 58.5 | 67.5 | 86.7% |
 | | **Operations Subtotal** | | | | | **240.6** | **270** | **89.1%** |
 | **TOTAL** | | | | | | **781.5** | **900** | **86.8%** |
-
-**Validation:**
-- Smart Contract Security: 9+9+9+9+9+9+9+9+9+1+3 = 85/99. (85/99) x 180 = 154.545 = 154.5 (confirmed)
-- Key Management: 9+9+9+3+9+9+1 = 49/63. (49/63) x 180 = 140.0 (confirmed)
-- Security: 154.5 + 140.0 = 294.5 (confirmed)
-- Protocol Mechanics: 9+9+9+9+9+9+3 = 57/63. (57/63) x 45 = 40.714 = 40.7 (confirmed)
-- Collateral: 36/36 x 45 = 45.0 (confirmed)
-- Infra Counterparty: 63/63 x 45 = 45.0 (confirmed)
-- Protocol Counterparty: 36/36 x 45 = 45.0 (confirmed)
-- Liquidity: 9+3+9+9+9+9+3+3+3 = 57/81. (57/81) x 45 = 31.667 = 31.7 (confirmed)
-- Market: 9+9+9+3+9 = 39/45 x 45 = 39.0 (confirmed)
-- Strategy: 40.7 + 45.0 + 45.0 + 45.0 + 31.7 + 39.0 = 246.4 (confirmed)
-- Governance: 27/27 x 67.5 = 67.5 (confirmed)
-- Team & Legal: 51/63 x 67.5 = 54.643 = 54.6 (confirmed)
-- Documentation: 48/54 x 67.5 = 60.0 (confirmed)
-- Financial Resilience: 39/45 x 67.5 = 58.5 (confirmed)
-- Operations: 67.5 + 54.6 + 60.0 + 58.5 = 240.6 (confirmed)
-- Total: 294.5 + 246.4 + 240.6 = 781.5 (confirmed)
-- Grade: BB (760-785 range) -- confirmed
-- All percentages <= 100%: confirmed
-- No score exceeds max: confirmed
-
----
-
 
 ---

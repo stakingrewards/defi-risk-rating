@@ -2,7 +2,7 @@
 
 | Version | Release Date |
 |---|---|
-| **v0.1-beta** | 24.03.2026 |
+| **v0.1-alpha** | 10.12.2025 |
 
 ## Security
 
@@ -50,7 +50,6 @@
 - Is current yield sustainable relative to underlying economics?
 - Can the position be fully or mostly unwound under conservative liquidity assumptions without slippage, penalties, or lockups turning expected yield negative?
 - Does the strategy rely on a spread, peg, or funding rate that can invert (e.g. basis trades, stablecoin pegs, LST discounts, market making)?
-- Can automated or externally-invocable mechanisms increase vault exposure without real-time human approval?
 
 ### Collateral
 
@@ -67,7 +66,7 @@
 **How likely does a malfunction of counterparty Chain, Bridge, Oracle, Wallet, Validators, APIs, Frontends or CEX affect the principal?**
 
 - Which chains, bridges, oracles, wallets and CEXs does the strategy depend on and how are they risk rated or tiered?
-- How redundant are oracle and bridge setups, and can oracle values be corrected under abnormal conditions?
+- How redundant and battle-tested are the oracle and bridge setups?
 - Are off-chain infrastructure providers certified by standard IT security audits like SOC 2 or ISO27001 or VSP?
 - How did these infra components behave in past outages or chain incidents?
 - Has the base chain recently halted block production, experienced consensus failure or become non-operational?

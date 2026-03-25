@@ -2,7 +2,7 @@
 
 **Rating Date**: 2026-02-19
 **Final Grade**: A
-**Total Score**: 867.5/900 points
+**Total Score**: 858.5/900 points
 **Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
 
 ---
@@ -154,7 +154,7 @@
 
 ---
 
-### OPERATIONS (30% Weight) - Score: 265.0/270 (98.1%)
+### OPERATIONS (30% Weight) - Score: 256.0/270 (94.8%)
 
 #### Governance (7.5% weight, 67.5 max points)
 
@@ -213,14 +213,14 @@
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | O-FR-01 | Is there a backstop reserve or safety module for user losses? | Yes. Umbrella Safety Module launched June 2025 with ~$263M in staked assets (93.3M USDC, 120.8M USDT, 35.2K WETH, 14.4M GHO per LlamaRisk Dec 2025). Automated slashing mechanism: if bad debt occurs in WETH, staked aWETH can be automatically slashed to cover deficit. Clear, published activation rules -- automated, not discretionary. Legacy stkAAVE now primarily governance power. Note: DAO Treasury (~$125M) is separate from Umbrella and requires governance vote to deploy for user losses. | 9 | 9 | - | [P1] [Umbrella Docs](https://aave.com/docs/aave-v3/umbrella), [P2] [BGD Umbrella](https://governance.aave.com/t/bgd-aave-safety-module-umbrella/18366), [P2] [LlamaRisk Umbrella Coverage](https://governance.aave.com/t/llamarisk-insights-umbrella-coverage-principles-and-slashing-logic/23527) |
-| O-FR-02 | How large are backstop reserves relative to TVL? | **Modest relative to scale.** Umbrella: ~$263M (automated backstop). DAO Treasury: ~$125M (~$100M non-AAVE + ~$25M in bought-back AAVE at ~$120, per Feb 2026 DAO Funding Insights). Combined ~$388M vs $34.5B Ethereum TVL = ~1.1%. Critical distinction: DAO Treasury is NOT part of Umbrella coverage and requires governance vote to deploy for user losses (per LlamaRisk). WETH-specific: aWETH staking in Umbrella provides dedicated WETH coverage. Feb 2026: protocol processed $429M liquidations with zero bad debt, suggesting current buffers are sufficient for historical stress levels. | 9 | 9 | - | [P2] [DAO Funding Insights](https://governance.aave.com/t/aave-dao-funding-insights/24192), [P2] [LlamaRisk Umbrella Coverage](https://governance.aave.com/t/llamarisk-insights-umbrella-coverage-principles-and-slashing-logic/23527), [P2] [DAO Financial Reports](https://governance.aave.com/t/aave-dao-financial-reports-financial-metrics/5575) |
+| O-FR-02 | How large are backstop reserves relative to TVL? | **Modest relative to scale.** Umbrella: ~$263M (automated backstop). DAO Treasury: ~$125M (~$100M non-AAVE + ~$25M in bought-back AAVE at ~$120, per Feb 2026 DAO Funding Insights). Combined ~$388M vs $34.5B Ethereum TVL = ~1.1%. Below 5% threshold for Low Risk; within 1-5% range = Mid Risk. Critical distinction: DAO Treasury is NOT part of Umbrella coverage and requires governance vote to deploy for user losses (per LlamaRisk). WETH-specific: aWETH staking in Umbrella provides dedicated WETH coverage. Feb 2026: protocol processed $429M liquidations with zero bad debt, suggesting current buffers are sufficient for historical stress levels. | 3 | 9 | **Improvable** | [P2] [DAO Funding Insights](https://governance.aave.com/t/aave-dao-funding-insights/24192), [P2] [LlamaRisk Umbrella Coverage](https://governance.aave.com/t/llamarisk-insights-umbrella-coverage-principles-and-slashing-logic/23527), [P2] [DAO Financial Reports](https://governance.aave.com/t/aave-dao-financial-reports-financial-metrics/5575) |
 | O-FR-03 | What is the estimated operational runway? | Strong. DAO Treasury ~$125M (~$100M non-AAVE, ~$25M AAVE). 2026 projected budget ~$164.4M (includes $75M Ahab growth ceiling). Protocol generated $885M in fees in 2025, estimated ~$143M revenue for 2026. Feb 2026: Aave Labs proposed directing 100% of Aave-branded revenue to DAO treasury. $50M/year permanent AAVE buyback program approved. Revenue broadly covers expenses; reserves provide additional buffer. Runway >24 months. | 9 | 9 | - | [P2] [DAO Funding Insights](https://governance.aave.com/t/aave-dao-funding-insights/24192), [P3] [Coinlaw Statistics](https://coinlaw.io/aave-statistics/), [P4] [The Block Revenue Proposal](https://www.theblock.co/post/389726/aave-labs-proposes-100-protocol-revenue-dao-exchange-funding) |
 | O-FR-04 | How have TVL, revenue and buffers behaved in past stress? | Highly resilient across multiple severe stress events. Survived 2022 bear market (FTX collapse, Terra/Luna, SVB crisis). Feb 2025: $210M liquidations, zero bad debt. Feb 2026: record $429M liquidations during 30-40% crypto crash, zero bad debt, protocol remained fully operational. Ethereum TVL recovered to $34.5B. WETH pool processed Trend Research $862M position unwind without protocol failure. Protocol has demonstrated resilience across every major market stress event over 8+ years. | 9 | 9 | - | [P1] [Aave Historical Liquidations](https://aave.com/blog/historical-liquidations), [P3] [DeFiLlama](https://defillama.com/protocol/aave-v3), [P4] [BeInCrypto Feb 2026](https://beincrypto.com/crypto-lending-leverage-liquidation-risk/) |
 | O-FR-05 | Can the protocol remain safe if team disappears? | Yes. Smart contracts are permissionless and non-custodial. WETH withdrawals always available via direct Pool contract interaction based on available liquidity. Governance via on-chain voting (no off-chain dependency). Multiple independent development teams (Aave Labs, BGD Labs) provide redundancy. Protocol can operate in maintenance mode with frozen parameters while governance remains functional. | 9 | 9 | - | [P1] [Governance Docs](https://aave.com/docs/ecosystem/governance), [P0] [Pool V3 Contract](https://etherscan.io/address/0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2) |
 
-**Financial Resilience Subtotal: 67.5/67.5 (100.0%)**
-- 5 questions at score 9 = 45 points
-- Raw: 45/45, Weighted: (45/45) x 67.5 = 67.5
+**Financial Resilience Subtotal: 58.5/67.5 (86.7%)**
+- 4 questions at score 9 = 36, 1 question at score 3 = 3
+- Raw: 39/45, Weighted: (39/45) x 67.5 = 58.5
 
 ---
 
@@ -241,8 +241,8 @@
 | **Operations** | Governance | 67.5 | 67.5 | 67.5 |
 | | Team & Legal | 62.5 | 67.5 | 67.5 |
 | | Documentation | 67.5 | 67.5 | 67.5 |
-| | Financial Resilience | 67.5 | 67.5 | 67.5 |
-| | **Operations Subtotal** | **265.0** | **270** | **270.0** |
-| **TOTAL** | | **867.5** | **900** | **893.3** |
+| | Financial Resilience | 58.5 | 67.5 | 67.5 |
+| | **Operations Subtotal** | **256.0** | **270** | **270.0** |
+| **TOTAL** | | **858.5** | **900** | **893.3** |
 
 ---

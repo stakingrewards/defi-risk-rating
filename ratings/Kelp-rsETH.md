@@ -1,9 +1,9 @@
-# Kelp DAO - rsETH Risk Rating
+# Kelp DAO - rsETH (Liquid Restaking Token) Risk Rating
 
 **Rating Date**: 2026-03-18
 **Final Grade**: CCC+
 **Total Score**: 583.1/900 points
-**Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-alfa
 
 ---
 
@@ -138,11 +138,11 @@
 | ST-L-02 | Is there enough liquidity to redeem close to 100% of TVL within stated withdrawal time? | With TVL at ~$47M, in-protocol redemption through EigenLayer can process substantial exits. Uniswap V3 WSTETH/RSETH pair has ~$776K daily volume. Given the dramatically reduced TVL, liquidity is adequate for current size. At peak TVL ($6.4B) this would have been a concern. | 9 | 9 | Non-Improvable (optimal) | [P3] DeFiLlama TVL, [P3] CoinGecko volume |
 | ST-L-03 | Have there been past withdrawal delays, queues or freezes? | Yes. During the April 2025 incident, withdrawals were paused for approximately 8 days (April 30 - May 8, 2025). This was a precautionary freeze, not a liquidity issue. Withdrawals resumed without loss. | 3 | 3 | Non-Improvable | [P2] [Aave Freeze](https://governance.aave.com/t/rseth-precautionary-freezing-30-04-2025/21925) |
 | ST-L-04 | Do caps or limits restrict timely redemptions during high utilization? | No evidence of withdrawal caps that restrict exits. The buffer pool allows smaller fast withdrawals. No history of caps being used to block exits. | 9 | 9 | Non-Improvable (optimal) | [P1] [Withdrawal docs](https://kelp.gitbook.io/kelp/explore-rseth/rseth-withdrawal) |
-| ST-L-05 | How does exit liquidity behave during volatility and network congestion? | During the April 2025 incident, rsETH was frozen across Aave for 8 days. Secondary market liquidity remained accessible on Uniswap but volumes are modest (~$776K/day). The incident caused stress but access remained via DEX swaps. The protocol has been tested but with notable disruption. | 3 | 3 | Non-Improvable | [P2] [Aave Freeze](https://governance.aave.com/t/rseth-precautionary-freezing-30-04-2025/21925), [P3] CoinGecko |
+| ST-L-05 | How does exit liquidity behave during volatility and network congestion? | During the April 2025 incident, rsETH was frozen across Aave for 8 days. Secondary market liquidity remained accessible on Uniswap but volumes are modest (~$776K/day). The incident caused stress but access remained via DEX swaps. The protocol has been tested but with notable disruption. Cross-protocol consistency: Improvable — Kelp could improve exit liquidity behavior through deeper DEX liquidity partnerships and enhanced buffer mechanisms. | 3 | 9 | **Improvable** | [P2] [Aave Freeze](https://governance.aave.com/t/rseth-precautionary-freezing-30-04-2025/21925), [P3] CoinGecko |
 | ST-L-06 | Do withdrawals rely on unstaking, vesting, or bridge exits longer than stated period? | Yes. EigenLayer imposes a 7-day withdrawal queue. Kelp adds processing time for total 7-10 days. This is the stated withdrawal period. Less than 10% of assets effectively exceed the stated 7-10 day window under normal conditions. | 9 | 9 | Non-Improvable (optimal) | [P1] [Withdrawal docs](https://kelp.gitbook.io/kelp/explore-rseth/rseth-withdrawal) |
 | ST-L-07 | Does redemption depend on secondary-market liquidity and is it sufficient? | Most users can exit via in-protocol redemption (7-10 days). Secondary markets (Uniswap) are optional for faster exit. Uniswap V3 WSTETH/RSETH has $776K daily volume -- sufficient for small exits but thin for large positions. | 3 | 9 | **Improvable** | [P3] CoinGecko, [P1] [DeFi Integration docs](https://kelp.gitbook.io/kelp/explore-rseth/defi-integration) |
 | ST-L-08 | What is the liquidity depth of collateral and receipt tokens? | At current TVL of ~$47M, the $776K daily DEX volume represents ~1.7% of TVL per day. Depth supports ~3-10% of TVL without major impact -- adequate for staggered exits. However, at historical peak TVL this would have been severely insufficient. | 3 | 9 | **Improvable** | [P3] CoinGecko volume, [P3] DeFiLlama TVL |
-| ST-L-09 | What is the risk of bank-run scenarios under full utilization? | The 99% TVL decline from $6.4B to $47M already represents a near-complete bank run that was handled without permanent losses. The protocol's withdrawal design (7-day EigenLayer queue) creates natural rate-limiting. Rapid mass exit would cause queues but not expected permanent haircuts. | 3 | 3 | Non-Improvable | [P3] DeFiLlama TVL history |
+| ST-L-09 | What is the risk of bank-run scenarios under full utilization? | The 99% TVL decline from $6.4B to $47M already represents a near-complete bank run that was handled without permanent losses. The protocol's withdrawal design (7-day EigenLayer queue) creates natural rate-limiting. Rapid mass exit would cause queues but not expected permanent haircuts. Cross-protocol consistency: Improvable — Kelp could implement forced exit mechanisms and larger withdrawal buffers to reduce bank-run risk. | 3 | 9 | **Improvable** | [P3] DeFiLlama TVL history |
 
 **Liquidity Subtotal:**
 - Raw scores: 9+9+3+9+3+9+3+3+3 = 51/81
@@ -154,7 +154,7 @@
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| ST-M-01 | How has the LST or receipt token peg performed under market stress? | rsETH is non-rebasing and appreciates vs ETH. During the April 2025 infinite mint, the rsETH/ETH exchange rate was protected by circuit breakers. However, rsETH was frozen on Aave for 8 days and trading on DEXs may have experienced temporary discount. The incident was an actual stress test with disruption but no permanent impairment. Protocol has been tested under real stress. | 3 | 3 | Non-Improvable | [P2] [Aave Freeze](https://governance.aave.com/t/rseth-precautionary-freezing-30-04-2025/21925), [P3] CoinGecko |
+| ST-M-01 | How has the LST or receipt token peg performed under market stress? | rsETH is non-rebasing and appreciates vs ETH. During the April 2025 infinite mint, the rsETH/ETH exchange rate was protected by circuit breakers. However, rsETH was frozen on Aave for 8 days and trading on DEXs may have experienced temporary discount. The incident was an actual stress test with disruption but no permanent impairment. Protocol has been tested under real stress. Cross-protocol consistency: Improvable — Kelp could strengthen peg mechanisms through deeper arbitrage-ready liquidity pools and enhanced secondary market support. | 3 | 9 | **Improvable** | [P2] [Aave Freeze](https://governance.aave.com/t/rseth-precautionary-freezing-30-04-2025/21925), [P3] CoinGecko |
 | ST-M-02 | How likely can adverse crypto market moves cause permanent losses due to directional exposure? | rsETH is fully backed by ETH and ETH-denominated LSTs. No leverage. Strategy is low-beta (rsETH moves with ETH). Liquidation risk is negligible for the protocol itself (users may face liquidation on Aave/other platforms if using rsETH as collateral). | 9 | 9 | Non-Improvable (optimal) | [P1] Protocol design |
 | ST-M-03 | Are interest rate/incentive models robust during TVL shifts or volatility spikes? | rsETH yield comes from staking/restaking, not from a rate model. No utilization-based rate curve. TVL shifts don't affect yield mechanics directly. The 99% TVL decline did not cause yield model failure. | 9 | 9 | Non-Improvable (optimal) | [P1] Protocol design |
 | ST-M-04 | Have historic scenarios with high market volatility been explicitly modeled? | No published stress testing or scenario analysis. The April 2025 incident was real-world testing that passed (circuit breakers worked). But no formal high-volatility modeling exists. | 1 | 9 | **Improvable** | [P1] No published scenarios |
@@ -268,3 +268,4 @@
 | **TOTAL** | | | | **583.1** | **900** | **64.8%** |
 
 ---
+

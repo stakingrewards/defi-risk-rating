@@ -1,9 +1,9 @@
-# Lido - stETH (Lido Staked Ether) Risk Rating
+# Lido - stETH Risk Rating
 
 **Rating Date**: 2026-02-06
 **Final Grade**: BBB+
 **Total Score**: 845.4/900 points
-**Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-alfa
 
 ---
 
@@ -133,7 +133,7 @@ Potential Security: 180.0 + 180.0 = 360.0/360
 | ST-L-02 | Is there enough liquidity to redeem close to 100% of TVL? | **Stressed under extreme conditions.** Normal conditions: efficient with 1-5 day processing. stETH is the most liquid LST ($37B+ TVL). July 2025: 625k ETH queued network-wide, 235k+ stETH waiting in Lido queue, 8-10 day wait times. Near-total exit would require extended staggered processing over weeks due to Ethereum's validator exit rate cap. This is an Ethereum protocol constraint affecting all LSTs. | 3 | 3 | Non-Improvable | [Dune Analytics](https://dune.com/lido/lido-v2), [Invezz](https://invezz.com/news/2025/07/23/ldo-price-turns-bearish-as-lidos-unfinalized-withdrawals-hit-all-time-high/) |
 | ST-L-03 | Have there been past withdrawal delays or freezes? | July 2025: Extended queue (16+ days at peak) with 235k+ stETH waiting. However, all requests were eventually processed. Peg restored by late July. Outside of extreme stress, >95% of withdrawals complete within 1-5 day stated period. No protocol-initiated freezes. Delays are Ethereum exit queue dependent, not Lido-specific. | 9 | 9 | Non-Improvable (optimal) | [Invezz](https://invezz.com/news/2025/07/23/ldo-price-turns-bearish-as-lidos-unfinalized-withdrawals-hit-all-time-high/) |
 | ST-L-04 | Do caps restrict timely redemptions during high utilization? | No Lido-specific caps on withdrawal requests. Queue is FIFO without artificial limits. Processing rate depends solely on Ethereum validator exit rate and available ETH buffer. No history of caps being used to block exits. Withdrawal request amounts bounded at 100 wei min and 1000 ETH max per request (to prevent queue congestion), but unlimited number of requests. | 9 | 9 | Non-Improvable (optimal) | [Withdrawal Queue](https://docs.lido.fi/contracts/withdrawal-queue-erc721) |
-| ST-L-05 | How does exit liquidity behave during volatility? | **Stressed during extreme events.** July 2025: 16+ day queues, stETH depegged (~0.3-0.6% discount), secondary market liquidity thinned as leverage strategies unwound. Rising WETH borrow rates on Aave rendered leveraged staking unprofitable, triggering mass unwinding. Queue eventually cleared and peg restored. Stress behavior reflects Ethereum PoS design constraints and external leverage dynamics, not Lido protocol failures. | 3 | 3 | Non-Improvable | [DropStab](https://dropstab.com/research/crypto/ethereum-validator-exit-queue-hits-ath-amid-price-surge) |
+| ST-L-05 | How does exit liquidity behave during volatility? | **Stressed during extreme events.** July 2025: 16+ day queues, stETH depegged (~0.3-0.6% discount), secondary market liquidity thinned as leverage strategies unwound. Rising WETH borrow rates on Aave rendered leveraged staking unprofitable, triggering mass unwinding. Queue eventually cleared and peg restored. Stress behavior reflects Ethereum PoS design constraints and external leverage dynamics, not Lido protocol failures. Cross-protocol consistency: Improvable — Lido could implement larger withdrawal buffers and enhanced liquidity management to mitigate future stress scenarios. | 3 | 9 | **Improvable** | [DropStab](https://dropstab.com/research/crypto/ethereum-validator-exit-queue-hits-ath-amid-price-surge) |
 | ST-L-06 | Do withdrawals rely on unstaking or vesting longer than stated period? | Inherently yes - depends on Ethereum validator exit queue. Stated expectation: 1-5 days for normal conditions. Ethereum's exit rate cap means extreme scenarios can extend to 16+ days (as demonstrated July 2025). This is fundamental to Ethereum PoS design. Less than ~10% of situations result in extended duration beyond 5 days based on historical data. | 9 | 9 | Non-Improvable (optimal) | [Withdrawals](https://lido.fi/how-lido-works/withdrawals) |
 | ST-L-07 | Does redemption depend on secondary-market liquidity? | No for protocol redemption. Withdrawal queue always available as permissionless on-chain path. Secondary markets (Curve, Uniswap, 1inch) are optional for instant exits and are deep enough for typical sizes. Protocol design ensures users always have a direct on-chain redemption path regardless of secondary market conditions. | 9 | 9 | Non-Improvable (optimal) | [Liquidity Strategy](https://research.lido.fi/t/liquidity-observation-lab-lol-liquidity-strategy-and-application-to-curve-steth-eth-pool/5335) |
 | ST-L-08 | What is the liquidity depth of collateral and receipt tokens? | High. stETH is the most liquid LST with $37B+ TVL. Deep liquidity on Curve stETH/ETH pool, Uniswap, and major DEXs. wstETH widely integrated across Aave, Compound, MakerDAO/Spark. Can absorb ~10%+ of TVL under normal conditions on secondary markets. | 9 | 9 | Non-Improvable (optimal) | [DeFiLlama](https://defillama.com/protocol/lido) |
@@ -147,7 +147,7 @@ Potential Security: 180.0 + 180.0 = 360.0/360
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| ST-M-01 | How has the LST or receipt token peg performed under stress? | **Stressed periods observed.** July 2025: ~0.3-0.6% depeg, recovered to 0.17% by July 24, fully normalized within ~10 days. June 2022: wider depeg during 3AC crisis (pre-withdrawals era). Post-withdrawal-queue activation, deviations have stayed within 2% and resolved within days. Peg mechanism fundamentally sound due to permissionless withdrawal path. | 3 | 3 | Non-Improvable | [CryptoSlate](https://cryptoslate.com/lidos-market-share-shrinks-as-steth-struggles-with-depegging/) |
+| ST-M-01 | How has the LST or receipt token peg performed under stress? | **Stressed periods observed.** July 2025: ~0.3-0.6% depeg, recovered to 0.17% by July 24, fully normalized within ~10 days. June 2022: wider depeg during 3AC crisis (pre-withdrawals era). Post-withdrawal-queue activation, deviations have stayed within 2% and resolved within days. Peg mechanism fundamentally sound due to permissionless withdrawal path. Cross-protocol consistency: Improvable — Lido could strengthen peg mechanisms through deeper arbitrage-ready liquidity pools and enhanced buffer management. | 3 | 9 | **Improvable** | [CryptoSlate](https://cryptoslate.com/lidos-market-share-shrinks-as-steth-struggles-with-depegging/) |
 | ST-M-02 | Can adverse crypto market moves cause permanent losses? | Low risk. stETH is unleveraged at protocol level with 1:1 ETH backing. No directional exposure or leverage risk at protocol level. User-created leverage positions (Aave loops, etc.) can be liquidated but this is user risk, not protocol risk. Protocol design is inherently low-beta relative to ETH. | 9 | 9 | Non-Improvable (optimal) | [Lido Docs](https://docs.lido.fi/) |
 | ST-M-03 | Are interest rate models robust during TVL shifts? | Staking rate determined by Ethereum protocol, not by Lido rate models. Oracle sanity checks bound reporting deviations. No internal interest rate model that could become unstable. TVL shifts affect market share but not the fundamental yield mechanism. No history of rate model failures. | 9 | 9 | Non-Improvable (optimal) | [Protocol Levers](https://docs.lido.fi/guides/protocol-levers) |
 | ST-M-04 | Have historic scenarios with high volatility been modeled? | Yes. Multiple real-world stress tests documented. July 2025 provided a live stress test demonstrating protocol resilience under mass exit conditions. Bunker mode designed for extreme scenarios (mass slashing). Oracle sanity checks tested. Post-mortems published for all incidents providing detailed analysis. | 9 | 9 | Non-Improvable (optimal) | [Post-Mortems](https://blog.lido.fi/category/postmortem/) |
@@ -159,7 +159,7 @@ Potential Security: 180.0 + 180.0 = 360.0/360
 
 **Strategy Total: 246.5/270 (91.3%)**
 
-Potential Strategy: 253.6/270 (93.9%)
+Potential Strategy: 262.9/270 (97.4%)
 
 ---
 
@@ -251,3 +251,4 @@ Potential Strategy: 253.6/270 (93.9%)
 | **TOTAL** | | | | **845.4** | **900** | **93.9%** |
 
 ---
+

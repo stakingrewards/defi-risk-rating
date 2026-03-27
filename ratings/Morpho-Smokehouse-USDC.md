@@ -1,19 +1,19 @@
 # Morpho - Smokehouse USDC Vault Risk Rating
 
-**Rating Date**: 2026-03-10
-**Final Grade**: BB
-**Total Score**: 762.4/900 points
-**Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
+**Rating Date**: 2026-03-26
+**Final Grade**: BB-
+**Total Score**: 751.5/900 points
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-beta
 
 ---
 
 ## Detailed Analysis
 
-### SECURITY (40% Weight) -- Score: 334.1/360 (92.8%)
+### SECURITY (40% Weight) -- Score: 323.2/360 (89.8%)
 
 #### Smart Contract Security (20% weight, 180 max points)
 
-**NOTE: All Smart Contract Security scores are IDENTICAL to the Morpho Steakhouse USDC rating (BBB-/815.6). The Smokehouse vault is deployed via the same MetaMorpho V1 factory and uses the same Morpho Blue protocol infrastructure.**
+**NOTE: Smart Contract Security scores are based on the same Morpho Blue protocol infrastructure as the Steakhouse USDC rating. S-SC-10 is scored 3 (monitoring exists but cannot automatically trigger protective actions), consistent with Gauntlet vaults under the beta framework verification principle. Steakhouse USDC has not yet been re-rated under the beta framework.**
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
@@ -26,13 +26,13 @@
 | S-SC-07 | Has any confirmed rug-pull event occurred? | No rug-pull events. Morpho operates as ADDMO, a French nonprofit association. Steakhouse Financial has a 2+ year track record. No credible allegations. | 9 | 9 | Non-Improvable (optimal) | [P1] [Legal Notice](https://morpho.org/legal-notice/) |
 | S-SC-08 | Were there reductions to the timelock delay that weaken governance protections? | No reductions. 3-day timelock maintained on Smokehouse vault (the protocol minimum). No changes to timelock duration in last 12 months. | 9 | 9 | Non-Improvable (optimal) | [P1] [Vault Controls](https://www.steakhouse.financial/docs/risk-management/monitoring/vault-setup-and-controls) |
 | S-SC-09 | Does the protocol run an active bug-bounty via a reputable platform? | Yes. Active public bounty on Cantina with $2.5M max payout for critical vulnerabilities. 236 findings submitted since March 2024. Scope covers both V1 and V2 contracts plus web apps. | 9 | 9 | Non-Improvable (optimal) | [P1] [Cantina Bounty](https://cantina.xyz/bounties/35a5f0a1-2ffd-432c-8f3b-77d169add8c3) |
-| S-SC-10 | Are real-time security monitoring and alerting systems in place? | Yes. Internal monitoring bots perform continuous invariant checks on each market after each transaction. Chainalysis partnership for transaction monitoring. April 2025 incident: alert received and frontend rolled back within 4 minutes. February 2025 Bybit hack: bbqUSDC automatically reallocated funds within ~90 minutes reducing Ethena exposure. | 9 | 9 | Non-Improvable (optimal) | [P1] [Security Framework](https://morpho.org/blog/morpho-blue-security-framework-building-the-most-secure-lending-protocol/), [P2] [Bybit Incident Response](https://forum.morpho.org/t/bybit-incident-response/1544) |
+| S-SC-10 | Are real-time security monitoring and alerting systems in place? | Internal monitoring bots perform continuous invariant checks on each market after each transaction. Chainalysis partnership for transaction monitoring. April 2025 incident: alert received and frontend rolled back within 4 minutes. February 2025 Bybit hack: bbqUSDC reallocation within ~90 minutes. However, per the framework verification principle, monitoring exists but cannot automatically trigger protective actions — all responses require manual human intervention. The Public Allocator and automated allocation flows are not covered by any automated halt mechanism. Same limitation as all Morpho vaults (platform-level). | 3 | 9 | **Improvable** | [P1] [Security Framework](https://morpho.org/blog/morpho-blue-security-framework-building-the-most-secure-lending-protocol/), [P2] [Bybit Incident Response](https://forum.morpho.org/t/bybit-incident-response/1544) |
 | S-SC-11 | Are automatic safety controls (pause, circuit breakers) triggered by monitoring alerts? | No automatic on-chain circuit breakers by design. Morpho Blue prioritizes immutability over admin controls. Guardian can manually veto pending timelocked actions but cannot pause the protocol. Market-level isolation provides containment. | 3 | 3 | Non-Improvable | [P1] [Security Framework](https://morpho.org/blog/morpho-blue-security-framework-building-the-most-secure-lending-protocol/) |
 
-**Smart Contract Security Subtotal: 169.1/180 (93.9%)**
-- 10 questions scored 9 (sum = 90), 1 question scored 3 (sum = 3)
-- Raw sum = 93 out of max 99
-- Weighted = (93/99) x 180 = 169.1
+**Smart Contract Security Subtotal: 158.2/180 (87.9%)**
+- 9 questions scored 9 (sum = 81), 2 questions scored 3 (sum = 6)
+- Raw sum = 87 out of max 99
+- Weighted = (87/99) x 180 = 158.2
 
 ---
 
@@ -61,13 +61,13 @@
 
 ---
 
-### **Security Total: 334.1/360 (92.8%)**
+### **Security Total: 323.2/360 (89.8%)**
 
 | Subcategory | Current | Max | Current % |
 |-------------|---------|-----|-----------|
-| Smart Contract Security | 169.1 | 180 | 93.9% |
+| Smart Contract Security | 158.2 | 180 | 87.9% |
 | Key Management | 165.0 | 180 | 91.7% |
-| **Security Total** | **334.1** | **360** | **92.8%** |
+| **Security Total** | **323.2** | **360** | **89.8%** |
 
 ---
 
@@ -82,15 +82,16 @@
 | ST-PM-03 | Is leverage or rehypothecation used and up to what effective level? | No. Vault simply lends USDC. No rehypothecation of depositor funds. Effective leverage: 1.0x. | 9 | 9 | Non-Improvable (optimal) | Analytical assessment |
 | ST-PM-04 | Are there automated mechanics to prevent Liquidation Events? | N/A -- Vault is a lender, not a borrower. Liquidation risk applies to borrowers. | N/A | N/A | N/A | [P1] [Liquidation](https://docs.morpho.org/learn/concepts/liquidation/) |
 | ST-PM-05 | Has this strategy or a close variant ever experienced negative yield? | No permanent-loss events for Smokehouse/Steakhouse vaults. Steakhouse confirmed zero bad debt across ALL mandates (including Smokehouse/High Yield) during November 2025 Stream/Elixir contagion. Steakhouse explicitly stated "no exposure to xUSD/yUSD/deUSD/mHYPER/mMEV." The close-variant bad debt event (MEV Capital sdeUSD/USDC 3.6% on Morpho Blue) affected a different curator, not Steakhouse. | 9 | 9 | Non-Improvable (optimal) | [P4] [Steakhouse Twitter](https://x.com/SteakhouseFi/status/1985620465650381093), [P1] [Steakhouse Docs](https://www.steakhouse.financial/docs/products/steakhouse-financial-products/morpho-vaults) |
-| ST-PM-06 | Is a risk framework for vault curation documented? | Yes. Steakhouse publishes comprehensive risk management framework with collateral rating system (AA through C), vault DDQ process (2 internal + 1 external reviewer), platform rating methodology, and final market rating criteria. Smokehouse/High Yield vaults explicitly positioned within this framework: "BB and B assets are considered High Yield." Credora A+ rating for 5 of 6 Steakhouse vaults. | 9 | 9 | Non-Improvable (optimal) | [P1] [Risk Framework](https://www.steakhouse.financial/docs/risk-management), [P1] [Collateral Criteria](https://www.steakhouse.financial/docs/risk-management/collateral/layers-pillars-and-criteria), [P2] [Credora Ratings](https://forum.morpho.org/t/credora-network-risk-ratings-on-morpho/1652) |
+| ST-PM-06 | Is a risk framework for vault curation or protocol mechanics documented? | Yes. Steakhouse publishes comprehensive risk management framework with collateral rating system (AA through C), vault DDQ process (2 internal + 1 external reviewer), platform rating methodology, and final market rating criteria. Smokehouse/High Yield vaults explicitly positioned within this framework: "BB and B assets are considered High Yield." Credora A+ rating for 5 of 6 Steakhouse vaults. | 9 | 9 | Non-Improvable (optimal) | [P1] [Risk Framework](https://www.steakhouse.financial/docs/risk-management), [P1] [Collateral Criteria](https://www.steakhouse.financial/docs/risk-management/collateral/layers-pillars-and-criteria), [P2] [Credora Ratings](https://forum.morpho.org/t/credora-network-risk-ratings-on-morpho/1652) |
 | ST-PM-07 | Is current yield sustainable relative to underlying economics? | Primarily organic. Exponential data shows 5.5% base rate + 0.3% rewards = 5.85% total. MORPHO rewards comprise ~5% of total yield, well below 30% threshold. Base organic yield remains positive without incentives. Yield driven by borrower demand for leverage against exotic collateral. | 9 | 9 | Non-Improvable (optimal) | [P3] [Exponential DeFi](https://exponential.fi/pools/morpho-usd-lending-smokehouse-ethereum/f17e1f50-4752-4741-a103-ecf8ad5dcc7b) |
 | ST-PM-08 | Can the position be fully unwound under conservative liquidity assumptions without slippage turning yield negative? | USDC itself is highly liquid. However, during November 2025, Steakhouse warned that "High Yield vault users are advised these may experience periods of illiquidity as market conditions resolve." Exotic collateral types mean borrowers may be slower to repay or harder to liquidate. Under conservative assumptions, slippage/penalties around 2-5% could materially compress returns during stress. | 3 | 3 | Non-Improvable | [P4] [Steakhouse Twitter](https://x.com/SteakhouseFi/status/1985620465650381093), [P2] [Introducing Smokehouse](https://forum.morpho.org/t/introducing-the-smokehouse-product-line-bbqusdc-and-bbqdai/1182) |
 | ST-PM-09 | Does the strategy rely on a spread, peg, or funding rate that can invert? | Partial dependency. Some collateral values depend on pegs: sUSDe/USDe peg (Ethena), syrupUSDC peg (Maple), mF-ONE NAV (private credit). However, vault is a USDC lender -- these peg risks affect borrower collateral quality, not the lender's direct position. Lending interest itself does not depend on spreads/pegs. Peg risk contributes indirectly to bad debt risk if collateral depegs and liquidations fail. Minority of yield at risk. | 9 | 9 | Non-Improvable (optimal) | Analytical assessment |
+| ST-PM-10 | Can automated or externally-invocable mechanisms increase vault exposure without real-time human approval? | Yes. The vault uses automated allocation via the Public Allocator and Curator-appointed allocators. Supply caps per market limit maximum per-market exposure. However, no automatic kill-switch exists for abnormal conditions (oracle deviation, collateral depeg, utilization spikes). During the March 2026 Resolv exploit, the Public Allocator on other Morpho vaults auto-supplied $6.2M in USDC to broken markets for hours because anyone could invoke the function and no circuit breaker halted it. While Smokehouse markets were not directly affected, the same Public Allocator infrastructure applies. Halting requires manual curator intervention (setting caps to zero). | 3 | 9 | **Improvable** | [P1] [Morpho Public Allocator](https://docs.morpho.org/curate/concepts/public-allocator/), [P4] [Resolv Exploit](https://defiprime.com/resolv-usr-exploit) |
 
-**Protocol Mechanics Subtotal: 37.5/45 (83.3%)**
-- 8 applicable questions (ST-PM-04 = N/A): 6 scored 9 (sum = 54), 2 scored 3 (sum = 6)
-- Raw sum = 60 out of max 72
-- Weighted = (60/72) x 45 = 37.5
+**Protocol Mechanics Subtotal: 35.0/45 (77.8%)**
+- 9 applicable questions (ST-PM-04 = N/A): 6 scored 9 (sum = 54), 3 scored 3 (sum = 9)
+- Raw sum = 63 out of max 81
+- Weighted = (63/81) x 45 = 35.0
 
 ---
 
@@ -101,15 +102,15 @@
 | ST-C-01 | Which assets are accepted as collateral and how are they risk rated? | Mixed risk profile. Blue-chip: wstETH (Lido), cbBTC (Coinbase custody), WBTC (BitGo/BiT Global). Higher-risk/exotic: sUSDe (Ethena staked USDe, CCC SR tier), syrupUSDC (Maple, Cayman injunction history), mF-ONE (Midas/Fasanara tokenized private credit), various PT tokens (Pendle). Steakhouse rates these BB/B in their framework. Per Steakhouse: "BB and B assets are considered High Yield in higher risk products." Each market has explicit on-chain LTVs and supply caps. | 3 | 3 | Non-Improvable | [P1] [Collateral Criteria](https://www.steakhouse.financial/docs/risk-management/collateral/layers-pillars-and-criteria), [P2] [Introducing Smokehouse](https://forum.morpho.org/t/introducing-the-smokehouse-product-line-bbqusdc-and-bbqdai/1182) |
 | ST-C-02 | How did each collateral behave versus its underlying during past stress or depegs? | Mixed. Blue-chip (wstETH, cbBTC, WBTC): No >2% depeg lasting >24h in last 12 months. Ethena USDe/sUSDe: Has depegged multiple times historically, though recovered. Steakhouse confirmed no exposure to deUSD (which collapsed 98%). Bybit hack (Feb 2025): bbqUSDC automatically reallocated reducing Ethena exposure within 90 minutes. One or more exotic collaterals showed 2-10% deviation with recovery, scoring Mid. | 3 | 3 | Non-Improvable | [P2] [Bybit Response](https://forum.morpho.org/t/bybit-incident-response/1544), [P4] [Steakhouse Twitter](https://x.com/SteakhouseFi/status/1985620465650381093) |
 | ST-C-03 | How is validator or slashing risk handled for staking-based collaterals? | Only wstETH has staking exposure. Lido uses 30+ diversified operators. Minor allocation relative to vault TVL. sUSDe is staked USDe (not validator-staked), so no slashing risk from sUSDe. | 9 | 9 | Non-Improvable (optimal) | Lido operator data |
-| ST-C-04 | What share of TVL relies on bridged or wrapped assets? | HIGH RISK: Majority of vault TVL in wrapped/synthetic assets. Collateral includes: cbBTC/WBTC (wrapped BTC), sUSDe (wrapped/staked synthetic dollar), syrupUSDC (yield-bearing wrapper), mF-ONE (tokenized private credit), PT tokens (Pendle wrapped). Exceeds 60% threshold significantly. Only wstETH does not introduce additional wrapping risk beyond the standard ETH staking wrapper. | 1 | 9 | **Improvable** | [P3] [Morpho App](https://app.morpho.org/ethereum/vault/0xBEeFFF209270748ddd194831b3fa287a5386f5bC/smokehouse-usdc), [P2] [Introducing Smokehouse](https://forum.morpho.org/t/introducing-the-smokehouse-product-line-bbqusdc-and-bbqdai/1182) |
+| ST-C-04 | What share of TVL relies on bridged or wrapped assets? | Moderate. Per the framework definition, "bridged or wrapped" means assets whose value depends on a bridge or wrapping contract maintaining a 1:1 backing relationship. Protocol receipt tokens (stETH, aTokens) are EXCLUDED. Applying strictly: cbBTC (Coinbase custody) and WBTC (BitGo/BiT Global) are bridged/wrapped BTC. sUSDe, syrupUSDC, mF-ONE, and PT tokens are protocol receipt tokens (excluded). wstETH is a receipt token (excluded). The wrapped BTC markets (cbBTC/WBTC) represent an estimated 20-60% of vault collateral exposure, as the vault's focus is exotic collateral. Caps and monitoring in place per market. | 3 | 9 | **Improvable** | [P3] [Morpho App](https://app.morpho.org/ethereum/vault/0xBEeFFF209270748ddd194831b3fa287a5386f5bC/smokehouse-usdc), [P2] [Introducing Smokehouse](https://forum.morpho.org/t/introducing-the-smokehouse-product-line-bbqusdc-and-bbqdai/1182) |
 
-**Collateral Subtotal: 20.0/45 (44.4%)**
-- 1 question scored 9 (sum = 9), 2 questions scored 3 (sum = 6), 1 question scored 1 (sum = 1)
-- Raw sum = 16 out of max 36
-- Weighted = (16/36) x 45 = 20.0
+**Collateral Subtotal: 22.5/45 (50.0%)**
+- 1 question scored 9 (sum = 9), 3 questions scored 3 (sum = 9)
+- Raw sum = 18 out of max 36
+- Weighted = (18/36) x 45 = 22.5
 
 **Improvement Opportunities:**
-- **ST-C-04** (+10.0 weighted points): Diversify collateral exposure below 60% wrapped/synthetic assets by expanding blue-chip-only market allocations
+- **ST-C-04** (+7.5 weighted points): Reduce bridged/wrapped BTC (cbBTC, WBTC) exposure below 20% of vault collateral
 
 ---
 
@@ -118,7 +119,7 @@
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | ST-IC-01 | Which chains, bridges, oracles, wallets and CEXs does the strategy depend on? | All Tier-0: Ethereum (chain), Chainlink (primary oracle provider). No bridges required. No CEX dependency for operations. Oracle providers clearly documented per market. | 9 | 9 | Non-Improvable (optimal) | [P1] [Oracle Docs](https://docs.morpho.org/learn/concepts/oracle/) |
-| ST-IC-02 | How redundant and battle-tested are the oracle and bridge setups? | SINGLE ORACLE RISK. Each Morpho Blue market has one immutable oracle -- no fallback mechanism possible post-deployment. Chainlink is Tier-0 and battle-tested, but zero redundancy by design. Oracle failure would require deploying an entirely new market. | 3 | 3 | Non-Improvable | [P1] [Oracle Docs](https://docs.morpho.org/learn/concepts/oracle/) |
+| ST-IC-02 | How redundant are oracle and bridge setups, and can oracle values be corrected under abnormal conditions? | SINGLE ORACLE RISK. Each Morpho Blue market has one immutable oracle -- no fallback mechanism possible post-deployment. Chainlink is Tier-0 and battle-tested, but zero redundancy by design. Oracle failure would require deploying an entirely new market. | 3 | 3 | Non-Improvable | [P1] [Oracle Docs](https://docs.morpho.org/learn/concepts/oracle/) |
 | ST-IC-03 | Are off-chain infrastructure providers certified by standard IT security audits? | Morpho Labs/ADDMO: No public SOC 2 Type II or ISO27001 certification found. Chainlink: Enterprise certifications in place. Coinbase (cbBTC custodian): NY DFS regulated, SOC 2 certified. No evidence of Morpho or Steakhouse holding such certifications. | 3 | 9 | **Source Missing** | [P1] [Security Framework](https://morpho.org/blog/morpho-blue-security-framework-building-the-most-secure-lending-protocol/) |
 | ST-IC-04 | How did these infra components behave in past outages or chain incidents? | Ethereum: No significant halts affecting operations. Morpho: April 2025 frontend vulnerability resolved in 4 minutes. November 2025 stress: protocol operated correctly (market isolation worked, liquidations processed, no system failures). February 2025 Bybit hack: bbqUSDC automatically reallocated within 90 minutes. No blocking of on-chain withdrawals. | 9 | 9 | Non-Improvable (optimal) | [P1] [Incident Report](https://morpho.org/blog/morpho-app-incident-april-10-2025/), [P2] [Bybit Response](https://forum.morpho.org/t/bybit-incident-response/1544) |
 | ST-IC-05 | Has the base chain recently halted block production or experienced consensus failure? | No. Ethereum has had no chain halts >30 minutes in the last 12+ months. Tier-0 chain reliability. | 9 | 9 | Non-Improvable (optimal) | Ethereum operational history |
@@ -198,8 +199,8 @@
 
 | Subcategory | Current | Max | Current % |
 |-------------|---------|-----|-----------|
-| Protocol Mechanics | 37.5 | 45 | 83.3% |
-| Collateral | 20.0 | 45 | 44.4% |
+| Protocol Mechanics | 35.0 | 45 | 77.8% |
+| Collateral | 22.5 | 45 | 50.0% |
 | Infra Counterparty | 37.5 | 45 | 83.3% |
 | Protocol Counterparty | 33.0 | 45 | 73.3% |
 | Liquidity | 28.3 | 45 | 62.9% |
@@ -308,21 +309,22 @@
 
 | Category | Subcategory | Current Points | Max Points | Potential Points |
 |----------|-------------|----------------|------------|------------------|
-| **Security** | Smart Contract Security | 169.1 | 180 | 169.1 |
+| **Security** | Smart Contract Security | 158.2 | 180 | 169.1 |
 | | Key Management | 165.0 | 180 | 180.0 |
-| | **Security Subtotal** | **334.1** | **360** | **349.1** |
-| **Strategy** | Protocol Mechanics | 37.5 | 45 | 37.5 |
-| | Collateral | 20.0 | 45 | 30.0 |
+| | **Security Subtotal** | **323.2** | **360** | **349.1** |
+| **Strategy** | Protocol Mechanics | 35.0 | 45 | 38.3 |
+| | Collateral | 22.5 | 45 | 30.0 |
 | | Infra Counterparty | 37.5 | 45 | 41.3 |
 | | Protocol Counterparty | 33.0 | 45 | 39.0 |
 | | Liquidity | 28.3 | 45 | 28.3 |
 | | Market | 33.0 | 45 | 39.0 |
-| | **Strategy Subtotal** | **189.3** | **270** | **215.1** |
+| | **Strategy Subtotal** | **189.3** | **270** | **215.9** |
 | **Operations** | Governance | 67.5 | 67.5 | 67.5 |
 | | Team & Legal | 57.5 | 67.5 | 67.5 |
 | | Documentation | 67.5 | 67.5 | 67.5 |
 | | Financial Resilience | 46.5 | 67.5 | 67.5 |
 | | **Operations Subtotal** | **239.0** | **270** | **270.0** |
-| **TOTAL** | | **762.4** | **900** | **834.2** |
+| **TOTAL** | | **751.5** | **900** | **835.0** |
 
 ---
+

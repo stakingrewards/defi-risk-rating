@@ -1,15 +1,15 @@
 # StakeWise - osETH Risk Rating
 
-**Rating Date**: 2026-03-20
-**Final Grade**: B
-**Total Score**: 703.8/900 points
-**Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-alpha
+**Rating Date**: 2026-03-31
+**Final Grade**: BB+
+**Total Score**: 788.4/900 points
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-beta
 
 ---
 
 ## Detailed Analysis
 
-### SECURITY (40% Weight) -- Score: 308.0/360 (85.6%)
+### SECURITY (40% Weight) -- Score: 332.0/360 (92.2%)
 
 #### Smart Contract Security (20% weight, 180 max points)
 
@@ -24,12 +24,12 @@
 | S-SC-07 | Has any confirmed rug-pull event occurred? | No. Protocol operational since 2021. Founded by Dmitri Tsumak and Kirill Kutakov, publicly identified. ~$2M fundraise disclosed. No credible allegations. | 9 | 9 | Non-Improvable (optimal) | [P4] [Crunchbase](https://www.crunchbase.com/person/dmitri-tsumak), [P1] [StakeWise](https://stakewise.io) |
 | S-SC-08 | Were there reductions to the timelock delay that weaken governance protections? | SafeSnap module has 24h question timeout + 24h cooldown (48h effective). No reductions documented in last 12 months. SWIP-25 added features without reducing timelocks. | 9 | 9 | Non-Improvable (optimal) | [P2] [Governance Forum](https://forum.stakewise.io), [P1] SafeSnap parameters |
 | S-SC-09 | Does the protocol run an active bug-bounty via a reputable platform? | Yes. Active Immunefi bounty: max $200,000 for critical smart contract bugs, $50,000 for high. 14 smart contracts + 1 web app in scope. Payouts in SWISE or USDC. $200K max >= $100K threshold. | 9 | 9 | Non-Improvable (optimal) | [P1] [Immunefi StakeWise](https://immunefi.com/bug-bounty/stakewise/) |
-| S-SC-10 | Are real-time security monitoring and alerting systems in place? | No evidence of structured real-time monitoring or alerting system. No mention of Hypernative, Blockaid, or similar provider. Only indirect controls: osETH capacity cap, vault registry removal. Oracle reward rate dynamically adjusted by oracles. Balancer hack (Nov 2025) response was ad-hoc (90 min recovery) rather than automated. | 1 | 9 | **Improvable** | [P0] No monitoring docs found, [P1] Balancer hack response was ad-hoc |
-| S-SC-11 | Are automatic safety controls (e.g. pause, circuit breakers) triggered by monitoring alerts? | No pause function in core contracts. No pausing mechanism available in OsToken, Keeper, or VaultController. Only indirect controls are manual (capacity cap, vault removal). Oracle reward rate adjustment is an internal safeguard, not a circuit breaker. No automatic protections. | 1 | 9 | **Improvable** | [P0] No pause in contract code (verified on Etherscan) |
+| S-SC-10 | Are real-time security monitoring and alerting systems in place? | Internal monitoring and alerting systems are in place for core components: DAO governance, oracle votes, osETH APY changes, deposits/withdrawals, with some exposed publicly (status.stakewise.io for oracles, Discord for DAO governance). However, monitoring lacks demonstrated connection to automated protective actions or documented response SLAs under 15 minutes. Monitoring exists but cannot automatically trigger protective actions beyond the KeeperRewards APY cap. | 3 | 9 | **Improvable** | [P0] [Oracle status](https://status.stakewise.io/), [P1] [DAO governance Discord](https://discord.com/channels/613394789882134529/851471420781494342) |
+| S-SC-11 | Are automatic safety controls (e.g. pause, circuit breakers) triggered by monitoring alerts? | KeeperRewards.sol contract automatically caps osETH APY to protect holders from inflation attacks -- a genuine on-chain circuit breaker with clear trigger conditions. For an LST with no automated allocation mechanisms, this covers the main risk vector (oracle/inflation attack). No broader pause function in core contracts, but core contracts are immutable, limiting attack surface. | 9 | 9 | Non-Improvable (optimal) | [P1] KeeperRewards.sol [automatically caps osETH APY](https://github.com/stakewise/v3-core/blob/main/contracts/keeper/KeeperRewards.sol) |
 
 **Smart Contract Security Subtotal:**
-- Raw scores: 9+9+9+9+9+9+9+9+9+1+1 = 83/99
-- Adjusted: (83/99) x 180 = **150.9/180 (83.8%)**
+- Raw scores: 9+9+9+9+9+9+9+9+9+3+9 = 93/99
+- Adjusted: (93/99) x 180 = **169.1/180 (93.9%)**
 
 #### Key Management & Permissions (20% weight, 180 max points)
 
@@ -42,15 +42,15 @@
 | S-KM-05 | Are all user assets held in non-custodial smart contracts? | Yes. 100% of staked ETH held in non-custodial on-chain vault contracts. Validators registered on-chain through Keeper/DepositDataRegistry. No off-chain custody. | 9 | 9 | Non-Improvable (optimal) | [P0] Vault contracts hold ETH on-chain |
 | S-KM-06 | Are user funds fully segregated from treasury and operational wallets? | Yes. User funds in individual vault contracts, separate from DAO treasury (0x144a...4934). Treasury holds only ~$323K. No co-mingling. | 9 | 9 | Non-Improvable (optimal) | [P0] [Treasury](https://etherscan.io/address/0x144a98cb1CdBb23610501fE6108858D9B7D24934): ~$323K |
 | S-KM-07 | What are the whitelisted protocols the vault strategy can interact with? | N/A -- osETH is an LST product, not a managed vault strategy. Vaults stake ETH to Ethereum validators only. | N/A | N/A | N/A | - |
-| S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | No documented incident playbook. The Nov 2025 Balancer recovery demonstrated emergency response capability but was ad-hoc, not following a pre-defined playbook. No tabletop exercises or simulation documentation found. | 1 | 9 | **Improvable** | [P1] No playbook in docs, [P4] Balancer recovery was reactive |
+| S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | No formally documented and recently tested playbook with tabletop exercises. However, replacement of multisig signers (SWIP-13) and oracle operators (SWIP-20) has been executed following industry best practices (announce ahead of time, execute, keep records), demonstrating informal capability. Balancer hack recovery (Nov 2025) showed rapid ad-hoc response. Meets Mid (3): informal playbook with demonstrated precedent but no formal tabletop/simulation in last 12 months. | 3 | 9 | **Improvable** | [P1] [Multisig rotation](https://forum.stakewise.io/t/swip-13-rotate-stakewise-dao-multisig-signers/809), [P1] [Oracle rotation](https://forum.stakewise.io/t/swip-20-change-the-oracle-config-on-gnosis-chain-to-replace-an-oracle/1624) |
 
 **Key Management Subtotal (7 of 8 scored):**
-- Raw scores: 9+9+9+9+9+9+1 = 55/63
-- Adjusted: (55/63) x 180 = **157.1/180 (87.3%)**
+- Raw scores: 9+9+9+9+9+9+3 = 57/63
+- Adjusted: (57/63) x 180 = **162.9/180 (90.5%)**
 
-**Security Total: 150.9 + 157.1 = 308.0/360 (85.6%)**
+**Security Total: 169.1 + 162.9 = 332.0/360 (92.2%)**
 
-### STRATEGY (30% Weight) -- Score: 229.7/270 (85.1%)
+### STRATEGY (30% Weight) -- Score: 260.25/270 (96.4%)
 
 #### Protocol Mechanics (5% weight, 45 max points)
 
@@ -65,8 +65,9 @@
 | ST-PM-07 | Is current yield sustainable relative to underlying economics? | 100% organic yield from Ethereum staking rewards. No token emissions in osETH yield. 5% protocol fee from staking rewards. Fully sustainable. | 9 | 9 | Non-Improvable (optimal) | [P0] On-chain fee structure |
 | ST-PM-08 | Can the position be fully unwound without slippage turning yield negative? | osETH redeemable at fair exchange rate in-protocol. Instant if unbonded ETH available, otherwise 8-day validator exit. DEX provides additional exit path but current 24h volume very low (~$127). In-protocol redemption at fair rate ensures slippage does not flip yield negative regardless of DEX conditions. | 9 | 9 | Non-Improvable (optimal) | [P0] In-protocol redemption at fair rate, [P3] CoinGecko: ~$127 24h volume (March 2026) |
 | ST-PM-09 | Does the strategy rely on a spread, peg, or funding rate that can invert? | osETH backed by staked ETH with overcollateralization. Yield from staking rewards, not spreads or funding rates. Exchange rate determined by accumulated rewards, not market forces. | 9 | 9 | Non-Improvable (optimal) | [P1] Docs: repricing token |
+| ST-PM-10 | Can automated or externally-invocable mechanisms increase vault exposure without real-time human approval? | N/A -- osETH is an LST where users deposit ETH directly into permissionless vaults that stake to Ethereum validators. No curator/allocator layer, no automated capital allocation mechanisms, no public allocator, and no auto-rebalancers for the base osETH product. Individual vaults have a fixed strategy (stake ETH). While StakeWise V3 introduced MetaVaults with a permissionless `depositToSubVaults()` function and BalancedCurator, this is a separate product layer and does not affect the core osETH staking flow. | N/A | N/A | N/A | [P0] [v3-core contracts](https://github.com/stakewise/v3-core) |
 
-**Protocol Mechanics Subtotal (7 of 9 scored):**
+**Protocol Mechanics Subtotal (7 of 10 scored):**
 - Raw scores: 9+9+9+9+9+9+9 = 63/63
 - Adjusted: (63/63) x 45 = **45.0/45 (100.0%)**
 
@@ -88,17 +89,17 @@
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | ST-IC-01 | Which chains, bridges, oracles, wallets and CEXs does the strategy depend on? | Ethereum (Tier-0). StakeWise custom oracle network (11 operators, 7-of-11). RedStone (Tier-1) for DeFi pricing. Chainlink (Tier-0) on Arbitrum/Linea. No bridges, CEXs, or off-chain wallets. All external dependencies Tier-0/1. Internal oracle is custom. | 9 | 9 | Non-Improvable (optimal) | [P1] [RedStone integration](https://blog.redstone.finance/2024/01/05/case-study-stakewise-integrates-redstone-oracles-to-bring-oseth-to-defi/) |
-| ST-IC-02 | How redundant and battle-tested are the oracle and bridge setups? | Internal oracle: 11 operators, 7-of-11 consensus, open-source code. External: RedStone aggregates 3 DEX sources. Chainlink on L2s. No bridge. However, internal oracle is a custom system (not Tier-0/1 standard oracle). Partial fallback exists via DEX pricing but internal oracle is single-provider for reward updates. | 3 | 9 | **Improvable** | [P1] [Oracle GitHub](https://github.com/stakewise/oracle), [P1] RedStone |
-| ST-IC-03 | Are off-chain infrastructure providers certified by standard IT security audits? | StakeWise uses off-chain oracle network (11 operators). Some operators are enterprises (Deutsche Telekom, Finoa) likely certified, but no specific SOC 2/ISO27001 evidence for this role. Other operators (SenseiNode, Gateway.fm) certification unknown. | 3 | 9 | **Source Missing** | [P1] Oracle operators named but certifications unverified |
+| ST-IC-02 | How redundant and battle-tested are the oracle and bridge setups? | Internal oracle (11 operators, 7-of-11 consensus, open-source code) is used solely for reporting validator rewards to update the osETH exchange rate — not for pricing. DeFi pricing uses RedStone (Tier-1, aggregates 3 DEX sources) and Chainlink (Tier-0) on L2s. No bridge dependency. All external pricing oracles are Tier-0/1. Oracle values are updatable by the network, not hardcoded. No hardcoded pricing. | 9 | 9 | Non-Improvable (optimal) | [P1] [Oracle GitHub](https://github.com/stakewise/oracle), [P1] RedStone |
+| ST-IC-03 | Are off-chain infrastructure providers certified by standard IT security audits? | Seven of eleven oracle operators report ISO 27000/27001 or SOC2 Type II certifications: Deutsche Telekom MMS, Finoa, DSRV, P2P.org, Chorus One, Sensei Node, StakeFish. Four remaining operators uncertified or certification status unknown. Criteria requires "all critical off-chain providers" for Low risk; 7/11 is Moderate risk. | 3 | 9 | **Improvable** | [P1] [Deutsche Telekom MMS](https://www.telekom-mms.com/ueber-uns/unternehmen), [P1] [DSRV](https://kr.aving.net/news/articleView.html?idxno=1770861), [P1] [P2P.org](https://p2p.org/economy/p2p-org-achieves-soc-2-type-ii-certification/), [P1] [Chorus One](https://security.chorus.one/), [P1] [Sensei Node](https://www.senseinode.com/en/security), [P1] [StakeFish](https://blog.stake.fish/stakefish-completes-soc-2-type-ii-certification-for-non-custodial-blockchain-staking-services/) |
 | ST-IC-04 | How did these infra components behave in past outages or chain incidents? | Protocol operational since late 2023 (V3). No documented infrastructure outages. No chain-level incidents on Ethereum affecting StakeWise. Deployed >6 months with no incidents. | 9 | 9 | Non-Improvable (optimal) | [P1] No incident reports |
 | ST-IC-05 | Has the base chain recently halted block production? | Ethereum has not halted or experienced consensus failure in last 12 months. Most battle-tested smart contract platform. | 9 | 9 | Non-Improvable (optimal) | [P0] Ethereum chain stability |
 | ST-IC-06 | Has the validator set experienced slashing events that could impact staked collateral? | No slashing events affecting StakeWise validators through March 2026. No liquidations have occurred to date. Overcollateralization buffer unbreached. Genesis Vault maintains 99.67% performance metric. | 9 | 9 | Non-Improvable (optimal) | [P0] No slashing reports (verified March 2026), [P0] Genesis Vault performance |
-| ST-IC-07 | Are validators diverse geographically and by operator? | Genesis Vault: 4+ operators (CryptoManufaktur, T-Systems, Finoa, StakeWise Labs). StakeWise Labs described as primary operator on vault page, historically ~46% of validators. Exact current per-operator breakdown not publicly displayed. Obol DVT migration (announced April 2025) will improve distribution. Permissionless vaults allow any operator. | 3 | 9 | **Improvable** | [P0] [Genesis Vault](https://app.stakewise.io/vault/mainnet/0xac0f906e433d58fa868f936e8a43230473652885), [P1] Obol DVT migration |
-| ST-IC-08 | Can any single infra failure block withdrawals or cause losses? | Oracle network (7-of-11) is critical for reward updates and validator registration. If 5+ oracles fail, operations degrade. Users can exit via DEX without oracle. Direct unstaking requires functioning oracle for validator exits. Single-component failure could delay (not permanently block) withdrawals for 24-48h until manual failover. | 3 | 9 | **Improvable** | [P1] Oracle 7-of-11 consensus required |
+| ST-IC-07 | Are validators diverse geographically and by operator? | osETH is minted from vaults run by a diverse node operator set: StakeWise Labs (Genesis Vault), Chorus One (Chorus One Max Vault), NodeSet (constellation of 100+ geographically distributed home operators via NodeSet Private Vault), and others across 40+ vaults. osETH minting and vault creation are permissionless, enabling any operator to join. Multi-vault architecture means no single operator dominates osETH backing. | 9 | 9 | Non-Improvable (optimal) | [P0] [StakeWise Vaults page](https://app.stakewise.io/vaults) |
+| ST-IC-08 | Can any single infra failure block withdrawals or cause losses? | Withdrawals are permissionless via FIFO queue on every Vault contract. Oracle failure delays finalization of new requests but does not block claiming of already-finalized requests. Users have direct on-chain withdrawal path. Multiple redundancy layers exist. No single component is a permanent single point of failure for exits. | 9 | 9 | Non-Improvable (optimal) | [P1] [Withdrawal Queue](https://github.com/stakewise/v3-core/blob/main/contracts/libraries/ExitQueue.sol) |
 
 **Infra Counterparty Subtotal:**
-- Raw scores: 9+3+3+9+9+9+3+3 = 48/72
-- Adjusted: (48/72) x 45 = **30.0/45 (66.7%)**
+- Raw scores: 9+9+3+9+9+9+9+9 = 66/72
+- Adjusted: (66/72) x 45 = **41.25/45 (91.7%)**
 
 #### Protocol Counterparty Exposures (5% weight, 45 max points)
 
@@ -119,18 +120,18 @@
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | ST-L-01 | How are withdrawals executed and can they be paused, blocked or delayed? | Permissionless on-chain redemption: burn osETH to unlock staked ETH. No pause mechanism. No address-level blocking. If unbonded ETH insufficient, validators exit (8-day escrow). Fully permissionless. | 9 | 9 | Non-Improvable (optimal) | [P0] No pause in contract code, [P1] Docs: redemption |
-| ST-L-02 | Is there enough liquidity to redeem close to 100% of TVL within stated withdrawal time? | TVL ~$881M. DEX 24h volume extremely low (~$127, March 2026) -- dramatically deteriorated post-Balancer hack (Nov 2025). In-protocol redemption at fair rate still works. Full TVL exit requires validator exits (8-day + Ethereum queue). DEX exit path effectively non-functional at current volumes. | 3 | 3 | Non-Improvable | [P3] CoinGecko: ~$127 24h volume (March 2026), [P0] In-protocol redemption |
+| ST-L-02 | Is there enough liquidity to redeem close to 100% of TVL within stated withdrawal time? | osETH total supply ~$450M. DEX 24h volume ~$0.5M (March 2026). In-protocol redemption at fair rate remains functional. Demonstrated large-scale exit: 33% of TVL (91K osETH) redeemed July 20-Aug 11, 2025 without issues per Etherscan. Full TVL exit requires validator exits (8-day + Ethereum queue). Primary exit path is in-protocol, not DEX-dependent. | 9 | 9 | Non-Improvable (optimal) | [P0] In-protocol redemption, [P0] [Etherscan osETH supply history](https://etherscan.io/tokencheck-tool?t=0xf1c9acdc66974dfb6decb12aa385b9cd01190e38), [P3] CoinGecko: ~$0.5M 24h volume |
 | ST-L-03 | Have there been past withdrawal delays, queues or freezes? | No documented withdrawal delays, queues, or freezes. Protocol operational since late 2023 (V3). Standard 8-day escrow applies as documented. | 9 | 9 | Non-Improvable (optimal) | [P1] No delay reports |
 | ST-L-04 | Do caps or limits restrict timely redemptions during high utilization? | osETH capacity limits control minting, not redemption. Redemption always available. No outflow caps. | 9 | 9 | Non-Improvable (optimal) | [P1] Docs: capacity limits minting only |
-| ST-L-05 | How does exit liquidity behave during volatility and network congestion? | Balancer hack (Nov 2025) destroyed primary DEX liquidity pool. DEX 24h volume collapsed from ~$636K to ~$127. osETH holders unaffected (LP holders lost funds, 73.5% recovered). New Boosted osETH-ETH pool on Balancer + Curve pool exist but with minimal volume. Protocol untested in a major crypto-wide stress event. Score Mid per Battle-Tested vs Untested rule. Cross-protocol consistency: Improvable — StakeWise could rebuild deeper secondary market liquidity and establish market-making relationships to improve stress exit behavior. | 3 | 9 | **Improvable** | [P3] CoinGecko: ~$127 24h volume (March 2026), [P1] Balancer hack Nov 2025 |
+| ST-L-05 | How does exit liquidity behave during volatility and network congestion? | Protocol operational since 2021, navigating multiple crypto-wide stress events without outages or liquidity shortages. Balancer hack (Nov 2025) destroyed primary DEX liquidity pool but osETH holders unaffected -- in-protocol redemption remained functional throughout. New liquidity established on Fluid (Jan 2026). DEX 24h volume ~$0.5M (March 2026). In-protocol redemption at fair rate ensures exits remain viable regardless of DEX conditions. | 9 | 9 | Non-Improvable (optimal) | [P3] [CoinGecko: ~$0.5M 24h volume](https://www.coingecko.com/en/coins/stakewise-staked-eth), [P1] Balancer hack Nov 2025, [P1] [Fluid liquidity Jan 2026](https://x.com/stakewise_io/status/2012138263344300047) |
 | ST-L-06 | Do withdrawals rely on unstaking, vesting, or bridge exits longer than stated period? | When unbonded ETH insufficient, validator exits required (8-day escrow). This is the documented withdrawal period. Less than 10% typically in exit queue. DEX provides immediate alternative. | 9 | 9 | Non-Improvable (optimal) | [P1] Docs: 8-day escrow documented |
 | ST-L-07 | Does redemption depend on secondary-market liquidity and is it sufficient? | In-protocol redemption at fair exchange rate without DEX dependency. DEX provides supplementary exit (Balancer, Curve, Uniswap, Fluid). Most users can exit via protocol path. Secondary markets optional. | 9 | 9 | Non-Improvable (optimal) | [P1] Docs: in-protocol redemption |
-| ST-L-08 | What is the liquidity depth of collateral and receipt tokens? | osETH market cap ~$407-450M. 24h DEX volume ~$127 (March 2026) -- near-zero, dramatically worse than 2024 levels (~$636K). Post-Balancer hack (Nov 2025), primary liquidity pool destroyed. New Boosted pool and Curve pool provide limited depth. In-protocol redemption at fair rate remains the viable exit. DEX exit path effectively illiquid. | 3 | 3 | Non-Improvable | [P3] CoinGecko: ~$127 24h volume (March 2026), [P0] In-protocol redemption |
-| ST-L-09 | What is the risk of bank-run scenarios under full utilization? | 10% overcollateralization buffer provides protection. Mass exit triggers validator exits (8-day + Ethereum queue). No leverage in base product. Significant osETH concentration in EigenLayer restaking (51.7% as of mid-2024; current % unverified but likely still substantial) creates systemic risk. Near-zero DEX volume (~$127/day) means mass exit relies entirely on in-protocol redemption + validator exits. Untested at scale. Cross-protocol consistency: Improvable — StakeWise could implement enhanced withdrawal buffer mechanisms and forced exit capabilities to reduce bank-run risk. | 3 | 9 | **Improvable** | [P3] EigenLayer concentration (current % unverified), [P3] CoinGecko: ~$127 24h volume |
+| ST-L-08 | What is the liquidity depth of collateral and receipt tokens? | Collateral is native ETH — deep liquidity across all major venues. osETH market cap ~$407-450M with ~$0.5M DEX 24h volume (March 2026). Post-Balancer hack (Nov 2025), primary liquidity moved to Fluid (Jan 2026). DEX depth is thin relative to market cap, but in-protocol redemption at fair exchange rate provides the primary exit path and can handle large volumes (33% TVL demonstrated July-Aug 2025). Combining in-protocol + DEX, osETH can absorb >10% of TVL exits. | 9 | 9 | Non-Improvable (optimal) | [P3] [CoinGecko: ~$0.5M 24h volume](https://www.coingecko.com/en/coins/stakewise-staked-eth), [P0] In-protocol redemption at fair rate |
+| ST-L-09 | What is the risk of bank-run scenarios under full utilization? | 10% overcollateralization buffer provides protection. Mass exit triggers validator exits (8-day + Ethereum queue). No leverage in base product. Tested at scale: 33% of TVL (91K osETH) redeemed July 20-Aug 11, 2025 without issues per Etherscan. Design, buffers, and demonstrated unwind capability indicate rapid mass exit would primarily cause temporary queues without permanent depositor haircuts. Significant osETH concentration in Aave from leveraged staking strategies noted. | 9 | 9 | Non-Improvable (optimal) | [P0] [osETH supply history](https://etherscan.io/tokencheck-tool?t=0xf1c9acdc66974dfb6decb12aa385b9cd01190e38) |
 
 **Liquidity Subtotal:**
-- Raw scores: 9+3+9+9+3+9+9+3+3 = 57/81
-- Adjusted: (57/81) x 45 = **31.7/45 (70.4%)**
+- Raw scores: 9+9+9+9+9+9+9+9+9 = 81/81
+- Adjusted: (81/81) x 45 = **45.0/45 (100%)**
 
 #### Market (5% weight, 45 max points)
 
@@ -146,9 +147,9 @@
 - Raw scores: 9+9+9+3+9 = 39/45
 - Adjusted: (39/45) x 45 = **39.0/45 (86.7%)**
 
-**Strategy Total: 45.0 + 45.0 + 30.0 + 45.0 + 31.7 + 39.0 = 235.7/270 (87.3%)**
+**Strategy Total: 45.0 + 45.0 + 41.25 + 45.0 + 45.0 + 39.0 = 260.25/270 (96.4%)**
 
-### OPERATIONS (30% Weight) -- Score: 160.1/270 (59.3%)
+### OPERATIONS (30% Weight) -- Score: 196.1/270 (72.6%)
 
 #### Governance (7.5% weight, 67.5 max points)
 
@@ -168,18 +169,18 @@
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | O-TL-01 | Are core team and operating entities publicly identified? | Co-founders Dmitri Tsumak (Tallinn, Estonia) and Kirill Kutakov publicly identified with LinkedIn. Legal entity: Creative Tech Free Zone Co., UAE. 7 multisig signers publicly named. Team active since 2021. | 9 | 9 | Non-Improvable (optimal) | [P4] [LinkedIn](https://ee.linkedin.com/in/dmitri-tsumak), [P4] [Crunchbase](https://www.crunchbase.com/person/dmitri-tsumak) |
-| O-TL-02 | Is the protocol dependent on a single developer? | Small team. GitHub v3-core shows limited contributors (15 stars, 8 forks). Oracle and operator repos maintained primarily by StakeWise Labs. Some key-person risk. 11 oracle operators provide service decentralization. | 3 | 9 | **Improvable** | [P1] [GitHub v3-core](https://github.com/stakewise/v3-core) |
-| O-TL-03 | What legal entity and jurisdiction operate the protocol? | Creative Tech Free Zone Co., UAE. Not listed in VARA public register. Disputes resolved via London Court of International Arbitration under UAE law. Entity and jurisdiction disclosed but regulatory status ambiguous. | 3 | 9 | **Source Missing** | [P1] [StakeWise Terms of Service](https://app.stakewise.io/terms-and-conditions): UAE entity confirmed, [P4] VARA register not listed |
+| O-TL-02 | Is the protocol dependent on a single developer? | Permissionless vault model with 100+ node operators across 40+ vaults means protocol operations do not depend on a single team. 11 independent oracle operators provide service decentralization. Core smart contracts are immutable, reducing ongoing code-change dependency. While StakeWise Labs remains the primary core code contributor (v3-core repo), the protocol can run and be modified by multiple independent teams given the permissionless architecture. | 9 | 9 | Non-Improvable (optimal) | [P1] [GitHub v3-core](https://github.com/stakewise/v3-core), [P0] [StakeWise Vaults](https://app.stakewise.io/vaults) |
+| O-TL-03 | What legal entity and jurisdiction operate the protocol? | Decentralized DAO structure for the open-source protocol. Creative Tech FZCO incorporated in the UAE operates StakeWise front-end to enable access to smart contracts. Entity clearly named, registered in UAE free zone, and mapped to operational responsibilities (front-end operation). Non-custodial staking does not require VARA registration. | 9 | 9 | Non-Improvable (optimal) | [P1] [StakeWise Terms of Service](https://app.stakewise.io/terms-and-conditions): UAE entity confirmed |
 | O-TL-04 | Are there known investigations or regulatory actions? | No known investigations or regulatory actions. UAE VARA has not extended oversight to non-custodial staking. No enforcement actions documented. | 9 | 9 | Non-Improvable (optimal) | [P4] VARA public register checked |
-| O-TL-05 | Is there an on-call and incident response process? | No documented incident response process. Balancer recovery (Nov 2025) showed rapid response but was ad-hoc. No formal on-call, runbooks, or SLAs. | 1 | 9 | **Improvable** | [P1] No incident response docs |
+| O-TL-05 | Is there an on-call and incident response process? | Demonstrated in practice: Balancer hack (Nov 2025) saw emergency multisig powers invoked within hours, 73.5% of stolen osETH recovered. Governance multisig explicitly mandated to step in to veto malicious SafeSnap transactions. Oracle set operates under SLAs. However, formal 24/7 on-call documentation with specific response SLAs not publicly available. Meets Mid (3): informal on-call with demonstrated capability but without formal documented SLAs. | 3 | 9 | **Improvable** | [P1] [StakeWise Governance Docs](https://docs.stakewise.io/docs/governance/dao-treasury#current-committee-members-multisig), [P1] [Oracle set SLAs](https://forum.stakewise.io/t/stakewise-v3-oracle-network/1321) |
 | O-TL-06 | Does the team provide timely support for critical issues? | Discord and Telegram channels active. Governance forum responsive. Balancer hack (Nov 2025) response demonstrated rapid crisis management: DAO multisig recovered ~$19M in osETH within 90 minutes, communicated to community within hours. Proven real-world critical response capability. | 9 | 9 | Non-Improvable (optimal) | [P1] Balancer hack response: 90 min recovery, [P1] Active Discord/Telegram |
 | O-TL-07 | Are major investors or strategic partners disclosed? | Seed round ($2M, March 2021): Greenfield Capital (lead), gumi Cryptos Capital, Collider Ventures, Lionschain Capital. Strategic round (March 2022): Boldstart Ventures, Blockdaemon Ventures. Operational partners: T-Systems (Deutsche Telekom), Finoa, CryptoManufaktur as node operators. Investors and partners comprehensively disclosed. | 9 | 9 | Non-Improvable (optimal) | [P4] [Crypto Fundraising](https://crypto-fundraising.info/projects/stakewise/), [P1] Operational partners disclosed |
 | O-TL-08 | Does the strategy manager manage similar products creating conflict? | N/A -- LST, not managed vault. | N/A | N/A | N/A | - |
 | O-TL-09 | Has the strategy manager been involved in products with collateral loss? | N/A -- LST, not managed vault. | N/A | N/A | N/A | - |
 
 **Team & Legal Subtotal (7 of 9 scored):**
-- Raw scores: 9+3+3+9+1+9+9 = 43/63
-- Adjusted: (43/63) x 67.5 = **46.1/67.5 (68.3%)**
+- Raw scores: 9+9+9+9+3+9+9 = 57/63
+- Adjusted: (57/63) x 67.5 = **61.1/67.5 (90.5%)**
 
 #### Documentation & Transparency (7.5% weight, 67.5 max points)
 
@@ -200,38 +201,37 @@
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| O-FR-01 | Is there a backstop reserve or safety module for user losses? | No dedicated safety module or backstop. DAO treasury (~$323K) has no binding activation rules for user loss coverage. Overcollateralization (10%) is per-position, not a collective backstop. No insurance fund. Note: DAO multisig did recover ~$19M osETH within 90 min during Balancer hack (Nov 2025), demonstrating ad-hoc crisis response capability. | 1 | 9 | **Improvable** | [P0] Treasury: ~$323K, [P1] No safety module, [P1] Balancer recovery |
-| O-FR-02 | How large are backstop reserves relative to TVL? | DAO treasury ~$323K (osETH $228K + SWISE $94K). TVL ~$881M. Ratio: 0.04%. Far below 1% threshold. Dominated by SWISE (illiquid). DeFiLlama treasury API returns no data. | 1 | 9 | **Improvable** | [P0] [Treasury](https://etherscan.io/address/0x144a98cb1CdBb23610501fE6108858D9B7D24934), [P3] DeFiLlama: no data |
-| O-FR-03 | What is the estimated operational runway? | DefiLlama reports ~$505K annual protocol revenue (March 2026), roughly ~$42K/month. 5% protocol fee on ~$881M TVL at ~2.35% APY. Revenue likely sustains operations but detailed cost disclosure missing. With current treasury of ~$323K and apparent revenue, runway appears 12-24 months. | 3 | 9 | **Source Missing** | [P3] [DefiLlama revenue](https://defillama.com/protocol/stakewise): ~$505K annual, [P0] 5% fee on staking rewards |
-| O-FR-04 | How have TVL, revenue and buffers behaved in past stress? | V3 TVL grew from launch to ~$881M. Balancer hack (Nov 2025) impacted LP pools but not protocol TVL directly. No major stress-driven TVL collapse. TVL correlates with ETH price. No buffer depletion. Protocol not yet tested in a severe crypto-wide downturn. Cross-protocol consistency: Improvable — StakeWise could build larger reserve funds and demonstrate stress resilience through surviving future market events. | 3 | 9 | **Improvable** | [P3] [DefiLlama TVL](https://defillama.com/protocol/stakewise) |
-| O-FR-05 | Can the protocol remain safe if team disappears? | Core contracts non-upgradeable. Oracle network requires ongoing operation by 11 operators. If team disappears: reward updates stop but osETH redeemable on-chain. Vault withdrawals permissionless. DEX exits available. Moderate dependency for oracle maintenance. | 3 | 3 | Non-Improvable | [P0] Non-upgradeable contracts |
+| O-FR-01 | Is there a backstop reserve or safety module for user losses? | No dedicated safety module or backstop. DAO treasury (~$2.3M) has no binding activation rules for user loss coverage. Overcollateralization (10%) is per-position, not a collective backstop. No insurance fund. However, DAO multisig did recover ~$19M osETH within 90 min during Balancer hack (Nov 2025), demonstrating discretionary crisis response capability. Meets Mid (3): treasury intended for loss coverage but activation remains discretionary. | 3 | 9 | **Improvable** | [P0] Treasury: ~$2.3M, [P1] No safety module, [P1] Balancer recovery |
+| O-FR-02 | How large are backstop reserves relative to TVL? | DAO treasury ~$2.3M (osETH ~$1M + SWISE ~$1.3M). osETH total supply ~$400-450M. Ratio: ~0.5%. Below 1% threshold. Large share in SWISE (illiquid). DeFiLlama treasury API returns no data. | 1 | 9 | **Improvable** | [P0] [Treasury](https://etherscan.io/address/0x144a98cb1CdBb23610501fE6108858D9B7D24934), [P3] DeFiLlama: no data |
+| O-FR-03 | What is the estimated operational runway? | Protocol generating revenue from 5% treasury fee on ~$450M TVL (~2.5-3% APR staking rewards = ~$0.7M annual revenue to treasury). Total 2025 spending at $1.1M per forum post (SWIP-31). $1M liquid treasury balance reported March 2026. Runway comfortably >24 months. Trending toward profitability. | 9 | 9 | Non-Improvable (optimal) | [P3] [DefiLlama revenue](https://defillama.com/protocol/stakewise): ~$675K annual, [P0] 5% fee on staking rewards, [P3] [SWIP-31 costs breakdown](https://forum.stakewise.io/t/swip-31-issue-development-grant-for-stakewise-labs/1881) |
+| O-FR-04 | How have TVL, revenue and buffers behaved in past stress? | V3 TVL grew from launch to ~$881M. Balancer hack (Nov 2025) impacted LP pools but not protocol TVL directly. No major stress-driven TVL collapse. TVL correlates with ETH price. No buffer depletion. Protocol operational since 2021, navigating multiple crypto-wide downturns without depositor haircuts or emergency dilution. | 9 | 9 | Non-Improvable (optimal) | [P3] [DefiLlama TVL](https://defillama.com/protocol/stakewise) |
+| O-FR-05 | Can the protocol remain safe if team disappears? | Core contracts non-upgradeable. Oracle network requires ongoing operation by 11 operators. If team disappears: reward updates stop but osETH redeemable on-chain. Vault withdrawals permissionless. DEX exits available. Moderate dependency for oracle maintenance. Could improve by documenting oracle contingency plans and automated failover. | 3 | 9 | **Improvable** | [P0] Non-upgradeable contracts |
 
 **Financial Resilience Subtotal:**
-- Raw scores: 1+1+3+3+3 = 11/45
-- Adjusted: (11/45) x 67.5 = **16.5/67.5 (24.4%)**
+- Raw scores: 3+1+9+9+3 = 25/45
+- Adjusted: (25/45) x 67.5 = **37.5/67.5 (55.6%)**
 
-**Operations Total: 37.5 + 46.1 + 60.0 + 16.5 = 160.1/270 (59.3%)**
+**Operations Total: 37.5 + 61.1 + 60.0 + 37.5 = 196.1/270 (72.6%)**
 
 ## Final Score Calculation
 
 | Category | Subcategory | Raw Score | Max Raw | Adj Points | Max Points | Percentage |
 |----------|-------------|-----------|---------|------------|------------|------------|
-| **Security** | Smart Contract Security (11 Q) | 83 | 99 | 150.9 | 180 | 83.8% |
-| | Key Management (7 of 8 Q scored) | 55 | 63 | 157.1 | 180 | 87.3% |
-| | **Security Subtotal** | | | **308.0** | **360** | **85.6%** |
-| **Strategy** | Protocol Mechanics (7 of 9 Q scored) | 63 | 63 | 45.0 | 45 | 100.0% |
+| **Security** | Smart Contract Security (11 Q) | 93 | 99 | 169.1 | 180 | 93.9% |
+| | Key Management (7 of 8 Q scored) | 57 | 63 | 162.9 | 180 | 90.5% |
+| | **Security Subtotal** | | | **332.0** | **360** | **92.2%** |
+| **Strategy** | Protocol Mechanics (7 of 10 Q scored) | 63 | 63 | 45.0 | 45 | 100.0% |
 | | Collateral (4 Q) | 36 | 36 | 45.0 | 45 | 100.0% |
-| | Infra Counterparty (8 Q) | 48 | 72 | 30.0 | 45 | 66.7% |
+| | Infra Counterparty (8 Q) | 66 | 72 | 41.25 | 45 | 91.7% |
 | | Protocol Counterparty (4 of 5 Q scored) | 36 | 36 | 45.0 | 45 | 100.0% |
-| | Liquidity (9 Q) | 57 | 81 | 31.7 | 45 | 70.4% |
+| | Liquidity (9 Q) | 81 | 81 | 45.0 | 45 | 100.0% |
 | | Market (5 Q) | 39 | 45 | 39.0 | 45 | 86.7% |
-| | **Strategy Subtotal** | | | **235.7** | **270** | **87.3%** |
+| | **Strategy Subtotal** | | | **260.25** | **270** | **96.4%** |
 | **Operations** | Governance (3 of 4 Q scored) | 15 | 27 | 37.5 | 67.5 | 55.6% |
-| | Team & Legal (7 of 9 Q scored) | 43 | 63 | 46.1 | 67.5 | 68.3% |
+| | Team & Legal (7 of 9 Q scored) | 57 | 63 | 61.1 | 67.5 | 90.5% |
 | | Documentation (6 Q) | 48 | 54 | 60.0 | 67.5 | 88.9% |
-| | Financial Resilience (5 Q) | 11 | 45 | 16.5 | 67.5 | 24.4% |
-| | **Operations Subtotal** | | | **160.1** | **270** | **59.3%** |
-| **TOTAL** | | | | **703.8** | **900** | **78.2%** |
+| | Financial Resilience (5 Q) | 25 | 45 | 37.5 | 67.5 | 55.6% |
+| | **Operations Subtotal** | | | **196.1** | **270** | **72.6%** |
+| **TOTAL** | | | | **788.4** | **900** | **87.6%** |
 
 ---
-

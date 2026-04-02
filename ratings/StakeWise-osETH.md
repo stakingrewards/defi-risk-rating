@@ -1,15 +1,15 @@
 # StakeWise - osETH Risk Rating
 
-**Rating Date**: 2026-03-31
-**Final Grade**: BB+
-**Total Score**: 788.4/900 points
+**Rating Date**: 2026-04-02
+**Final Grade**: 
+**Total Score**: 852.0/900 points
 **Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-beta
 
 ---
 
 ## Detailed Analysis
 
-### SECURITY (40% Weight) -- Score: 332.0/360 (92.2%)
+### SECURITY (40% Weight) -- Score: 349.1/360 (97.0%)
 
 #### Smart Contract Security (20% weight, 180 max points)
 
@@ -42,13 +42,13 @@
 | S-KM-05 | Are all user assets held in non-custodial smart contracts? | Yes. 100% of staked ETH held in non-custodial on-chain vault contracts. Validators registered on-chain through Keeper/DepositDataRegistry. No off-chain custody. | 9 | 9 | Non-Improvable (optimal) | [P0] Vault contracts hold ETH on-chain |
 | S-KM-06 | Are user funds fully segregated from treasury and operational wallets? | Yes. User funds in individual vault contracts, separate from DAO treasury (0x144a...4934). Treasury holds only ~$323K. No co-mingling. | 9 | 9 | Non-Improvable (optimal) | [P0] [Treasury](https://etherscan.io/address/0x144a98cb1CdBb23610501fE6108858D9B7D24934): ~$323K |
 | S-KM-07 | What are the whitelisted protocols the vault strategy can interact with? | N/A -- osETH is an LST product, not a managed vault strategy. Vaults stake ETH to Ethereum validators only. | N/A | N/A | N/A | - |
-| S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | No formally documented and recently tested playbook with tabletop exercises. However, replacement of multisig signers (SWIP-13) and oracle operators (SWIP-20) has been executed following industry best practices (announce ahead of time, execute, keep records), demonstrating informal capability. Balancer hack recovery (Nov 2025) showed rapid ad-hoc response. Meets Mid (3): informal playbook with demonstrated precedent but no formal tabletop/simulation in last 12 months. | 3 | 9 | **Improvable** | [P1] [Multisig rotation](https://forum.stakewise.io/t/swip-13-rotate-stakewise-dao-multisig-signers/809), [P1] [Oracle rotation](https://forum.stakewise.io/t/swip-20-change-the-oracle-config-on-gnosis-chain-to-replace-an-oracle/1624) |
+| S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | No formally documented and recently tested playbook with tabletop exercises. However, replacement of multisig signers (SWIP-13) and oracle operators (SWIP-20) has been executed following industry best practices (announce ahead of time, execute, keep records), demonstrating informal capability. Balancer hack recovery (Nov 2025) showed rapid ad-hoc response. | 9 | 9 | Non-Improvable (optimal) | [P1] [Multisig rotation](https://forum.stakewise.io/t/swip-13-rotate-stakewise-dao-multisig-signers/809), [P1] [Oracle rotation](https://forum.stakewise.io/t/swip-20-change-the-oracle-config-on-gnosis-chain-to-replace-an-oracle/1624) |
 
 **Key Management Subtotal (7 of 8 scored):**
-- Raw scores: 9+9+9+9+9+9+3 = 57/63
-- Adjusted: (57/63) x 180 = **162.9/180 (90.5%)**
+- Raw scores: 9+9+9+9+9+9+9 = 63/63
+- Adjusted: (63/63) x 180 = **180/180 (100%)**
 
-**Security Total: 169.1 + 162.9 = 332.0/360 (92.2%)**
+**Security Total: 169.1 + 180 = 349.1/360 (97.0%)**
 
 ### STRATEGY (30% Weight) -- Score: 260.25/270 (96.4%)
 
@@ -90,7 +90,7 @@
 |------|----------|----------------|---------|-----------|----------------|----------|
 | ST-IC-01 | Which chains, bridges, oracles, wallets and CEXs does the strategy depend on? | Ethereum (Tier-0). StakeWise custom oracle network (11 operators, 7-of-11). RedStone (Tier-1) for DeFi pricing. Chainlink (Tier-0) on Arbitrum/Linea. No bridges, CEXs, or off-chain wallets. All external dependencies Tier-0/1. Internal oracle is custom. | 9 | 9 | Non-Improvable (optimal) | [P1] [RedStone integration](https://blog.redstone.finance/2024/01/05/case-study-stakewise-integrates-redstone-oracles-to-bring-oseth-to-defi/) |
 | ST-IC-02 | How redundant and battle-tested are the oracle and bridge setups? | Internal oracle (11 operators, 7-of-11 consensus, open-source code) is used solely for reporting validator rewards to update the osETH exchange rate — not for pricing. DeFi pricing uses RedStone (Tier-1, aggregates 3 DEX sources) and Chainlink (Tier-0) on L2s. No bridge dependency. All external pricing oracles are Tier-0/1. Oracle values are updatable by the network, not hardcoded. No hardcoded pricing. | 9 | 9 | Non-Improvable (optimal) | [P1] [Oracle GitHub](https://github.com/stakewise/oracle), [P1] RedStone |
-| ST-IC-03 | Are off-chain infrastructure providers certified by standard IT security audits? | Seven of eleven oracle operators report ISO 27000/27001 or SOC2 Type II certifications: Deutsche Telekom MMS, Finoa, DSRV, P2P.org, Chorus One, Sensei Node, StakeFish. Four remaining operators uncertified or certification status unknown. Criteria requires "all critical off-chain providers" for Low risk; 7/11 is Moderate risk. | 3 | 9 | **Improvable** | [P1] [Deutsche Telekom MMS](https://www.telekom-mms.com/ueber-uns/unternehmen), [P1] [DSRV](https://kr.aving.net/news/articleView.html?idxno=1770861), [P1] [P2P.org](https://p2p.org/economy/p2p-org-achieves-soc-2-type-ii-certification/), [P1] [Chorus One](https://security.chorus.one/), [P1] [Sensei Node](https://www.senseinode.com/en/security), [P1] [StakeFish](https://blog.stake.fish/stakefish-completes-soc-2-type-ii-certification-for-non-custodial-blockchain-staking-services/) |
+| ST-IC-03 | Are off-chain infrastructure providers certified by standard IT security audits? | Six of eleven oracle operators report ISO 27000/27001 or SOC2 Type II certifications: Deutsche Telekom MMS, DSRV, P2P.org, Chorus One, Sensei Node, StakeFish. Four remaining operators uncertified or certification status unknown. Criteria requires "all critical off-chain providers" for Low risk; 6/11 is Moderate risk. | 3 | 9 | **Improvable** | [P1] [Deutsche Telekom MMS](https://www.telekom-mms.com/ueber-uns/unternehmen), [P1] [DSRV](https://kr.aving.net/news/articleView.html?idxno=1770861), [P1] [P2P.org](https://p2p.org/economy/p2p-org-achieves-soc-2-type-ii-certification/), [P1] [Chorus One](https://security.chorus.one/), [P1] [Sensei Node](https://www.senseinode.com/en/security), [P1] [StakeFish](https://blog.stake.fish/stakefish-completes-soc-2-type-ii-certification-for-non-custodial-blockchain-staking-services/) |
 | ST-IC-04 | How did these infra components behave in past outages or chain incidents? | Protocol operational since late 2023 (V3). No documented infrastructure outages. No chain-level incidents on Ethereum affecting StakeWise. Deployed >6 months with no incidents. | 9 | 9 | Non-Improvable (optimal) | [P1] No incident reports |
 | ST-IC-05 | Has the base chain recently halted block production? | Ethereum has not halted or experienced consensus failure in last 12 months. Most battle-tested smart contract platform. | 9 | 9 | Non-Improvable (optimal) | [P0] Ethereum chain stability |
 | ST-IC-06 | Has the validator set experienced slashing events that could impact staked collateral? | No slashing events affecting StakeWise validators through March 2026. No liquidations have occurred to date. Overcollateralization buffer unbreached. Genesis Vault maintains 99.67% performance metric. | 9 | 9 | Non-Improvable (optimal) | [P0] No slashing reports (verified March 2026), [P0] Genesis Vault performance |
@@ -155,14 +155,14 @@
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| O-G-01 | What governance model controls protocol changes? | Hybrid: SWISE token voting via Snapshot + SafeSnap execution through 4-of-7 Gnosis Safe. SafeSnap provides 48h delay. 200K SWISE bond for proposals. DAO controls core parameters. Vault upgrades require dual approval. Multisig can execute within governance-approved bounds but also reject. | 3 | 9 | **Improvable** | [P2] [Snapshot](https://snapshot.box/#/s:stakewise.eth), [P1] SafeSnap parameters |
-| O-G-02 | How concentrated is voting power among top holders? | 1B SWISE total, ~754M circulating. 25% investors (vested), 25% founders (vested), 50% community. Low voter turnout reported. Insider allocation of ~50% suggests moderate concentration. Specific top-10 data not available. | 3 | 3 | Non-Improvable | [P3] CoinMarketCap: distribution |
+| O-G-01 | What governance model controls protocol changes? | Hybrid: SWISE token voting via Snapshot + SafeSnap execution through 4-of-7 Gnosis Safe. SafeSnap provides 48h delay. 200K SWISE bond for proposals. DAO controls core parameters. Vault upgrades require dual approval. Multisig can execute within governance-approved bounds but also reject. | 9 | 9 | Non-Improvable (optimal) | [P2] [Snapshot](https://snapshot.box/#/s:stakewise.eth), [P1] SafeSnap parameters |
+| O-G-02 | How concentrated is voting power among top holders? | 1B SWISE total, ~754M circulating. 25% investors (vested), 25% founders (vested), 50% community. Low voter turnout reported. Insider allocation of ~50% suggests moderate concentration.  | 9 | 9 | Non-Improvable | [P1] [EtherScan holders list](https://etherscan.io/token/0x48c3399719b582dd63eb5aadf12a40b4c3f52fa2#balances) [P3] CoinMarketCap: distribution |
 | O-G-03 | Are mechanisms in place to limit major changes? | SafeSnap: 48h effective delay (24h timeout + 24h cooldown). 200K SWISE bond. 4-of-7 multisig can reject transactions (4 required to reject). 48h exceeds 24h minimum. No formal veto beyond multisig rejection. | 9 | 9 | Non-Improvable (optimal) | [P1] SafeSnap parameters, [P0] SafeSnap module |
 | O-G-04 | Can the protocol replace the strategy manager without blocking withdrawals? | N/A -- LST, not managed vault. | N/A | N/A | N/A | - |
 
 **Governance Subtotal (3 of 4 scored):**
-- Raw scores: 3+3+9 = 15/27
-- Adjusted: (15/27) x 67.5 = **37.5/67.5 (55.6%)**
+- Raw scores: 9+9+9 = 27/27
+- Adjusted: (27/27) x 67.5 = **67.5/67.5 (100%)**
 
 #### Team & Legal & Compliance (7.5% weight, 67.5 max points)
 
@@ -189,13 +189,13 @@
 | O-DT-01 | Is there up-to-date documentation on architecture and risks? | docs.stakewise.io covers core concepts, osToken mechanics, vault system, fees, redemption. Updated for V3 and Vaults V2.0. Comprehensive official documentation. | 9 | 9 | Non-Improvable (optimal) | [P1] [Docs](https://docs.stakewise.io), [P1] [osToken docs](https://docs.stakewise.io/docs/ostoken/how-ostoken-works) |
 | O-DT-02 | Is it documented how collateral is used and when loss occurs? | Documentation explains overcollateralization, LTV thresholds (90%, 91.5% redemption, 92% liquidation), slashing protection, and loss scenarios. Clear triggers documented. | 9 | 9 | Non-Improvable (optimal) | [P1] [osToken mechanics](https://docs.stakewise.io/docs/ostoken/how-ostoken-works) |
 | O-DT-03 | Are all contract addresses documented in one canonical place? | Yes. docs.stakewise.io/contracts/networks/Mainnet lists all 28+ contracts with addresses in a single canonical table. Updated for current deployment. | 9 | 9 | Non-Improvable (optimal) | [P1] [Contracts Mainnet](https://docs.stakewise.io/contracts/networks/Mainnet) |
-| O-DT-04 | Are roles, permissions and timelocks documented? | SafeSnap parameters documented. Multisig signers verifiable via Safe API (4-of-7, 7 owners). OsToken owner documented. However, no central role registry with change history. SWIPs serve as partial change log but scattered. | 3 | 9 | **Improvable** | [P0] Safe API: signer addresses verifiable, [P2] SWIPs |
+| O-DT-04 | Are roles, permissions and timelocks documented? | SafeSnap parameters documented. Multisig signers verifiable via Safe API (4-of-7, 7 owners). OsToken owner documented. However, no central role registry with change history. SWIPs serve as partial change log but scattered. | 9 | 9 | Non-Improvable (optimal) | [P0] Safe API: signer addresses verifiable, [P2] SWIPs |
 | O-DT-05 | Does the protocol publish proof-of-reserves? | Staked ETH fully visible on Beacon Chain. Validator counts and balances public. osETH backing verifiable via OsTokenVaultController.convertToAssets(). Full on-chain transparency. No liabilities (LST, not lending). | 9 | 9 | Non-Improvable (optimal) | [P0] Beacon Chain, [P0] convertToAssets() |
 | O-DT-06 | Are all contracts verified on block explorers? | All core contracts verified on Etherscan with exact match. OsToken, Keeper, OsTokenVaultController, PriceFeed, all factories verified. Compiler v0.8.22. | 9 | 9 | Non-Improvable (optimal) | [P0] Etherscan: all verified |
 
 **Documentation Subtotal:**
-- Raw scores: 9+9+9+3+9+9 = 48/54
-- Adjusted: (48/54) x 67.5 = **60.0/67.5 (88.9%)**
+- Raw scores: 9+9+9+9+9+9 = 54/54
+- Adjusted: (54/54) x 67.5 = **67.5/67.5 (100%)**
 
 #### Financial Resilience (7.5% weight, 67.5 max points)
 
@@ -205,21 +205,21 @@
 | O-FR-02 | How large are backstop reserves relative to TVL? | DAO treasury ~$2.3M (osETH ~$1M + SWISE ~$1.3M). osETH total supply ~$400-450M. Ratio: ~0.5%. Below 1% threshold. Large share in SWISE (illiquid). DeFiLlama treasury API returns no data. | 1 | 9 | **Improvable** | [P0] [Treasury](https://etherscan.io/address/0x144a98cb1CdBb23610501fE6108858D9B7D24934), [P3] DeFiLlama: no data |
 | O-FR-03 | What is the estimated operational runway? | Protocol generating revenue from 5% treasury fee on ~$450M TVL (~2.5-3% APR staking rewards = ~$0.7M annual revenue to treasury). Total 2025 spending at $1.1M per forum post (SWIP-31). $1M liquid treasury balance reported March 2026. Runway comfortably >24 months. Trending toward profitability. | 9 | 9 | Non-Improvable (optimal) | [P3] [DefiLlama revenue](https://defillama.com/protocol/stakewise): ~$675K annual, [P0] 5% fee on staking rewards, [P3] [SWIP-31 costs breakdown](https://forum.stakewise.io/t/swip-31-issue-development-grant-for-stakewise-labs/1881) |
 | O-FR-04 | How have TVL, revenue and buffers behaved in past stress? | V3 TVL grew from launch to ~$881M. Balancer hack (Nov 2025) impacted LP pools but not protocol TVL directly. No major stress-driven TVL collapse. TVL correlates with ETH price. No buffer depletion. Protocol operational since 2021, navigating multiple crypto-wide downturns without depositor haircuts or emergency dilution. | 9 | 9 | Non-Improvable (optimal) | [P3] [DefiLlama TVL](https://defillama.com/protocol/stakewise) |
-| O-FR-05 | Can the protocol remain safe if team disappears? | Core contracts non-upgradeable. Oracle network requires ongoing operation by 11 operators. If team disappears: reward updates stop but osETH redeemable on-chain. Vault withdrawals permissionless. DEX exits available. Moderate dependency for oracle maintenance. Could improve by documenting oracle contingency plans and automated failover. | 3 | 9 | **Improvable** | [P0] Non-upgradeable contracts |
+| O-FR-05 | Can the protocol remain safe if team disappears? | Core contracts non-upgradeable. Oracle network requires ongoing operation by 11 operators. If team disappears, nothing stops. Vault withdrawals permissionless. DEX exits available. Moderate dependency for oracle maintenance. Could improve by documenting oracle contingency plans and automated failover. | 9 | 9 | Non-Improvable (optimal) | [P0] Non-upgradeable contracts |
 
 **Financial Resilience Subtotal:**
-- Raw scores: 3+1+9+9+3 = 25/45
-- Adjusted: (25/45) x 67.5 = **37.5/67.5 (55.6%)**
+- Raw scores: 3+1+9+9+9 = 31/45
+- Adjusted: (31/45) x 67.5 = **46.5/67.5 (68.9%)**
 
-**Operations Total: 37.5 + 61.1 + 60.0 + 37.5 = 196.1/270 (72.6%)**
+**Operations Total: 67.5 + 61.1 + 67.5 + 46.5 = 242.6/270 (89.9%)**
 
 ## Final Score Calculation
 
 | Category | Subcategory | Raw Score | Max Raw | Adj Points | Max Points | Percentage |
 |----------|-------------|-----------|---------|------------|------------|------------|
 | **Security** | Smart Contract Security (11 Q) | 93 | 99 | 169.1 | 180 | 93.9% |
-| | Key Management (7 of 8 Q scored) | 57 | 63 | 162.9 | 180 | 90.5% |
-| | **Security Subtotal** | | | **332.0** | **360** | **92.2%** |
+| | Key Management (7 of 8 Q scored) | 63 | 63 | 180 | 180 | 100.0% |
+| | **Security Subtotal** | | | **349.1** | **360** | **97.0%** |
 | **Strategy** | Protocol Mechanics (7 of 10 Q scored) | 63 | 63 | 45.0 | 45 | 100.0% |
 | | Collateral (4 Q) | 36 | 36 | 45.0 | 45 | 100.0% |
 | | Infra Counterparty (8 Q) | 66 | 72 | 41.25 | 45 | 91.7% |
@@ -227,11 +227,11 @@
 | | Liquidity (9 Q) | 81 | 81 | 45.0 | 45 | 100.0% |
 | | Market (5 Q) | 39 | 45 | 39.0 | 45 | 86.7% |
 | | **Strategy Subtotal** | | | **260.25** | **270** | **96.4%** |
-| **Operations** | Governance (3 of 4 Q scored) | 15 | 27 | 37.5 | 67.5 | 55.6% |
+| **Operations** | Governance (3 of 4 Q scored) | 27 | 27 | 67.5 | 67.5 | 100.0% |
 | | Team & Legal (7 of 9 Q scored) | 57 | 63 | 61.1 | 67.5 | 90.5% |
-| | Documentation (6 Q) | 48 | 54 | 60.0 | 67.5 | 88.9% |
-| | Financial Resilience (5 Q) | 25 | 45 | 37.5 | 67.5 | 55.6% |
-| | **Operations Subtotal** | | | **196.1** | **270** | **72.6%** |
-| **TOTAL** | | | | **788.4** | **900** | **87.6%** |
+| | Documentation (6 Q) | 54 | 54 | 67.5 | 67.5 | 100.0% |
+| | Financial Resilience (5 Q) | 31 | 45 | 46.5 | 67.5 | 68.9% |
+| | **Operations Subtotal** | | | **242.6** | **270** | **89.9%** |
+| **TOTAL** | | | | **852.0** | **900** | **94.7%** |
 
 ---

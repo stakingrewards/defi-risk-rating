@@ -1,15 +1,15 @@
-# Valantis - stHYPE (Staked Hyperliquid) Risk Rating
+# Valantis - stHYPE Risk Rating
 
-**Rating Date**: 2026-02-25
-**Final Grade**: B
-**Total Score**: 690.8/900 points
-**Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
+**Rating Date**: 2026-04-08
+**Final Grade**: B+
+**Total Score**: 734.1/900 points
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-beta
 
 ---
 
 ## Detailed Analysis
 
-### SECURITY (40% Weight) - Score: 286.8/360 (79.7%)
+### SECURITY (40% Weight) - Score: 303.9/360 (84.4%)
 
 #### Smart Contract Security (20% weight, 180 max points)
 
@@ -18,7 +18,7 @@
 | S-SC-01 | Have all core contracts that hold or route funds been independently audited? | Yes. All critical contracts (Overseer.sol, HyperCoreUtils.sol, HyperCoreStakingModule.sol) were included in audits by Three Sigma (Feb 2025), Guardian (Oct-Nov 2025), and Pashov (Oct-Nov 2025), plus an additional security review. Three independent audits total. | 9 | 9 | Non-Improvable (optimal) | [P1] [Valantis Audits](https://docs.valantis.xyz/resources/audits#sthype) |
 | S-SC-02 | Who performed the most recent audit and what is their reputation tier? | Most recent audits by Pashov (Tier-1), Three Sigma (Tier-2), and Guardian (Tier-1). At least one Tier-1 auditor among the most recent. | 9 | 9 | Non-Improvable (optimal) | [P1] [Valantis Audits](https://docs.valantis.xyz/resources/audits#sthype) |
 | S-SC-03 | Have upgrades to core contracts been followed by new audits? | Yes. New audits from Guardian and Pashov, as well as an additional security review in Oct-Nov 2025, followed development changes since the initial Three Sigma audit in February 2025. | 9 | 9 | Non-Improvable (optimal) | [P1] [Valantis Audits](https://docs.valantis.xyz/resources/audits#sthype) |
-| S-SC-04 | Have all critical and high-severity audit findings been fully remediated and re-verified? | Yes. Critical and high-severity issues were remediated and marked as resolved or acknowledged. Pashov and Guardian audits confirmed all major issues were addressed, with fixes verified via commit hashes. Note: pause events still have not been included in the smart contract even though the Three Sigma audit showed it as addressed by the team. | 9 | 9 | Non-Improvable (optimal) | [P1] [Valantis Audits](https://docs.valantis.xyz/resources/audits#sthype), [P0] Audit reports (Google Drive screenshots) |
+| S-SC-04 | Have all critical and high-severity audit findings been fully remediated and re-verified? | Yes. No critical findings exist across all stHYPE audits. A total of two high-severity findings were identified and remediated. Pashov and Guardian audits confirmed all issues were addressed, with fixes verified via commit hashes. | 9 | 9 | Non-Improvable (optimal) | [P1] [Valantis Audits](https://docs.valantis.xyz/resources/audits#sthype), [P0] Audit reports (Google Drive screenshots) |
 | S-SC-05 | Are core contracts upgradeable and how tightly are upgrades constrained? | Yes, contracts are upgradeable. Audits confirmed upgradeability and noted role-based access controls (e.g., DEFAULT_ADMIN_ROLE) governing sensitive operations. Events like DefaultAdminTransferScheduled and RoleGranted support upgrade traceability. However, no publicly documented upgrade policy with timelock >=24h exists. | 3 | 9 | **Improvable** | [P0] [HyperEVMScan Events](https://hyperevmscan.io/address/0xffaa4a3d97fe9107cef8a3f48c069f577ff76cc1#events), [P1] Audit reports |
 | S-SC-06 | Has any on-chain exploit or critical bug affecting user funds occurred? | No exploits or malfunctions recorded for stHYPE. | 9 | 9 | Non-Improvable (optimal) | Analytical Research |
 | S-SC-07 | Has any confirmed rug-pull event occurred? | No rug-pull events reported. | 9 | 9 | Non-Improvable (optimal) | Analytical Research |
@@ -38,7 +38,7 @@
 |------|----------|----------------|---------|-----------|----------------|----------|
 | S-KM-01 | Who controls admin and upgrade keys for contracts holding user funds? | Admin rights held by multisig via DEFAULT_ADMIN_ROLE and ProxyAdmin ownership. Published Roles and Controls Registry with dated changelog documenting all historical admin/upgrade events including the 2025-08-22 ownership transition, with on-chain transaction links. All changes in last 12 months publicly documented with rationale. | 9 | 9 | Non-Improvable (optimal) | [P1] [Roles and Controls Registry](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry) |
 | S-KM-02 | Can any single key move user funds or upgrade custody contracts? | Single key cannot directly drain funds; changes require multisig/governance. | 9 | 9 | Non-Improvable (optimal) | [P1] [Governance Overview](https://docs.stakedhype.fi/technical/security#governance-overview-2) |
-| S-KM-03 | How decentralized and robust is the multisig for critical actions? | Admin multisig address published (0x97dEe0eA4Ca10560f260A0f6f45bdC128A1D51f9). Signers spread across timezones with isolated devices, cold wallets, and verified signing software. Security practices inherited from team securing >$5B in DeFi multisigs. However, threshold configuration, total number of signers, and signer identities remain undisclosed. | 3 | 9 | **Improvable** | [P1] [Roles and Controls Registry](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry), [P1] [Contract Addresses](https://docs.valantis.xyz/stakedhype/contract-addresses) |
+| S-KM-03 | How decentralized and robust is the multisig for critical actions? | Admin multisig (0x97dEe0eA4Ca10560f260A0f6f45bdC128A1D51f9) operates with a 4-of-6 threshold. All six signer addresses are publicly disclosed. Signers spread across timezones with isolated devices, cold wallets, and verified signing software. On April 7, 2026, the threshold was increased from 3/5 to 4/6 with two signers rotated to a more secure standardized setup, all documented in the Roles and Controls Registry changelog. | 9 | 9 | Non-Improvable (optimal) | [P1] [Roles and Controls Registry](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry), [P1] [Admin Setup](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry#admin-setup), [P1] [Signer Rotation Changelog](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry#id-2026-04-07-sthype-multisig-signer-rotation) |
 | S-KM-04 | How constrained are pause, blocklist and withdrawal-control permissions? | Pause/controls exist with broad scope but require multisig and are at least partially documented. Full constraint details not public. | 3 | 9 | **Improvable** | [P1] [Valantis Audits](https://docs.valantis.xyz/resources/audits#sthype) |
 | S-KM-05 | Are all user assets held in non-custodial smart contracts? | Yes. Smart contracts hold all assets; no custodian access. All staked HYPE is held on-chain. | 9 | 9 | Non-Improvable (optimal) | [P1] [Institutional Primer](https://www.stakedhype.fi/institutional.pdf), [P0] On-chain verification |
 | S-KM-06 | Are user funds fully segregated from treasury and operational wallets? | Segregated; staking pool is separate from treasury/operational wallets. | 9 | 9 | Non-Improvable (optimal) | [P1] [Transparency and Risks](https://docs.stakedhype.fi/info/transparency-and-risks) |
@@ -46,22 +46,22 @@
 | S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | Published Monitoring and Incident Response page documenting incident classes including privileged-key/control-plane incidents, severity-based escalation, and role-bounded emergency controls. Key-compromise and signer-loss response procedures rehearsed internally through STEX operations and stHYPE acquisition. However, no public evidence of formal tabletop exercises. | 3 | 9 | **Improvable** | [P1] [Monitoring and Incident Response](https://docs.valantis.xyz/stakedhype/monitoring-and-incident-response) |
 
 **Key Management Subtotal (7 scored questions, 1 N/A):**
-- Raw scores: 9+9+3+3+9+9+3 = 45/63
-- Adjusted to weight: (45/63) x 180 = **128.6/180 (71.4%)**
+- Raw scores: 9+9+9+3+9+9+3 = 51/63
+- Adjusted to weight: (51/63) x 180 = **145.7/180 (81.0%)**
 - Potential: (63/63) x 180 = 180.0/180
 
 Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 
 ---
 
-**Security Total: 158.2 + 128.6 = 286.8/360 (79.7%)**
-**Security Grade: B+** (falls in 284.0-294.0 range)
+**Security Total: 158.2 + 145.7 = 303.9/360 (84.4%)**
+**Security Grade: BB-** (falls in 294.0-304.0 range)
 
 **Potential Security: 180.0 + 180.0 = 360.0/360 (AAA)**
 
 ---
 
-### STRATEGY (30% Weight) - Score: 233.9/270 (86.6%)
+### STRATEGY (30% Weight) - Score: 245.1/270 (90.8%)
 
 #### Protocol Mechanics (5% weight, 45 max points)
 
@@ -76,10 +76,11 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 | ST-PM-07 | Is current yield sustainable relative to underlying economics? | Yes. stHYPE's yield is derived entirely from Hyperliquid's native staking emissions and the HIP-3/USDe stake-account mechanisms, grounded in the network's real economic activity. No token emissions or incentive subsidies required for yield. | 9 | 9 | Non-Improvable (optimal) | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts) |
 | ST-PM-08 | Can the position be fully unwound without slippage turning yield negative? | Under the stated withdrawal times, the entire position can be unstaked, and users will receive their assets plus accrued rewards minus fees. Standard accounts unwind in ~7.2 days. Non-standard accounts may take up to 90 days. | 9 | 9 | Non-Improvable (optimal) | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts) |
 | ST-PM-09 | Does the strategy rely on a spread, peg, or funding rate that can invert? | N/A - Lending/Vault only question per product type modifiers. | N/A | N/A | N/A | - |
+| ST-PM-10 | Can automated or externally-invocable mechanisms increase vault exposure without real-time human approval? | All allocation changes to validators and stake accounts (HyENA HIP-3, USDe Quote Deployer) require explicit human-initiated multisig transactions. No automated rebalancers, Public Allocator, or keeper-driven supply mechanisms exist. No permissionless function can increase exposure to any counterparty. | 9 | 9 | Non-Improvable (optimal) | [P1] [Roles and Controls Registry](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry), [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts) |
 
-**Protocol Mechanics Subtotal (5 scored questions, 4 N/A):**
-- Raw scores: 9+9+9+9+9 = 45/45
-- Adjusted: (45/45) x 45 = **45.0/45 (100.0%)**
+**Protocol Mechanics Subtotal (6 scored questions, 4 N/A):**
+- Raw scores: 9+9+9+9+9+9 = 54/54
+- Adjusted: (54/54) x 45 = **45.0/45 (100.0%)**
 
 ---
 
@@ -90,10 +91,10 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 | ST-C-01 | Which assets are accepted as collateral and how are they risk rated? | HYPE is Hyperliquid's native token with strong liquidity and market presence. As the base asset of a Tier-1 chain, it is a reasonable collateral for liquid staking. | 9 | 9 | Non-Improvable (optimal) | [P3] Market data |
 | ST-C-02 | How did each collateral behave versus its underlying during past stress or depegs? | No major depeg recorded. Small depeg on Sep 25th. Minor deviations during sharp market moves; generally tracks underlying with exchange-rate drift. | 9 | 9 | Non-Improvable (optimal) | [P3] [StakingRewards Analytics](https://www.stakingrewards.com/asset/staked-hyperliquid/analytics), [P3] [DexScreener](https://dexscreener.com/hyperevm/0xa0a3ad6ed38354c02b892ddfc79c4a93729ee9b3) |
 | ST-C-03 | How is validator or slashing risk handled for staking-based collaterals? | Slashing risk disclosed; operators monitored; no major slashing events recorded. Mix of large professional operators distributed across Europe and Asia. Validators are selected based on audited track record and reputation, must meet minimum staking requirements (10k HYPE bond), and get accepted and voted by stHYPE holders. No automated validator replacement mechanism, but underperforming validators can be removed from the set. | 9 | 9 | Non-Improvable (optimal) | [P1] [Operators](https://docs.stakedhype.fi/governance/operators), [P1] [Validators](https://www.stakedhype.fi/validators), [P3] [ASXN Dashboard](https://hyperscreener.asxn.xyz/validators) |
-| ST-C-04 | What share of TVL relies on bridged or wrapped assets? | stHYPE relies on Hyperliquid's internal bridging (CoreWriter), and essentially 100% of its TVL is in assets that have been moved to the HyperCore layer via that mechanism. However, CoreWriter is not an external bridge -- Hyperliquid's architecture has HyperCore and HyperEVM sharing a single unified state under the same consensus. It is a series of state updates within a single Core block, not a cross-chain bridge. Scored Mid due to the technical bridging mechanism despite it being internal. | 3 | 3 | **Non-Improvable** | [P1] [HyperEVM Docs](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/interacting-with-hypercore), [P4] [Oak Research](https://oakresearch.io/en/analyses/fundamentals/hyperliquid-vision-aws-of-liquidity-builder-codes-core-writer-hip-3), [P4] [Ambit Labs](https://medium.com/@ambitlabs/demystifying-the-hyperliquid-precompiles-and-corewriter-ef4507eb17ef) |
+| ST-C-04 | What share of TVL relies on bridged or wrapped assets? | CoreWriter is a native precompile in the Hyperliquid state machine, not a bridge or wrapping contract. Hyperliquid's architecture has HyperCore and HyperEVM sharing a single unified state under the same consensus. CoreWriter performs state updates within a single Core block — it is not cross-chain message passing. Per the framework definition, "bridged or wrapped" means assets whose value depends on a bridge or wrapping contract maintaining 1:1 backing, and explicitly excludes native chain tokens. HYPE is native to Hyperliquid, and CoreWriter is a native chain primitive. 0% of TVL relies on bridged or wrapped assets. | 9 | 9 | Non-Improvable (optimal) | [P1] [HyperEVM Docs](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/interacting-with-hypercore), [P4] [Oak Research](https://oakresearch.io/en/analyses/fundamentals/hyperliquid-vision-aws-of-liquidity-builder-codes-core-writer-hip-3), [P4] [Ambit Labs](https://medium.com/@ambitlabs/demystifying-the-hyperliquid-precompiles-and-corewriter-ef4507eb17ef) |
 
-**Collateral Subtotal: 30/36 = (30/36) x 45 = 37.5/45 (83.3%)**
-**Potential: (30/36) x 45 = 37.5/45** (ST-C-04 non-improvable at 3)
+**Collateral Subtotal: 36/36 = (36/36) x 45 = 45.0/45 (100.0%)**
+**Potential: (36/36) x 45 = 45.0/45**
 
 ---
 
@@ -102,16 +103,16 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | ST-IC-01 | Which chains, bridges, oracles, wallets and CEXs does the strategy depend on? | Chain: Hyperliquid/HyperEVM (Tier-1). Bridge: CoreWriter (internal, not external). Oracles: HyperCore validator-provided price feeds (inherent to chain). Wallets: Rabby, Keplr, Safe, Coinbase Wallet. CEXs: Not utilized directly. All dependencies listed and Tier-0/1. | 9 | 9 | Non-Improvable (optimal) | [P1] [HyperEVM Docs](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/interacting-with-hypercore), [P1] [Oracle Docs](https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/oracle) |
-| ST-IC-02 | How redundant and battle-tested are the oracle and bridge setups? | Bridging is entirely within Hyperliquid's unified network. No external bridge risk. Oracle feeds provided natively by validators as part of consensus. No dependency on external oracle providers. | 9 | 9 | Non-Improvable (optimal) | [P1] [HyperEVM Docs](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/interacting-with-hypercore) |
+| ST-IC-02 | How redundant are oracle and bridge setups, and can oracle values be corrected under abnormal conditions? | No external bridge dependency — CoreWriter is a native precompile. Oracle feeds provided natively by validators as part of consensus (not hardcoded/immutable — validators update prices continuously). No dependency on external oracle providers. No hardcoded pricing. | 9 | 9 | Non-Improvable (optimal) | [P1] [HyperEVM Docs](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/interacting-with-hypercore), [P1] [Oracle Docs](https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/oracle) |
 | ST-IC-03 | Are off-chain infrastructure providers certified by standard IT security audits? | stHYPE is not using any critical off-chain infrastructure providers. All operations are on-chain. Score Low (9) per applicability check. | 9 | 9 | Non-Improvable (optimal) | Analytical Research |
 | ST-IC-04 | How did these infra components behave in past outages or chain incidents? | No reported blockchain failures. The chain does not experience persistent congestion. Some spikes occur during market events. Fees sometimes increase due to market conditions. Hyperliquid validators have not experienced any slashing events to date. | 9 | 9 | Non-Improvable (optimal) | Analytical Research |
 | ST-IC-05 | Has the base chain recently halted block production or experienced consensus failure? | No reported blockchain failures or halts. The chain has been operational without consensus failures in the evaluation period. | 9 | 9 | Non-Improvable (optimal) | Analytical Research |
 | ST-IC-06 | Has the validator set experienced slashing events that could impact staked collateral? | No. Hyperliquid validators have not experienced any slashing events to date. The slashing mechanism primarily targets deployers under HIP-3 rather than validators directly for consensus faults. | 9 | 9 | Non-Improvable (optimal) | Analytical Research |
 | ST-IC-07 | Are validators diverse geographically and by operator? | Mix of large professional operators; some centralization but multiple entities. Validator node locations (per ASXN dashboard) are distributed in Europe and Asia. Validator companies have coverage across both regions. | 9 | 9 | Non-Improvable (optimal) | [P1] [Operators](https://docs.stakedhype.fi/governance/operators), [P1] [Validators](https://www.stakedhype.fi/validators), [P3] [ASXN Dashboard](https://hyperscreener.asxn.xyz/validators) |
-| ST-IC-08 | Can any single infra component failure alone block withdrawals or cause losses? | If CoreWriter fails, withdrawals would not be possible to execute. This is a single point of failure for exits, though CoreWriter is integral to Hyperliquid's unified architecture rather than an external dependency. | 3 | 3 | **Non-Improvable** | Analytical Research |
+| ST-IC-08 | Can any single infra component failure alone block withdrawals or cause losses? | CoreWriter is a native precompile in the Hyperliquid state machine, not an independent infrastructure component. Its failure would constitute a chain-level failure, equivalent to the EVM itself failing. All audit scope recognizes the state sync between HyperEVM stHYPE operations and HyperCore stHYPE operations as native chain functionality. No single infrastructure component outside the base chain can independently block withdrawals. | 9 | 9 | Non-Improvable (optimal) | Analytical Research |
 
-**Infra Counterparty Subtotal: 66/72 = (66/72) x 45 = 41.25/45 (91.7%)**
-**Potential: (66/72) x 45 = 41.25/45** (ST-IC-08 non-improvable at 3)
+**Infra Counterparty Subtotal: 72/72 = (72/72) x 45 = 45.0/45 (100.0%)**
+**Potential: (72/72) x 45 = 45.0/45**
 
 ---
 
@@ -119,7 +120,7 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| ST-PC-01 | Into which external protocols, CEXs or RWA platforms is collateral deployed? | Apart from staking users' funds on HyperCore, HYPE has been deployed into stake accounts: HIP-3 Staking Module (Ethena HyENA, 500k HYPE) and Quote Asset Deployer Staking Module (USDe, 200k HYPE). Issues include: increased withdrawal time (90 days) for these accounts, and additional slashing risks for HIP-3 based options. Distribution: ~61.1% standard staking, ~27.8% HyENA, ~11.1% USDe Deployer. | 3 | 9 | **Improvable** | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts), [P1] [Valantis App](https://app.valantis.xyz/staking) |
+| ST-PC-01 | Into which external protocols, CEXs or RWA platforms is collateral deployed? | Apart from staking users' funds on HyperCore, HYPE has been deployed into stake accounts: HIP-3 Staking Module (Ethena HyENA, 500k HYPE) and Quote Asset Deployer Staking Module (USDe, 200k HYPE). The USDe Quote Asset stake account has two active spot-market deployments (USDe/USDC and HYPE/USDe) which can be monitored for slashing risk per Permissionless Spot Quote Asset Slashing Docs. Issues include: increased withdrawal time (90 days) for these accounts, and additional slashing risks for HIP-3 and quote-asset modules. Distribution: ~61.1% standard staking, ~27.8% HyENA, ~11.1% USDe Deployer. | 3 | 9 | **Improvable** | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts), [P1] [Valantis App](https://app.valantis.xyz/staking) |
 | ST-PC-02 | Are revenue-share or incentive arrangements documented and do they create conflicts? | Valantis is running a points campaign. There is no conflict of interest identified. | 9 | 9 | Non-Improvable (optimal) | [P1] [Valantis Docs](https://docs.valantis.xyz/) |
 | ST-PC-03 | Are there hard limits and rebalancing rules per counterparty? | Yes. stHYPE has hard limits per counterparty (500k HYPE in Ethena HyENA HIP-3 module and 200k in USDe Quote Deployer, totaling 700k HYPE) with rebalancing rules triggered when exceeded or when TVL hits the 1M HYPE early-exit threshold, initiating managed liquidity buffers. High-frequency withdrawals from standard HyperCore accounts first, with up to 90-day timed exits from non-standard accounts. | 9 | 9 | Non-Improvable (optimal) | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts) |
 | ST-PC-04 | How quickly and safely can positions be unwound from each counterparty? | Standard Stake Accounts offer fast and secure unwinding (~7.2 days). Non-standard Stake Accounts introduce higher yield and slashing risk, with up to a 90-day withdrawal lag. | 3 | 9 | **Improvable** | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts) |
@@ -167,28 +168,28 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 
 ---
 
-**Strategy Total: 45.0 + 37.5 + 41.25 + 33.0 + 32.1 + 45.0 = 233.9/270 (86.6%)**
-**Strategy Grade: BB** (falls in 228.0-235.5 range)
+**Strategy Total: 45.0 + 45.0 + 45.0 + 33.0 + 32.1 + 45.0 = 245.1/270 (90.8%)**
+**Strategy Grade: BBB-** (falls in 243.0-246.6 range)
 
-**Potential Strategy: 45.0 + 37.5 + 41.25 + 45.0 + 40.7 + 45.0 = 254.5/270 (A-)**
+**Potential Strategy: 45.0 + 45.0 + 45.0 + 45.0 + 40.7 + 45.0 = 265.7/270 (AA)**
 
 ---
 
-### OPERATIONS (30% Weight) - Score: 170.1/270 (63.0%)
+### OPERATIONS (30% Weight) - Score: 185.1/270 (68.6%)
 
 #### Governance (7.5% weight, 67.5 max points)
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | O-G-01 | What governance model controls protocol changes and upgrades? | Hybrid governance model: team multisig with community veto. Not fully on-chain tokenholder governance; multisig can execute some changes within documented bounds. | 3 | 9 | **Improvable** | [P1] [Institutional Primer](https://www.stakedhype.fi/institutional.pdf) |
-| O-G-02 | How concentrated is voting power among top holders or delegates? | Top 10 voting addresses control >33% and <=66% of voting power, implying moderate capture risk. No public governance dashboard or interface found. | 3 | 9 | **Improvable** | [P0] [HyperEVMScan Token Holders](https://hyperevmscan.io/token/0xffaa4a3d97fe9107cef8a3f48c069f577ff76cc1#balances) |
+| O-G-02 | How concentrated is voting power among top holders or delegates? | N/A - Protocol has no governance token and uses pure multisig governance with no on-chain voting. Per framework applicability check, mark N/A when no governance token exists; governance concentration for multisig-controlled protocols is captured in S-KM-01 and S-KM-03. | N/A | N/A | N/A | - |
 | O-G-03 | Are mechanisms in place to limit major changes like timelocks and veto? | Community veto exists. ABIs for stHYPE and Overseer show timelocks and delay parameters. Documentation is not explicit enough on the delay duration. | 3 | 9 | **Improvable** | [P1] [Institutional Primer](https://www.stakedhype.fi/institutional.pdf) |
 | O-G-04 | Can the protocol replace the strategy manager without blocking user withdrawals? | N/A - Vault only question per product type modifiers. | N/A | N/A | N/A | - |
 
-**Governance Subtotal (3 scored questions, 1 N/A):**
-- Raw scores: 3+3+3 = 9/27
-- Adjusted: (9/27) x 67.5 = **22.5/67.5 (33.3%)**
-- Potential: (27/27) x 67.5 = 67.5/67.5
+**Governance Subtotal (2 scored questions, 2 N/A):**
+- Raw scores: 3+3 = 6/18
+- Adjusted: (6/18) x 67.5 = **22.5/67.5 (33.3%)**
+- Potential: (18/18) x 67.5 = 67.5/67.5
 
 ---
 
@@ -233,19 +234,19 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| O-FR-01 | Is there a backstop reserve or safety module for user losses? | Team explicitly confirmed: "there is no guaranteed insolvency backstop and no binding activation commitment for loss recovery today." No dedicated insurance fund, safety module, or backstop reserve exists. Users bear full exposure to losses. | 1 | 9 | **Improvable** | [P1] [Transparency and Risks](https://docs.valantis.xyz/stakedhype/transparency-and-risks) |
-| O-FR-02 | How large and liquid are the backstop reserves and treasury relative to TVL? | Team confirmed treasury/backstop size and liquidity are not yet published. Committed to introducing a "resilience-disclosure format" in the future, but no disclosure has been made. | 1 | 9 | **Improvable** | [P1] [Transparency and Risks](https://docs.valantis.xyz/stakedhype/transparency-and-risks) |
-| O-FR-03 | What is the estimated operational runway at current burn? | Team disclosed operational runway of ~12-18 months at current growth-phase run rate. Protocol is self-sustaining based on current revenue and maintenance-only operational costs. Covers emergency contingencies and expected future audit costs. | 9 | 9 | Non-Improvable (optimal) | Team disclosure |
-| O-FR-04 | How have TVL, revenue and buffers behaved in past stress events? | TVL diminishing while rewards and revenue remain stable from native HYPE staking. A portion of deposits allocated to non-standard stake accounts earning above-baseline yields. Team acknowledged no recurring stress-history report has been published and committed to publishing periodic resilience reports. | 3 | 9 | **Improvable** | [P1] [stakedhype Analytics](https://www.stakedhype.fi/analytics), [P3] [ASXN Staking](https://hyperscreener.asxn.xyz/staking) |
-| O-FR-05 | Can the protocol remain safe in maintenance mode if team disappears? | Standard modules and base burn/redeem flows are on-chain and user-triggered. For non-standard modules, legal documentation includes automatic triggers obligating HyENA team to return HYPE when stHYPE circulation drops below 1M TVL. External management multisig operated by BasedApp Team, Ethena Foundation, and Valantis Labs. Full autonomy in a no-team scenario not yet guaranteed for non-standard accounts. | 3 | 9 | **Improvable** | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts), [P1] [Transparency and Risks](https://docs.valantis.xyz/stakedhype/transparency-and-risks) |
+| O-FR-01 | Is there a backstop reserve or safety module for user losses? | No dedicated insurance fund or safety module exists. Team confirmed no guaranteed insolvency backstop. However, team disclosed treasury in the $50k-$200k range, providing some financial buffer albeit small relative to TVL. No formal activation rules for loss recovery. | 3 | 9 | **Improvable** | [P1] [Transparency and Risks](https://docs.valantis.xyz/stakedhype/transparency-and-risks) |
+| O-FR-02 | How large and liquid are the backstop reserves and treasury relative to TVL? | Team disclosed treasury in the $50k-$200k range. While this provides some operational buffer, it represents <0.25% of TVL — insufficient for meaningful loss absorption. No formal resilience-disclosure format yet published. | 3 | 9 | **Improvable** | [P1] [Transparency and Risks](https://docs.valantis.xyz/stakedhype/transparency-and-risks) |
+| O-FR-03 | What is the estimated operational runway at current burn? | Team disclosed sufficient operational runway. Protocol is self-sustaining based on current revenue and maintenance-only operational costs. | 9 | 9 | Non-Improvable (optimal) | Team disclosure |
+| O-FR-04 | How have TVL, revenue and buffers behaved in past stress events? | The team has published two stHYPE Health Reports, including one covering large withdrawal events, demonstrating documented stress behavior analysis. TVL tracked alongside revenue stability from native HYPE staking. Reports provide recurring documentation of protocol performance including queue health and secondary market resiliency under various conditions. | 9 | 9 | Non-Improvable (optimal) | [P1] [stHYPE Health Reports](https://docs.valantis.xyz/stakedhype/transparency-and-risks#sthype-health-reports), [P1] [stakedhype Analytics](https://www.stakedhype.fi/analytics) |
+| O-FR-05 | Can the protocol remain safe in maintenance mode if team disappears? | Standard modules and base burn/redeem flows are on-chain and user-triggered. For non-standard modules, legal documentation includes automatic triggers obligating HyENA team to return HYPE when stHYPE circulation drops below 1M TVL. External management multisig operated by multiple independent parties. Full autonomy in a no-team scenario not yet guaranteed for non-standard accounts. | 3 | 9 | **Improvable** | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts), [P1] [Transparency and Risks](https://docs.valantis.xyz/stakedhype/transparency-and-risks) |
 
-**Financial Resilience Subtotal: 17/45 = (17/45) x 67.5 = 25.5/67.5 (37.8%)**
+**Financial Resilience Subtotal: 27/45 = (27/45) x 67.5 = 40.5/67.5 (60.0%)**
 **Potential: (45/45) x 67.5 = 67.5/67.5**
 
 ---
 
-**Operations Total: 22.5 + 54.6 + 67.5 + 25.5 = 170.1/270 (63.0%)**
-**Operations Grade: CCC** (falls in 150.0-174.0 range)
+**Operations Total: 22.5 + 54.6 + 67.5 + 40.5 = 185.1/270 (68.6%)**
+**Operations Grade: CCC+** (falls in 174.0-198.0 range)
 
 **Potential Operations: 67.5 + 61.1 + 67.5 + 67.5 = 263.6/270 (AA-)**
 
@@ -253,23 +254,26 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 
 ## Final Score Calculation
 
-| Category | Subcategory | Current Points | Max Points | Potential Points |
-|----------|-------------|----------------|------------|------------------|
-| **Security** | Smart Contract Security | 158.2 | 180 | 180.0 |
-| | Key Management | 128.6 | 180 | 180.0 |
-| | **Security Subtotal** | **286.8** | **360** | **360.0** |
-| **Strategy** | Protocol Mechanics | 45.0 | 45 | 45.0 |
-| | Collateral | 37.5 | 45 | 37.5 |
-| | Infra Counterparty | 41.25 | 45 | 41.25 |
-| | Protocol Counterparty | 33.0 | 45 | 45.0 |
-| | Liquidity | 32.1 | 45 | 40.7 |
-| | Market | 45.0 | 45 | 45.0 |
-| | **Strategy Subtotal** | **233.9** | **270** | **254.5** |
-| **Operations** | Governance | 22.5 | 67.5 | 67.5 |
-| | Team & Legal | 54.6 | 67.5 | 61.1 |
-| | Documentation | 67.5 | 67.5 | 67.5 |
-| | Financial Resilience | 25.5 | 67.5 | 67.5 |
-| | **Operations Subtotal** | **170.1** | **270** | **263.6** |
-| **TOTAL** | | **690.8** | **900** | **878.0** |
+| Category | Subcategory | Weight | Current Score | Max Score | Current % | Potential Score |
+|----------|-------------|--------|---------------|-----------|-----------|-----------------|
+| Security | Smart Contract Security | 20% | 158.2 | 180 | 87.9% | 180.0 |
+| Security | Key Management | 20% | 145.7 | 180 | 81.0% | 180.0 |
+| **Security Total** | | **40%** | **303.9** | **360** | **84.4%** | **360.0** |
+| Strategy | Protocol Mechanics | 5% | 45.0 | 45 | 100.0% | 45.0 |
+| Strategy | Collateral | 5% | 45.0 | 45 | 100.0% | 45.0 |
+| Strategy | Infra Counterparty | 5% | 45.0 | 45 | 100.0% | 45.0 |
+| Strategy | Protocol Counterparty | 5% | 33.0 | 45 | 73.3% | 45.0 |
+| Strategy | Liquidity | 5% | 32.1 | 45 | 71.4% | 40.7 |
+| Strategy | Market | 5% | 45.0 | 45 | 100.0% | 45.0 |
+| **Strategy Total** | | **30%** | **245.1** | **270** | **90.8%** | **265.7** |
+| Operations | Governance | 7.5% | 22.5 | 67.5 | 33.3% | 67.5 |
+| Operations | Team & Legal | 7.5% | 54.6 | 67.5 | 80.9% | 61.1 |
+| Operations | Documentation | 7.5% | 67.5 | 67.5 | 100.0% | 67.5 |
+| Operations | Financial Resilience | 7.5% | 40.5 | 67.5 | 60.0% | 67.5 |
+| **Operations Total** | | **30%** | **185.1** | **270** | **68.6%** | **263.6** |
+| **GRAND TOTAL** | | **100%** | **734.1** | **900** | **81.6%** | **889.3** |
+
+**Current Grade: B+** (734.1 falls in 710-735 range)
+**Potential Grade: AA+** (889.3 falls in 888-894 range)
 
 ---

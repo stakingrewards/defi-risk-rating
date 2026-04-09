@@ -1,17 +1,17 @@
-# Steakhouse Prime Instant (V2) - USDT Vault Risk Rating
+# Morpho - Steakhouse Prime Instant V2 USDT Vault Risk Rating
 
-**Rating Date**: 2026-04-03
-**Final Grade**: BB+
-**Total Score**: 802.0/900 points
+**Rating Date**: 2026-04-09
+**Final Grade**: BB-
+**Total Score**: 754.75/900 points
 **Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-beta
 
 ---
 
 ## Detailed Analysis
 
-### SECURITY (40% Weight) -- Score: 323.2/360 (89.8%)
+### SECURITY (40% Weight) -- Score: 293.2/360 (81.4%)
 
-**NOTE: Security scores are platform-level and IDENTICAL to all other Steakhouse/Morpho vault ratings. The V2 vault inherits Morpho's security infrastructure (25+ audits, formal verification, $2.5M bug bounty) and uses the same Curator Safe (2-of-5). The V2-specific architecture adds per-function timelocks, an Aragon DAO Owner, and a specialized Sentinel/Revoker contract -- these are improvements over V1 but do not change the scoring because V1 already scored 9 on the relevant questions (the 5-of-8 Owner Safe in V1 meets the same criteria the Aragon DAO Owner meets in V2).**
+**NOTE: Smart Contract Security scores are platform-level and IDENTICAL to all other Steakhouse/Morpho vault ratings. The V2 vault inherits Morpho's security infrastructure (25+ audits, formal verification, $2.5M bug bounty) and uses the same Curator Safe (2-of-5). Key Management scores differ from V1 because the V2 Owner is an Aragon DAO whose governance parameters (voting power distribution, quorum, proposal thresholds) could not be verified on-chain, unlike V1's 5-of-8 Safe multisig which is directly verifiable.**
 
 #### Smart Contract Security (20% weight, 180 max points)
 
@@ -38,37 +38,37 @@
 
 #### Key Management & Permissions (20% weight, 180 max points)
 
-**NOTE: V2 introduces an Aragon DAO as Owner (replacing the V1 5-of-8 Safe), a specialized Revoker/Sentinel (replacing V1 Guardian), and retains the same 2-of-5 Curator Safe. The scoring remains consistent because both V1 and V2 governance structures meet the same Low Risk criteria -- the V2 DAO Owner is actually a stronger governance model than a multisig, providing on-chain depositor governance rather than relying on a fixed signer set.**
+**NOTE: V2 introduces an Aragon DAO as Owner (replacing the V1 5-of-8 Safe), a specialized Revoker/Sentinel (replacing V1 Guardian), and retains the same 2-of-5 Curator Safe. S-KM-01 and S-KM-03 score Mid (3) because the Aragon DAO's governance parameters (voting power distribution, quorum requirements, proposal thresholds) could not be verified on-chain -- classified as Source Missing. This contrasts with V1's 5-of-8 Safe which is directly verifiable via Safe API.**
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| S-KM-01 | Who controls admin and upgrade keys for contracts holding user funds? | Owner: Aragon DAO (ERC1967 proxy at 0xFb345Ae28cCe3C55481190771e8c6D18c0f3D279) -- on-chain permission-based governance, not a traditional Safe multisig. The DAO uses Aragon OSx with EXECUTE_PERMISSION_ID controls. Curator: Gnosis Safe 2-of-5 multisig (0x827e86072B06674a077f592A531dcE4590aDeCdB, verified via Safe API). Sentinel: Revoker contract (0xc41F4709d0B9D637675aca1bF228732259d1606f) restricting sentinel to only call revoke. All role changes visible on-chain. | 9 | 9 | Non-Improvable (optimal) | [P0] [Safe API - Curator](https://safe-transaction-mainnet.safe.global/api/v1/safes/0x827e86072B06674a077f592A531dcE4590aDeCdB/), [P0] [Etherscan Owner DAO](https://etherscan.io/address/0xFb345Ae28cCe3C55481190771e8c6D18c0f3D279), [P0] [Etherscan Sentinel](https://etherscan.io/address/0xc41F4709d0B9D637675aca1bF228732259d1606f) |
+| S-KM-01 | Who controls admin and upgrade keys for contracts holding user funds? | Owner: Aragon DAO proxy (0xFb345Ae28cCe3C55481190771e8c6D18c0f3D279, ERC1967Proxy to Aragon OSx DAO implementation). This is a DAO contract, not a multisig -- voting power distribution and decision-making process not publicly verified. Curator: Gnosis Safe 2-of-5 multisig (0x827e86072B06674a077f592A531dcE4590aDeCdB, verified via Safe API). Sentinel: Revoker contract (0xc41F4709d0B9D637675aca1bF228732259d1606f) restricting sentinel to only call revoke. All role changes visible on-chain. | 3 | 9 | **Source Missing** | [P0] [Safe API - Curator](https://safe-transaction-mainnet.safe.global/api/v1/safes/0x827e86072B06674a077f592A531dcE4590aDeCdB/), [P0] [Etherscan Owner DAO](https://etherscan.io/address/0xFb345Ae28cCe3C55481190771e8c6D18c0f3D279), [P0] [Etherscan Sentinel](https://etherscan.io/address/0xc41F4709d0B9D637675aca1bF228732259d1606f) |
 | S-KM-02 | Can any single key move user funds or upgrade custody contracts? | No. V2 vault contract is non-upgradeable. Moving user funds requires going through Morpho Blue immutable contract logic. Owner (Aragon DAO) controls curator/sentinel appointment with per-function timelocks (7 days for critical operations). Curator timelocked operations require 7-day delay. Sentinel can only revoke pending actions. Permissionless redemption always available via ERC4626. The V2 forceDeallocate function is permissionless (anyone can call) but includes a penalty mechanism to prevent abuse. | 9 | 9 | Non-Improvable (optimal) | [P0] [Morpho V2 GraphQL API](https://api.morpho.org/graphql), [P1] [GitHub V2](https://github.com/morpho-org/vault-v2) |
-| S-KM-03 | How decentralized and robust is the multisig for critical actions? | Owner is an Aragon DAO -- more decentralized than a fixed multisig as any depositor can participate in governance. Curator is a 2-of-5 Safe (verified via Safe API: 5 distinct owner addresses). One signer identified on Etherscan as "Steakhouse Financial: Deployer" (pitmaster.eth, 0x0D61C8b6CA9669A36F351De3AE335e9689dd9C5b). The Aragon DAO owner exceeds the 3-of-5 minimum requirement as it provides depositor-proportional governance. However, the 2-of-5 Curator Safe has a lower threshold than ideal for a timelocked role. Owner DAO compensates. | 9 | 9 | Non-Improvable (optimal) | [P0] [Safe API - Curator](https://safe-transaction-mainnet.safe.global/api/v1/safes/0x827e86072B06674a077f592A531dcE4590aDeCdB/), [P0] [Etherscan Owner DAO](https://etherscan.io/address/0xFb345Ae28cCe3C55481190771e8c6D18c0f3D279) |
+| S-KM-03 | How decentralized and robust is the multisig for critical actions? | Owner is an Aragon DAO -- claimed to provide depositor-proportional governance, but DAO voting power distribution, quorum requirements, and proposal thresholds could not be verified on-chain. Per framework: "If signer identities are fully unknown, independence cannot be confirmed -- score Mid (3) at best, classify as Source Missing." Curator is a 2-of-5 Safe (verified via Safe API: 5 distinct owner addresses). One signer identified on Etherscan as "Steakhouse Financial: Deployer" (pitmaster.eth, 0x0D61C8b6CA9669A36F351De3AE335e9689dd9C5b). | 3 | 9 | **Source Missing** | [P0] [Safe API - Curator](https://safe-transaction-mainnet.safe.global/api/v1/safes/0x827e86072B06674a077f592A531dcE4590aDeCdB/), [P0] [Etherscan Owner DAO](https://etherscan.io/address/0xFb345Ae28cCe3C55481190771e8c6D18c0f3D279) |
 | S-KM-04 | How constrained are pause, blocklist and withdrawal-control permissions? | No address-level blocking capability. No pause function on Morpho Blue (immutable) or V2 vault. Sentinel can only revoke pending timelocked actions. V2 adds Gates system for controlling share/asset transfers, but gates are timelocked (7 days) to change. Withdrawals always permissionless via direct smart contract interaction. V2's forceDeallocate adds a permissionless exit path even for illiquid adapter positions. Rules publicly documented. | 9 | 9 | Non-Improvable (optimal) | [P1] [GitHub V2](https://github.com/morpho-org/vault-v2), [P1] [Morpho Roles](https://docs.morpho.org/curate/concepts/roles/) |
 | S-KM-05 | Are all user assets held in non-custodial smart contracts? | Yes. 100% of user assets held in non-custodial smart contracts: V2 vault -> V1 adapter -> V1 MetaMorpho -> Morpho Blue markets. All on Ethereum. Permissionless redemption via ERC4626. No off-chain custody component. | 9 | 9 | Non-Improvable (optimal) | [P0] [Etherscan V2 Vault](https://etherscan.io/address/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9), [P0] [Etherscan V1 Adapter](https://etherscan.io/address/0x233a0097F9D931A435Ba92ebb832a34c39135696) |
 | S-KM-06 | Are user funds fully segregated from treasury and operational wallets? | Yes. Clear on-chain segregation. Morpho is a nonprofit with no profit extraction from protocol operations. Vault funds flow through the adapter to Morpho Blue markets, fully separate from any treasury or operational wallets. Performance fee is 0%, management fee is 0%. | 9 | 9 | Non-Improvable (optimal) | [P0] [Morpho V2 GraphQL API](https://api.morpho.org/graphql), [P1] [Legal Notice](https://morpho.org/legal-notice/) |
 | S-KM-07 | What are the whitelisted protocols the vault strategy can interact with? | V2 uses an adapter registry and adapter whitelist. Currently only one adapter registered: MorphoVaultV1Adapter (0x233a0097F9D931A435Ba92ebb832a34c39135696) pointing to the V1 steakUSDT vault (0xBEEF047a). Adding new adapters requires Curator + 7-day timelock. The underlying V1 vault markets are: wstETH/USDT, sUSDS/USDT, WBTC/USDT, cbBTC/USDT, XAUt/USDT. New market additions on V1 also require Curator + 7-day timelock + Guardian veto. | 9 | 9 | Non-Improvable (optimal) | [P0] [Morpho V2 GraphQL API](https://api.morpho.org/graphql), [P0] [Etherscan V1 Adapter](https://etherscan.io/address/0x233a0097F9D931A435Ba92ebb832a34c39135696), [P0] [Morpho V1 API](https://api.morpho.org/graphql) |
 | S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | Partial. Guardian drill conducted January 2024 for V1 vaults demonstrated the veto mechanism but revealed low participation (only one depositor voted, though quorum was met). V2 vault has a Sentinel/Revoker contract rather than a depositor-governed Guardian -- the Revoker can only call revoke, narrowing the scope but also meaning no depositor participation in emergency veto for V2. No comprehensive public key rotation playbook. No tabletop exercise for V2-specific scenarios (DAO compromise, curator compromise) documented. | 3 | 9 | **Improvable** | [P2] [Guardian Report](https://kitchen.steakhouse.financial/p/steakusdc-guardian-report), [P0] [Etherscan Sentinel](https://etherscan.io/address/0xc41F4709d0B9D637675aca1bF228732259d1606f) |
 
-**Key Management Subtotal: 165.0/180 (91.7%)**
-- 7 questions scored 9 (sum = 63), 1 question scored 3 (sum = 3)
-- Raw sum = 66 out of max 72
-- Weighted = (66/72) x 180 = 165.0
+**Key Management Subtotal: 135.0/180 (75.0%)**
+- 5 questions scored 9 (sum = 45), 3 questions scored 3 (sum = 9)
+- Raw sum = 54 out of max 72
+- Weighted = (54/72) x 180 = 135.0
 
 ---
 
-### **Security Total: 323.2/360 (89.8%)**
+### **Security Total: 293.2/360 (81.4%)**
 
 | Subcategory | Current | Max | Current % |
 |-------------|---------|-----|-----------|
 | Smart Contract Security | 158.2 | 180 | 87.9% |
-| Key Management | 165.0 | 180 | 91.7% |
-| **Security Total** | **323.2** | **360** | **89.8%** |
+| Key Management | 135.0 | 180 | 75.0% |
+| **Security Total** | **293.2** | **360** | **81.4%** |
 
 ---
 
-### STRATEGY (30% Weight) -- Score: 239.8/270 (88.8%)
+### STRATEGY (30% Weight) -- Score: 233.8/270 (86.6%)
 
 #### Protocol Mechanics (5% weight, 45 max points)
 
@@ -170,20 +170,20 @@
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| ST-M-01 | How has the LST or receipt token peg performed under market stress? | V2 vault shares trade at NAV (representing 1:1 USDT claim plus accrued yield). Only 39 holders and 161 transactions to date (vault is ~125 days old). No depeg history. During the vault's operational period, share value has remained stable with consistent yield accrual. Given limited stress-test history for this specific V2 vault, but the underlying V1 vault has proven peg stability, scoring Low. | 9 | 9 | Non-Improvable (optimal) | [P0] [Morpho V2 GraphQL API](https://api.morpho.org/graphql), [P3] [Vaults.fyi](https://app.vaults.fyi/opportunity/mainnet/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9) |
+| ST-M-01 | How has the LST or receipt token peg performed under market stress? | V2 vault shares trade at NAV (representing 1:1 USDT claim plus accrued yield). Only 39 holders and 161 transactions to date (vault is ~125 days old). No depeg history. The V2 vault token itself has no demonstrated stress resilience -- while the underlying V1 vault maintained stable value through November 2025 stress, the V2 token has not been tested. Per framework scoring principle: untested protocols should score Mid (3) on resilience questions. | 3 | 3 | Non-Improvable | [P0] [Morpho V2 GraphQL API](https://api.morpho.org/graphql), [P3] [Vaults.fyi](https://app.vaults.fyi/opportunity/mainnet/0xbeef003C68896c7D2c3c60d363e8d71a49Ab2bf9) |
 | ST-M-02 | How likely can adverse crypto market moves cause permanent losses due to directional exposure? | Mostly low but with USDT-specific caveat. Vault lends USDT -- deposits and returns are USDT-denominated. No directional BTC/ETH exposure for lenders. Risk is borrower default/bad debt, not market direction. However, depositors are inherently exposed to USDT value: if USDT depegs (S&P rated Tether stability "weak"), depositors lose purchasing power even without bad debt. Scoring Mid to reflect this USDT denomination risk. | 3 | 3 | Non-Improvable | [P4] [S&P Tether Report](https://www.theblock.co/post/380562/tether-usdt-stability-score-weak-sp-reserves-cant-absorb-bitcoin-drop) |
 | ST-M-03 | Are interest rate/incentive models robust during TVL shifts or volatility spikes? | Yes. Immutable Adaptive Curve IRM per market. Rates auto-increase with utilization (4x multiplier at 100% utilization). No governance manipulation possible. Rate curves become steep as utilization approaches critical levels. | 9 | 9 | Non-Improvable (optimal) | [P1] [Risk Docs](https://docs.morpho.org/learn/resources/risks) |
 | ST-M-04 | Have historic scenarios with high market volatility been explicitly modeled? | Yes. 86% LLTV on wstETH/WBTC markets provides 14% buffer; 77% LLTV on xAUT provides 23% buffer; 96.5% LLTV on sUSDS provides only 3.5% buffer (designed for low-volatility stablecoin collateral). Liquidation mechanism formally verified by Certora. Pre-liquidation mechanism available for additional safety. | 9 | 9 | Non-Improvable (optimal) | [P1] [Formal Verification](https://morpho.org/blog/formally-verifying-morpho-blue-with-certorav/) |
 | ST-M-05 | Can sharp price moves trigger forced liquidations that crystallize losses? | Borrower-side only. Vault lenders benefit from liquidations (5% LIF goes to liquidators). Risk to lenders: insufficient or slow liquidation creating bad debt that gets socialized. Mitigated by economic incentives for liquidators. Primary collateral (wstETH at 86% LLTV) has ~14% buffer. sUSDS at 96.5% LLTV has thin 3.5% buffer but is a stablecoin product with low volatility. | 9 | 9 | Non-Improvable (optimal) | [P1] [Liquidation](https://docs.morpho.org/learn/concepts/liquidation/) |
 
-**Market Subtotal: 39.0/45 (86.7%)**
-- 4 questions scored 9 (sum = 36), 1 question scored 3 (sum = 3)
-- Raw sum = 39 out of max 45
-- Weighted = (39/45) x 45 = 39.0
+**Market Subtotal: 33.0/45 (73.3%)**
+- 3 questions scored 9 (sum = 27), 2 questions scored 3 (sum = 6)
+- Raw sum = 33 out of max 45
+- Weighted = (33/45) x 45 = 33.0
 
 ---
 
-### **Strategy Total: 239.8/270 (88.8%)**
+### **Strategy Total: 233.8/270 (86.6%)**
 
 | Subcategory | Current | Max | Current % |
 |-------------|---------|-----|-----------|
@@ -192,29 +192,29 @@
 | Infra Counterparty | 37.5 | 45 | 83.3% |
 | Protocol Counterparty | 45.0 | 45 | 100.0% |
 | Liquidity | 35.0 | 45 | 77.8% |
-| Market | 39.0 | 45 | 86.7% |
+| Market | 33.0 | 45 | 73.3% |
 
-| **Strategy Total** | **239.8** | **270** | **88.8%** |
+| **Strategy Total** | **233.8** | **270** | **86.6%** |
 
 ---
 
-### OPERATIONS (30% Weight) -- Score: 239.0/270 (88.5%)
+### OPERATIONS (30% Weight) -- Score: 227.75/270 (84.4%)
 
-**NOTE: All Operations scores are IDENTICAL to the existing Steakhouse USDC and USDT V1 ratings. Same curator, same team, same legal entity, same governance model, same documentation, same treasury.**
+**NOTE: Most Operations scores are identical to the existing Steakhouse V1 ratings (same curator, team, legal entity, documentation, treasury). O-G-02 differs because the V2 Owner DAO's voting power distribution could not be verified on-chain, unlike the V1 Guardian DAO which is documented as depositor-proportional.**
 
 #### Governance (7.5% weight, 67.5 max points)
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | O-G-01 | What governance model controls protocol changes and upgrades? | Hybrid with strong checks. Morpho Blue: immutable. V2 vault changes: require Curator (timelocked) + Sentinel can revoke + Owner (Aragon DAO) sets curator/sentinel. V1 vault changes: require Owner multisig (5-of-8 Safe) + 7-day timelock + Guardian veto (Aragon DAO). Per-function timelocks in V2 provide granular control. | 9 | 9 | Non-Improvable (optimal) | [P0] [Morpho V2 GraphQL API](https://api.morpho.org/graphql), [P1] [GitHub V2](https://github.com/morpho-org/vault-v2) |
-| O-G-02 | How concentrated is voting power among top holders or delegates? | V2 Owner is an Aragon DAO with permission-based governance. Guardian voting power for V1 is distributed proportionally across depositors. No single entity can unilaterally control the vault. 39 V2 vault holders as of rating date. | 9 | 9 | Non-Improvable (optimal) | [P0] [Etherscan Owner DAO](https://etherscan.io/address/0xFb345Ae28cCe3C55481190771e8c6D18c0f3D279) |
+| O-G-02 | How concentrated is voting power among top holders or delegates? | The V2 Owner is an Aragon DAO proxy. Steakhouse describes V1 guardian DAOs as "composed of depositors" with proportional voting -- if this applies to the V2 Owner DAO, then voting power is distributed across depositors (currently 39 holders). However, the specific DAO configuration (quorum, proposal threshold, voting power distribution) could not be verified on-chain. The DAO has minimal on-chain activity. Without verifiable voting distribution, scored Mid (3). | 3 | 9 | **Source Missing** | [P0] [Etherscan Owner DAO](https://etherscan.io/address/0xFb345Ae28cCe3C55481190771e8c6D18c0f3D279) |
 | O-G-03 | Are mechanisms in place to limit major changes like timelocks and veto? | Yes. V2 per-function timelocks: 7 days for critical operations (adapter changes, cap increases, gate changes, timelock increases, abdicate). Sentinel can revoke pending timelocked actions. The abdicate function allows permanently disabling specific curator functions -- an irreversible safety measure. V1 also has 7-day timelock + Guardian veto. | 9 | 9 | Non-Improvable (optimal) | [P0] [Morpho V2 GraphQL API](https://api.morpho.org/graphql), [P1] [GitHub V2](https://github.com/morpho-org/vault-v2) |
 | O-G-04 | Can the protocol replace the strategy manager without blocking user withdrawals? | Yes. Owner (Aragon DAO) can appoint new Curator. Withdrawals remain permissionless throughout via ERC4626 standard. V2's forceDeallocate provides additional permissionless exit path. | 9 | 9 | Non-Improvable (optimal) | [P1] [GitHub V2](https://github.com/morpho-org/vault-v2) |
 
-**Governance Subtotal: 67.5/67.5 (100.0%)**
-- 4 questions, all scored 9
-- Raw sum = 36 out of max 36
-- Weighted = (36/36) x 67.5 = 67.5
+**Governance Subtotal: 56.25/67.5 (83.3%)**
+- 3 questions scored 9 (sum = 27), 1 question scored 3 (sum = 3)
+- Raw sum = 30 out of max 36
+- Weighted = (30/36) x 67.5 = 56.25
 
 ---
 
@@ -274,15 +274,15 @@
 
 ---
 
-### **Operations Total: 239.0/270 (88.5%)**
+### **Operations Total: 227.75/270 (84.4%)**
 
 | Subcategory | Current | Max | Current % |
 |-------------|---------|-----|-----------|
-| Governance | 67.5 | 67.5 | 100.0% |
+| Governance | 56.25 | 67.5 | 83.3% |
 | Team & Legal | 57.5 | 67.5 | 85.2% |
 | Documentation | 67.5 | 67.5 | 100.0% |
 | Financial Resilience | 46.5 | 67.5 | 68.9% |
-| **Operations Total** | **239.0** | **270** | **88.5%** |
+| **Operations Total** | **227.75** | **270** | **84.4%** |
 
 ---
 
@@ -291,20 +291,20 @@
 | Category | Subcategory | Raw Score | Max Raw | Adj Points | Max Points | Percentage |
 |----------|-------------|-----------|---------|------------|------------|------------|
 | **Security** | Smart Contract Security (11 Q) | 87 | 99 | 158.2 | 180 | 87.9% |
-| | Key Management (8 Q) | 66 | 72 | 165.0 | 180 | 91.7% |
-| | **Security Subtotal** | | | **323.2** | **360** | **89.8%** |
+| | Key Management (8 Q) | 54 | 72 | 135.0 | 180 | 75.0% |
+| | **Security Subtotal** | | | **293.2** | **360** | **81.4%** |
 | **Strategy** | Protocol Mechanics (9 of 10 Q scored) | 69 | 81 | 38.3 | 45 | 85.2% |
 | | Collateral (4 Q) | 36 | 36 | 45.0 | 45 | 100.0% |
 | | Infra Counterparty (8 Q) | 60 | 72 | 37.5 | 45 | 83.3% |
 | | Protocol Counterparty (5 Q) | 45 | 45 | 45.0 | 45 | 100.0% |
 | | Liquidity (9 Q) | 63 | 81 | 35.0 | 45 | 77.8% |
-| | Market (5 Q) | 39 | 45 | 39.0 | 45 | 86.7% |
-| | **Strategy Subtotal** | | | **239.8** | **270** | **88.8%** |
-| **Operations** | Governance (4 Q) | 36 | 36 | 67.5 | 67.5 | 100.0% |
+| | Market (5 Q) | 33 | 45 | 33.0 | 45 | 73.3% |
+| | **Strategy Subtotal** | | | **233.8** | **270** | **86.6%** |
+| **Operations** | Governance (4 Q) | 30 | 36 | 56.25 | 67.5 | 83.3% |
 | | Team & Legal (9 Q) | 69 | 81 | 57.5 | 67.5 | 85.2% |
 | | Documentation (6 Q) | 54 | 54 | 67.5 | 67.5 | 100.0% |
 | | Financial Resilience (5 Q) | 31 | 45 | 46.5 | 67.5 | 68.9% |
-| | **Operations Subtotal** | | | **239.0** | **270** | **88.5%** |
-| **TOTAL** | | | | **802.0** | **900** | **89.1%** |
+| | **Operations Subtotal** | | | **227.75** | **270** | **84.4%** |
+| **TOTAL** | | | | **754.75** | **900** | **83.9%** |
 
 ---

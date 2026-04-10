@@ -1,15 +1,15 @@
 # Valantis - stHYPE Risk Rating
 
-**Rating Date**: 2026-04-08
-**Final Grade**: B+
-**Total Score**: 734.1/900 points
+**Rating Date**: 2026-04-10
+**Final Grade**: BB+
+**Total Score**: 789.0/900 points
 **Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-beta
 
 ---
 
 ## Detailed Analysis
 
-### SECURITY (40% Weight) - Score: 303.9/360 (84.4%)
+### SECURITY (40% Weight) - Score: 332.0/360 (92.2%)
 
 #### Smart Contract Security (20% weight, 180 max points)
 
@@ -19,7 +19,7 @@
 | S-SC-02 | Who performed the most recent audit and what is their reputation tier? | Most recent audits by Pashov (Tier-1), Three Sigma (Tier-2), and Guardian (Tier-1). At least one Tier-1 auditor among the most recent. | 9 | 9 | Non-Improvable (optimal) | [P1] [Valantis Audits](https://docs.valantis.xyz/resources/audits#sthype) |
 | S-SC-03 | Have upgrades to core contracts been followed by new audits? | Yes. New audits from Guardian and Pashov, as well as an additional security review in Oct-Nov 2025, followed development changes since the initial Three Sigma audit in February 2025. | 9 | 9 | Non-Improvable (optimal) | [P1] [Valantis Audits](https://docs.valantis.xyz/resources/audits#sthype) |
 | S-SC-04 | Have all critical and high-severity audit findings been fully remediated and re-verified? | Yes. No critical findings exist across all stHYPE audits. A total of two high-severity findings were identified and remediated. Pashov and Guardian audits confirmed all issues were addressed, with fixes verified via commit hashes. | 9 | 9 | Non-Improvable (optimal) | [P1] [Valantis Audits](https://docs.valantis.xyz/resources/audits#sthype), [P0] Audit reports (Google Drive screenshots) |
-| S-SC-05 | Are core contracts upgradeable and how tightly are upgrades constrained? | Yes, contracts are upgradeable. Audits confirmed upgradeability and noted role-based access controls (e.g., DEFAULT_ADMIN_ROLE) governing sensitive operations. Events like DefaultAdminTransferScheduled and RoleGranted support upgrade traceability. However, no publicly documented upgrade policy with timelock >=24h exists. | 3 | 9 | **Improvable** | [P0] [HyperEVMScan Events](https://hyperevmscan.io/address/0xffaa4a3d97fe9107cef8a3f48c069f577ff76cc1#events), [P1] Audit reports |
+| S-SC-05 | Are core contracts upgradeable and how tightly are upgrades constrained? | Yes, contracts are upgradeable via governance/multisig with a 48-hour on-chain timelock enforced across every stHYPE contract (Overseer, stHYPE, wstHYPE, and all 7 staking modules) as of April 10, 2026. All contracts now use an OpenZeppelin TimelockController as proxyAdmin owner. There is no bypass mechanism for proxy upgrades without timelock restriction. Upgrade roles are narrow and the policy is publicly documented in the Roles and Controls Registry changelog. | 9 | 9 | Non-Improvable (optimal) | [P1] [Roles and Controls Registry - 48h Timelock](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry#id-2026-04-10-upgrade-all-proxy-contracts-with-48-hour-timelock), [P1] Audit reports |
 | S-SC-06 | Has any on-chain exploit or critical bug affecting user funds occurred? | No exploits or malfunctions recorded for stHYPE. | 9 | 9 | Non-Improvable (optimal) | Analytical Research |
 | S-SC-07 | Has any confirmed rug-pull event occurred? | No rug-pull events reported. | 9 | 9 | Non-Improvable (optimal) | Analytical Research |
 | S-SC-08 | Were there reductions to the timelock delay that weaken governance protections? | No events recorded for DefaultAdminDelayChangeScheduled or DefaultAdminDelayChangeCanceled on the stHYPE contract. | 9 | 9 | Non-Improvable (optimal) | [P0] [Purrsec Contract](https://purrsec.com/address/0xffaa4a3d97fe9107cef8a3f48c069f577ff76cc1/contract), [P0] Block explorers |
@@ -27,7 +27,7 @@
 | S-SC-10 | Are real-time security monitoring and alerting systems in place? | Published Monitoring and Incident Response page with invariant-first two-layer model: automatic on-chain safety checks block unsafe actions, off-chain systems provide detection, paging, and incident coordination. Coverage domains include control-plane events, queue/solvency signals, rebase/slashing-accounting signals. SEV-1/2/3 severity classes with timezone-distributed on-call. Comprehensive monitoring infrastructure with documented Safety Control Matrix demonstrates a structured and reputable monitoring setup. | 9 | 9 | Non-Improvable (optimal) | [P1] [Monitoring and Incident Response](https://docs.valantis.xyz/stakedhype/monitoring-and-incident-response) |
 | S-SC-11 | Are automatic safety controls (pause, circuit breakers) triggered by monitoring alerts? | Published Safety Control Matrix with automatic on-chain protections: pending-slash gating blocks unsafe mint/redeem paths when staking balance changes are detected, rebase bounds revert unsafe supply transitions (SupplyDecreaseTooHigh, AprTooHigh). Operator-confirmed pause controls bounded by on-chain time limits (<=14 days). Automatic protections are embedded in contract logic with clear, deterministic invariant rules. | 9 | 9 | Non-Improvable (optimal) | [P1] [Safety Control Matrix](https://docs.valantis.xyz/stakedhype/monitoring-and-incident-response#safety-control-matrix) |
 
-**Smart Contract Security Subtotal: 87/99 = (87/99) x 180 = 158.2/180 (87.9%)**
+**Smart Contract Security Subtotal: 93/99 = (93/99) x 180 = 169.1/180 (93.9%)**
 **Potential: (99/99) x 180 = 180.0/180**
 
 ---
@@ -39,29 +39,29 @@
 | S-KM-01 | Who controls admin and upgrade keys for contracts holding user funds? | Admin rights held by multisig via DEFAULT_ADMIN_ROLE and ProxyAdmin ownership. Published Roles and Controls Registry with dated changelog documenting all historical admin/upgrade events including the 2025-08-22 ownership transition, with on-chain transaction links. All changes in last 12 months publicly documented with rationale. | 9 | 9 | Non-Improvable (optimal) | [P1] [Roles and Controls Registry](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry) |
 | S-KM-02 | Can any single key move user funds or upgrade custody contracts? | Single key cannot directly drain funds; changes require multisig/governance. | 9 | 9 | Non-Improvable (optimal) | [P1] [Governance Overview](https://docs.stakedhype.fi/technical/security#governance-overview-2) |
 | S-KM-03 | How decentralized and robust is the multisig for critical actions? | Admin multisig (0x97dEe0eA4Ca10560f260A0f6f45bdC128A1D51f9) operates with a 4-of-6 threshold. All six signer addresses are publicly disclosed. Signers spread across timezones with isolated devices, cold wallets, and verified signing software. On April 7, 2026, the threshold was increased from 3/5 to 4/6 with two signers rotated to a more secure standardized setup, all documented in the Roles and Controls Registry changelog. | 9 | 9 | Non-Improvable (optimal) | [P1] [Roles and Controls Registry](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry), [P1] [Admin Setup](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry#admin-setup), [P1] [Signer Rotation Changelog](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry#id-2026-04-07-sthype-multisig-signer-rotation) |
-| S-KM-04 | How constrained are pause, blocklist and withdrawal-control permissions? | Pause/controls exist with broad scope but require multisig and are at least partially documented. Full constraint details not public. | 3 | 9 | **Improvable** | [P1] [Valantis Audits](https://docs.valantis.xyz/resources/audits#sthype) |
+| S-KM-04 | How constrained are pause, blocklist and withdrawal-control permissions? | Pause controls are time-bound, scope-limited, and require multisig. Overseer pause windows are bounded by setPauseDuration (>0 and <=14 days, default 7 days). stHYPE pause controls are role-gated by PAUSER_ROLE (pauseTransfer, pauseMint, pauseBurn, pauseRebase), and Overseer pause controls are role-gated by DEFAULT_ADMIN_ROLE. As of April 10, 2026, `setSelfDisableTransfer(address,bool)` has been removed from both stHYPE and wstHYPE — there are no admin-held address-level transfer restrictions. All rules are public in the Roles and Controls Registry. | 9 | 9 | Non-Improvable (optimal) | [P1] [Roles and Controls Registry - Remove Address-Level Restrictions](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry#id-2026-04-10-remove-admin-address-level-transfer-restrictions), [P1] [Monitoring and Incident Response](https://docs.valantis.xyz/stakedhype/monitoring-and-incident-response) |
 | S-KM-05 | Are all user assets held in non-custodial smart contracts? | Yes. Smart contracts hold all assets; no custodian access. All staked HYPE is held on-chain. | 9 | 9 | Non-Improvable (optimal) | [P1] [Institutional Primer](https://www.stakedhype.fi/institutional.pdf), [P0] On-chain verification |
 | S-KM-06 | Are user funds fully segregated from treasury and operational wallets? | Segregated; staking pool is separate from treasury/operational wallets. | 9 | 9 | Non-Improvable (optimal) | [P1] [Transparency and Risks](https://docs.stakedhype.fi/info/transparency-and-risks) |
 | S-KM-07 | What are the whitelisted protocols the vault strategy can interact with? | N/A - stHYPE is a liquid staking token, not a vault strategy. | N/A | N/A | N/A | - |
 | S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | Published Monitoring and Incident Response page documenting incident classes including privileged-key/control-plane incidents, severity-based escalation, and role-bounded emergency controls. Key-compromise and signer-loss response procedures rehearsed internally through STEX operations and stHYPE acquisition. However, no public evidence of formal tabletop exercises. | 3 | 9 | **Improvable** | [P1] [Monitoring and Incident Response](https://docs.valantis.xyz/stakedhype/monitoring-and-incident-response) |
 
 **Key Management Subtotal (7 scored questions, 1 N/A):**
-- Raw scores: 9+9+9+3+9+9+3 = 51/63
-- Adjusted to weight: (51/63) x 180 = **145.7/180 (81.0%)**
+- Raw scores: 9+9+9+9+9+9+3 = 57/63
+- Adjusted to weight: (57/63) x 180 = **162.9/180 (90.5%)**
 - Potential: (63/63) x 180 = 180.0/180
 
 Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 
 ---
 
-**Security Total: 158.2 + 145.7 = 303.9/360 (84.4%)**
-**Security Grade: BB-** (falls in 294.0-304.0 range)
+**Security Total: 169.1 + 162.9 = 332.0/360 (92.2%)**
+**Security Grade: BBB** (falls in 328.8-333.6 range)
 
 **Potential Security: 180.0 + 180.0 = 360.0/360 (AAA)**
 
 ---
 
-### STRATEGY (30% Weight) - Score: 245.1/270 (90.8%)
+### STRATEGY (30% Weight) - Score: 249.4/270 (92.4%)
 
 #### Protocol Mechanics (5% weight, 45 max points)
 
@@ -135,7 +135,7 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| ST-L-01 | How are withdrawals executed and can they be paused, blocked or delayed? | Unstake via HyperCore queue or sell stHYPE on secondary markets. New HYPE staked via stHYPE minting must first settle queued user withdrawals before being staked to any Staking Module. However, withdrawals and token burning can be paused by admin. | 3 | 9 | **Improvable** | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts), [P1] [GitHub Audits](https://github.com/thunderhead-labs/audits/tree/main/stHYPE) |
+| ST-L-01 | How are withdrawals executed and can they be paused, blocked or delayed? | Withdrawals are user-triggered on-chain via burn, burnAndRedeemIfPossible, and redeem. No operator has the ability to delay or cancel specific user withdrawals through the redemption queue. Pause controls exist but are time-bound (Overseer pause duration <=14 days, default 7 days), role-gated to multisig, and documented publicly. As of April 10, 2026, `setSelfDisableTransfer(address,bool)` has been removed from both stHYPE and wstHYPE, eliminating any admin-held address-level transfer blocking. No mechanism allows arbitrary address-level censorship of withdrawals. | 9 | 9 | Non-Improvable (optimal) | [P1] [Roles and Controls Registry - Remove Address-Level Restrictions](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry#id-2026-04-10-remove-admin-address-level-transfer-restrictions), [P1] [Monitoring and Incident Response](https://docs.valantis.xyz/stakedhype/monitoring-and-incident-response), [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts) |
 | ST-L-02 | Is there enough liquidity to redeem close to 100% of TVL within stated withdrawal time? | You can withdraw, but you have to wait. In-protocol redemption is available via standard unstaking. Near-total exits would require extended processing through the queue. | 9 | 9 | Non-Improvable (optimal) | Analytical Research |
 | ST-L-03 | Have there been past withdrawal delays, queues or freezes? | The average withdrawal time over the checked period (May 2025 to mid-May 2026) oscillated around 7.2 days, matching the protocol's guarantees. The median was even lower thanks to mostly instant unstaking in recent weeks. | 9 | 9 | Non-Improvable (optimal) | Analytical Research (on-chain data) |
 | ST-L-04 | Do caps or limits restrict timely redemptions during high utilization? | N/A - Lending/Vault only question per product type modifiers. | N/A | N/A | N/A | - |
@@ -146,8 +146,8 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 | ST-L-09 | What is the risk of bank-run scenarios under full utilization? | N/A - Lending/Vault only question per product type modifiers. | N/A | N/A | N/A | - |
 
 **Liquidity Subtotal (7 scored questions, 2 N/A):**
-- Raw scores: 3+9+9+9+3+9+3 = 45/63
-- Adjusted: (45/63) x 45 = **32.1/45 (71.4%)**
+- Raw scores: 9+9+9+9+3+9+3 = 51/63
+- Adjusted: (51/63) x 45 = **36.4/45 (81.0%)**
 - Potential: (57/63) x 45 = 40.7/45 (ST-L-06 non-improvable at 3)
 
 ---
@@ -168,14 +168,14 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 
 ---
 
-**Strategy Total: 45.0 + 45.0 + 45.0 + 33.0 + 32.1 + 45.0 = 245.1/270 (90.8%)**
-**Strategy Grade: BBB-** (falls in 243.0-246.6 range)
+**Strategy Total: 45.0 + 45.0 + 45.0 + 33.0 + 36.4 + 45.0 = 249.4/270 (92.4%)**
+**Strategy Grade: BBB** (falls in 246.6-250.2 range)
 
 **Potential Strategy: 45.0 + 45.0 + 45.0 + 45.0 + 40.7 + 45.0 = 265.7/270 (AA)**
 
 ---
 
-### OPERATIONS (30% Weight) - Score: 185.1/270 (68.6%)
+### OPERATIONS (30% Weight) - Score: 207.6/270 (76.9%)
 
 #### Governance (7.5% weight, 67.5 max points)
 
@@ -183,12 +183,12 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 |------|----------|----------------|---------|-----------|----------------|----------|
 | O-G-01 | What governance model controls protocol changes and upgrades? | Hybrid governance model: team multisig with community veto. Not fully on-chain tokenholder governance; multisig can execute some changes within documented bounds. | 3 | 9 | **Improvable** | [P1] [Institutional Primer](https://www.stakedhype.fi/institutional.pdf) |
 | O-G-02 | How concentrated is voting power among top holders or delegates? | N/A - Protocol has no governance token and uses pure multisig governance with no on-chain voting. Per framework applicability check, mark N/A when no governance token exists; governance concentration for multisig-controlled protocols is captured in S-KM-01 and S-KM-03. | N/A | N/A | N/A | - |
-| O-G-03 | Are mechanisms in place to limit major changes like timelocks and veto? | Community veto exists. ABIs for stHYPE and Overseer show timelocks and delay parameters. Documentation is not explicit enough on the delay duration. | 3 | 9 | **Improvable** | [P1] [Institutional Primer](https://www.stakedhype.fi/institutional.pdf) |
+| O-G-03 | Are mechanisms in place to limit major changes like timelocks and veto? | As of April 10, 2026, all stHYPE contracts (Overseer, stHYPE, wstHYPE, and all 7 staking modules) use an OpenZeppelin TimelockController as proxyAdmin owner, enforcing a 48-hour on-chain timelock on every contract change. There is no bypass mechanism for proxy upgrades without the timelock restriction. All major upgrades and sensitive parameter changes are subject to this visible 48h delay. Veto powers are not yet implemented but no broad or undocumented veto mechanism exists. | 9 | 9 | Non-Improvable (optimal) | [P1] [Roles and Controls Registry - 48h Timelock](https://docs.valantis.xyz/stakedhype/roles-and-controls-registry#id-2026-04-10-upgrade-all-proxy-contracts-with-48-hour-timelock) |
 | O-G-04 | Can the protocol replace the strategy manager without blocking user withdrawals? | N/A - Vault only question per product type modifiers. | N/A | N/A | N/A | - |
 
 **Governance Subtotal (2 scored questions, 2 N/A):**
-- Raw scores: 3+3 = 6/18
-- Adjusted: (6/18) x 67.5 = **22.5/67.5 (33.3%)**
+- Raw scores: 3+9 = 12/18
+- Adjusted: (12/18) x 67.5 = **45.0/67.5 (66.7%)**
 - Potential: (18/18) x 67.5 = 67.5/67.5
 
 ---
@@ -236,17 +236,17 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 |------|----------|----------------|---------|-----------|----------------|----------|
 | O-FR-01 | Is there a backstop reserve or safety module for user losses? | No dedicated insurance fund or safety module exists. Team confirmed no guaranteed insolvency backstop. However, team disclosed treasury in the $50k-$200k range, providing some financial buffer albeit small relative to TVL. No formal activation rules for loss recovery. | 3 | 9 | **Improvable** | [P1] [Transparency and Risks](https://docs.valantis.xyz/stakedhype/transparency-and-risks) |
 | O-FR-02 | How large and liquid are the backstop reserves and treasury relative to TVL? | Team disclosed treasury in the $50k-$200k range. While this provides some operational buffer, it represents <0.25% of TVL — insufficient for meaningful loss absorption. No formal resilience-disclosure format yet published. | 3 | 9 | **Improvable** | [P1] [Transparency and Risks](https://docs.valantis.xyz/stakedhype/transparency-and-risks) |
-| O-FR-03 | What is the estimated operational runway at current burn? | Team disclosed sufficient operational runway. Protocol is self-sustaining based on current revenue and maintenance-only operational costs. | 9 | 9 | Non-Improvable (optimal) | Team disclosure |
+| O-FR-03 | What is the estimated operational runway at current burn? | Team disclosed operational runway of ~12-18 months at current growth-phase run rate. Protocol is self-sustaining based on current revenue and maintenance-only operational costs. Covers emergency contingencies and expected future audit costs. | 9 | 9 | Non-Improvable (optimal) | Team disclosure |
 | O-FR-04 | How have TVL, revenue and buffers behaved in past stress events? | The team has published two stHYPE Health Reports, including one covering large withdrawal events, demonstrating documented stress behavior analysis. TVL tracked alongside revenue stability from native HYPE staking. Reports provide recurring documentation of protocol performance including queue health and secondary market resiliency under various conditions. | 9 | 9 | Non-Improvable (optimal) | [P1] [stHYPE Health Reports](https://docs.valantis.xyz/stakedhype/transparency-and-risks#sthype-health-reports), [P1] [stakedhype Analytics](https://www.stakedhype.fi/analytics) |
-| O-FR-05 | Can the protocol remain safe in maintenance mode if team disappears? | Standard modules and base burn/redeem flows are on-chain and user-triggered. For non-standard modules, legal documentation includes automatic triggers obligating HyENA team to return HYPE when stHYPE circulation drops below 1M TVL. External management multisig operated by multiple independent parties. Full autonomy in a no-team scenario not yet guaranteed for non-standard accounts. | 3 | 9 | **Improvable** | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts), [P1] [Transparency and Risks](https://docs.valantis.xyz/stakedhype/transparency-and-risks) |
+| O-FR-05 | Can the protocol remain safe in maintenance mode if team disappears? | Standard modules and base burn/redeem flows are on-chain and user-triggered. For non-standard modules, legal documentation includes automatic triggers obligating HyENA team to return HYPE when stHYPE circulation drops below 1M TVL. External management multisig operated by BasedApp Team, Ethena Foundation, and Valantis Labs. Full autonomy in a no-team scenario not yet guaranteed for non-standard accounts. | 3 | 9 | **Improvable** | [P1] [Stake Accounts](https://docs.valantis.xyz/stakedhype/stake-accounts), [P1] [Transparency and Risks](https://docs.valantis.xyz/stakedhype/transparency-and-risks) |
 
 **Financial Resilience Subtotal: 27/45 = (27/45) x 67.5 = 40.5/67.5 (60.0%)**
 **Potential: (45/45) x 67.5 = 67.5/67.5**
 
 ---
 
-**Operations Total: 22.5 + 54.6 + 67.5 + 40.5 = 185.1/270 (68.6%)**
-**Operations Grade: CCC+** (falls in 174.0-198.0 range)
+**Operations Total: 45.0 + 54.6 + 67.5 + 40.5 = 207.6/270 (76.9%)**
+**Operations Grade: B** (falls in 205.5-213.0 range)
 
 **Potential Operations: 67.5 + 61.1 + 67.5 + 67.5 = 263.6/270 (AA-)**
 
@@ -256,24 +256,24 @@ Note: S-KM-07 marked N/A reduces both numerator and denominator proportionally.
 
 | Category | Subcategory | Weight | Current Score | Max Score | Current % | Potential Score |
 |----------|-------------|--------|---------------|-----------|-----------|-----------------|
-| Security | Smart Contract Security | 20% | 158.2 | 180 | 87.9% | 180.0 |
-| Security | Key Management | 20% | 145.7 | 180 | 81.0% | 180.0 |
-| **Security Total** | | **40%** | **303.9** | **360** | **84.4%** | **360.0** |
+| Security | Smart Contract Security | 20% | 169.1 | 180 | 93.9% | 180.0 |
+| Security | Key Management | 20% | 162.9 | 180 | 90.5% | 180.0 |
+| **Security Total** | | **40%** | **332.0** | **360** | **92.2%** | **360.0** |
 | Strategy | Protocol Mechanics | 5% | 45.0 | 45 | 100.0% | 45.0 |
 | Strategy | Collateral | 5% | 45.0 | 45 | 100.0% | 45.0 |
 | Strategy | Infra Counterparty | 5% | 45.0 | 45 | 100.0% | 45.0 |
 | Strategy | Protocol Counterparty | 5% | 33.0 | 45 | 73.3% | 45.0 |
-| Strategy | Liquidity | 5% | 32.1 | 45 | 71.4% | 40.7 |
+| Strategy | Liquidity | 5% | 36.4 | 45 | 81.0% | 40.7 |
 | Strategy | Market | 5% | 45.0 | 45 | 100.0% | 45.0 |
-| **Strategy Total** | | **30%** | **245.1** | **270** | **90.8%** | **265.7** |
-| Operations | Governance | 7.5% | 22.5 | 67.5 | 33.3% | 67.5 |
+| **Strategy Total** | | **30%** | **249.4** | **270** | **92.4%** | **265.7** |
+| Operations | Governance | 7.5% | 45.0 | 67.5 | 66.7% | 67.5 |
 | Operations | Team & Legal | 7.5% | 54.6 | 67.5 | 80.9% | 61.1 |
 | Operations | Documentation | 7.5% | 67.5 | 67.5 | 100.0% | 67.5 |
 | Operations | Financial Resilience | 7.5% | 40.5 | 67.5 | 60.0% | 67.5 |
-| **Operations Total** | | **30%** | **185.1** | **270** | **68.6%** | **263.6** |
-| **GRAND TOTAL** | | **100%** | **734.1** | **900** | **81.6%** | **889.3** |
+| **Operations Total** | | **30%** | **207.6** | **270** | **76.9%** | **263.6** |
+| **GRAND TOTAL** | | **100%** | **789.0** | **900** | **87.7%** | **889.3** |
 
-**Current Grade: B+** (734.1 falls in 710-735 range)
+**Current Grade: BB+** (789.0 falls in 785-810 range)
 **Potential Grade: AA+** (889.3 falls in 888-894 range)
 
 ---

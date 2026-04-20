@@ -2,7 +2,7 @@
 
 | Version | Release Date |
 |---|---|
-| **v0.1-gamma** | 20.04.2026 |
+| **v0.1-beta** | 24.03.2026 |
 
 ## Security
 
@@ -10,7 +10,7 @@
 
 **Whats the risk of an on-chain protocol exploit?**
 
-- Have all core contracts that hold or route funds been independently audited, including deployment configuration?
+- Have all core contracts that hold or route funds been independently audited?
 - Who performed the most recent audit and what is their reputation tier?
 - Have upgrades to core contracts been followed by new audits?
 - Have all critical and high-severity audit findings been fully remediated and re-verified?
@@ -60,7 +60,7 @@
 - How did each collateral behave versus its underlying during past stress or depegs?
 - How concentrated is exposure to any single collateral or LST?
 - How is validator or slashing risk handled for staking-based collaterals?
-- What share of TVL relies on bridged or wrapped assets, and how robust is the bridge security?
+- What share of TVL relies on bridged or wrapped assets?
 
 ### Infra Counterparty Exposures
 
@@ -74,9 +74,6 @@
 - Has the validator set experienced slashing events that could impact staked collateral?
 - Are validators diverse geographically and by operator?
 - Can any single infra component failure alone block withdrawals or cause losses?
-- How robust is the cross-chain messaging or bridge verification setup?
-- Are rate limits or circuit breakers enforced on cross-chain escrow releases or minting?
-- Is the off-chain verification infrastructure resilient to data-source manipulation?
 
 ### Protocol Counterparty Exposures
 
@@ -155,5 +152,5 @@
 - Is there backstop reserve or safety module for user losses and is there any guarantee it will be used in a loss event?
 - How large and liquid are the backstop reserves and treasury relative to TVL and are they held in low-risk, liquid assets?
 - What is the estimated operational runway at current burn for operational teams and managers?
-- How have TVL, revenue and buffers behaved in past stress events, including composability contagion?
+- How have TVL revenue and buffers behaved in past stress events?
 - Can the protocol remain safe in maintenance mode if team disappears?

@@ -1,9 +1,9 @@
-# Rocket Pool - rETH (Rocket Pool Staked Ether) Risk Rating
+# Rocket Pool - rETH Risk Rating
 
-**Rating Date**: 2026-02-18
-**Final Grade**: BB
-**Total Score**: 781.5/900 points
-**Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
+**Rating Date**: 2026-04-29
+**Final Grade**: BB+
+**Total Score**: 785.8/900 points
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-gamma
 
 ---
 
@@ -15,7 +15,7 @@
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| S-SC-01 | Have all core contracts that hold or route funds been independently audited? | Yes. Core contracts audited across all protocol versions by 3+ independent auditors: (1) Sigma Prime -- initial launch audit and Atlas upgrade audit; (2) ConsenSys Diligence -- initial launch audit (Mar-Apr 2021, 40 person-days, 47 contracts) and Houston upgrade audit (Nov-Dec 2023); (3) Trail of Bits -- initial protocol audit. Saturn I upgrade (Feb 2026) audited by Sigma Prime, Cantina, and Bailsec with reports published. All fund-custody/routing contracts covered across all versions. | 9 | 9 | Non-Improvable (optimal) | [P1] [Sigma Prime Initial Audit](https://rocketpool.net/files/audits/sigma-prime-audit.pdf), [P1] [Sigma Prime Atlas Audit](https://rocketpool.net/files/audits/sigma-prime-audit-atlas.pdf), [P1] [ConsenSys Diligence Initial](https://diligence.security/audits/2021/04/rocketpool/), [P1] [ConsenSys Houston](https://diligence.security/audits/2023/12/rocket-pool-houston/), [P1] [Saturn Info](https://saturn.rocketpool.net/) |
+| S-SC-01 | Have all core contracts that hold or route funds been independently audited, including deployment configuration? | Yes. Core contracts audited across all protocol versions by 3+ independent auditors: (1) Sigma Prime -- initial launch audit and Atlas upgrade audit; (2) ConsenSys Diligence -- initial launch audit (Mar-Apr 2021, 40 person-days, 47 contracts) and Houston upgrade audit (Nov-Dec 2023); (3) Trail of Bits -- initial protocol audit. Saturn I upgrade (Feb 2026) audited by Sigma Prime, Cantina, and Bailsec with reports published. All fund-custody/routing contracts covered across all versions. **Deployment configuration scope (v0.1-gamma):** Saturn I audits covered RPIP-60 upgrade guardrails, RPIP-61 balance submission parameters (2% rate cap), and oDAO consensus configuration. Permission parameters (pDAO, oDAO, security council roles) are defined in audited RPIPs and enforced on-chain. No bridge verifier setup applicable (mainnet-only). | 9 | 9 | Non-Improvable (optimal) | [P1] [Sigma Prime Initial Audit](https://rocketpool.net/files/audits/sigma-prime-audit.pdf), [P1] [Sigma Prime Atlas Audit](https://rocketpool.net/files/audits/sigma-prime-audit-atlas.pdf), [P1] [ConsenSys Diligence Initial](https://diligence.security/audits/2021/04/rocketpool/), [P1] [ConsenSys Houston](https://diligence.security/audits/2023/12/rocket-pool-houston/), [P1] [Saturn Info](https://saturn.rocketpool.net/) |
 | S-SC-02 | Who performed the most recent audit and what is their reputation tier? | Most recent audits for Saturn I (2025-2026): Sigma Prime (Tier-0), Cantina (Tier-1 per SR list), Bailsec. For Houston (2023): ConsenSys Diligence (Tier-0). Historical: Trail of Bits (Tier-0). At least one Tier-0 auditor (Sigma Prime) performed the most recent audit. | 9 | 9 | Non-Improvable (optimal) | [P1] [Saturn Info Site](https://saturn.rocketpool.net/), [P1] [ConsenSys Houston](https://diligence.security/audits/2023/12/rocket-pool-houston/) |
 | S-SC-03 | Have upgrades to core contracts been followed by new audits? | Yes. Every major upgrade accompanied by new audits: Atlas (2023) -- Sigma Prime; Houston (2023) -- ConsenSys Diligence; Saturn 0 tokenomics (2024) and Saturn I (2025-2026) -- Sigma Prime, Cantina, Bailsec. Audit scope covers each upgrade's new/modified contracts before deployment. Sigma Prime final sign-offs for Saturn I were completing as of Feb 2026. | 9 | 9 | Non-Improvable (optimal) | [P1] [Saturn Audits](https://saturn.rocketpool.net/), [P1] [Sigma Prime Atlas](https://rocketpool.net/files/audits/sigma-prime-audit-atlas.pdf), [P2] [Saturn Timeline](https://dao.rocketpool.net/t/saturn-1-timeline/3671) |
 | S-SC-04 | Have all critical and high-severity audit findings been fully remediated? | Yes. ConsenSys Houston audit (Dec 2023): 7 total findings -- 0 critical, 0 major, 2 medium, 4 minor, 1 informational -- all fixed with commit references. Saturn I: Cantina and Bailsec identified issues requiring code changes, which were addressed before deployment. Bailsec audit report live with two open items acknowledged. Historical pattern of thorough remediation across all audit cycles. | 9 | 9 | Non-Improvable (optimal) | [P1] [ConsenSys Houston Report](https://diligence.security/audits/2023/12/rocket-pool-houston/), [P2] [Saturn Timeline](https://dao.rocketpool.net/t/saturn-1-timeline/3671) |
@@ -70,11 +70,11 @@
 | ST-PM-06 | Is a risk framework for vault curation or protocol mechanics documented? | N/A -- rETH is a liquid staking token, not a vault/managed strategy. | N/A | N/A | N/A | - |
 | ST-PM-07 | Is current yield sustainable relative to underlying economics? | Yes. rETH yield is entirely organic from Ethereum PoS consensus and execution rewards. No emissions, incentives, or token subsidies required for rETH yield. RPL inflation (5% annual) funds node operator incentives and DAO treasury separately from staker yield. Saturn I introduces RPL fee switch where staked RPL earns ETH rewards, but this does not affect rETH yield sustainability. | 9 | 9 | Non-Improvable (optimal) | [P1] [Docs](https://docs.rocketpool.net/guides/staking/overview.html), [P3] [StakingRewards](https://www.stakingrewards.com/asset/rocket-pool-eth) |
 | ST-PM-08 | Can the position be fully unwound without slippage turning yield negative? | Yes under normal conditions. rETH can be burned directly through the protocol when deposit pool has sufficient ETH. Secondary market provides instant exits via Balancer, Uniswap V3, and Curve pools. PrismaRisk analysis found 1% slippage at ~$38M swap size. Under extreme conditions, exit may require waiting for validator exits, but slippage from secondary markets is minimal for normal sizes. | 9 | 9 | Non-Improvable (optimal) | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P1] [Docs - Staking via L1](https://docs.rocketpool.net/guides/staking/via-l1) |
-| ST-PM-09 | Does the strategy rely on a spread, peg, or funding rate that can invert? | Moderate. rETH should track ETH fair value (1 rETH = exchange rate x ETH). However, market price can deviate from protocol exchange rate. Historical behavior: rETH has typically traded at a premium post-Shapella, and did not experience the severe depegs that stETH and cbETH did during 2022. Fundamental backing maintained by permissionless burn path. But in extreme secondary market stress, temporary discounts are possible (inherent to LST design). Consistent with Lido stETH scoring (also 3). | 3 | 3 | Non-Improvable | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P3] [CoinGecko rETH](https://www.coingecko.com/en/coins/rocket-pool-eth) |
+| ST-PM-09 | Does the strategy rely on a spread, peg, or funding rate that can invert? | Low. rETH yield is 100% derived from Ethereum staking rewards (consensus + execution layer), not from maintaining a spread, peg, or funding rate. Secondary market price deviations from the protocol exchange rate are a market/liquidity risk (captured in ST-M-01), not a strategy dependency. The yield strategy itself does not rely on any invertible spread or funding rate relationship. Consistent with Lido stETH and StakeWise osETH scoring. | 9 | 9 | Non-Improvable (optimal) | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P3] [CoinGecko rETH](https://www.coingecko.com/en/coins/rocket-pool-eth) |
 
 **Protocol Mechanics Subtotal (7 scored questions, 2 N/A):**
-- Raw scores: 6x9 + 1x3 = 57/63
-- Adjusted: (57/63) x 45 = 40.7/45
+- Raw scores: 7x9 = 63/63
+- Adjusted: (63/63) x 45 = 45.0/45
 
 ---
 
@@ -85,7 +85,7 @@
 | ST-C-01 | Which assets are accepted as collateral and how are they risk rated? | Native ETH only. Users deposit ETH, receive rETH. ETH is the native asset of Ethereum -- Tier-0, the highest quality, most liquid asset on the network. No other collateral accepted at protocol level. Node operators additionally stake RPL or ETH as bond but this does not affect rETH collateral quality. Saturn I reduces operator bond to 4 ETH while maintaining full 32 ETH validator backing. | 9 | 9 | Non-Improvable (optimal) | [P1] [Docs](https://docs.rocketpool.net/guides/staking/overview.html), [P1] [Saturn Info](https://saturn.rocketpool.net/) |
 | ST-C-02 | How did each collateral behave versus its underlying during past stress or depegs? | rETH has demonstrated the strongest peg resilience among major LSTs. During the June 2022 3AC/Terra crisis when stETH depegged -6.6% and cbETH showed the largest persistent discount, rETH had the smallest deviation and recovered most quickly. Post-Shapella, rETH has typically traded at a premium. PrismaRisk noted rETH "has not depegged to the downside" and "exhibited low volatility since the Shappella upgrade." The protocol has survived multiple major stress events (3AC collapse, FTX collapse, SVB crisis) with minimal peg disruption. Battle-tested over 4+ years. | 9 | 9 | Non-Improvable (optimal) | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P3] [CoinGecko](https://www.coingecko.com/en/coins/rocket-pool-eth) |
 | ST-C-03 | How is validator or slashing risk handled for staking-based collaterals? | Strong. Node operators must bond ETH per validator (8 ETH pre-Saturn, 4 ETH post-Saturn I). If a validator is slashed, the operator's bond absorbs losses first before any impact to rETH. The protocol has ~4,000+ node operators, providing substantial diversification. Client diversity encouraged via permissionless model. Saturn I's RPIP-58 adds MEV penalty guardrails. No material slashing events have impacted rETH value in 4+ years of operation. | 9 | 9 | Non-Improvable (optimal) | [P1] [Docs - Responsibilities](https://docs.rocketpool.net/guides/node/responsibilities), [P1] [RPIP-58](https://rpips.rocketpool.net/RPIPs/RPIP-58) |
-| ST-C-04 | What share of TVL relies on bridged or wrapped assets? | 0% for core protocol. rETH is native on Ethereum mainnet. All staked ETH is native ETH on Beacon Chain validators. No bridge dependency for core staking TVL. | 9 | 9 | Non-Improvable (optimal) | [P0] [Etherscan rETH](https://etherscan.io/token/0xae78736cd615f374d3085123a210448e74fc6393) |
+| ST-C-04 | What share of TVL relies on bridged or wrapped assets, and how robust is the bridge security? | 0% for core protocol. rETH is native on Ethereum mainnet. All staked ETH is native ETH on Beacon Chain validators. No bridge dependency for core staking TVL. **Bridge quality assessment (v0.1-gamma):** Not applicable — 0% bridged assets, no bridge verification or escrow release mechanisms in core protocol. | 9 | 9 | Non-Improvable (optimal) | [P0] [Etherscan rETH](https://etherscan.io/token/0xae78736cd615f374d3085123a210448e74fc6393) |
 
 **Collateral Subtotal: 36/36 = 45.0/45 (100.0%)**
 
@@ -103,8 +103,11 @@
 | ST-IC-06 | Has the validator set experienced slashing events that could impact staked collateral? | Minor slashing events across the broader Rocket Pool validator set have occurred (inherent to any 17,000+ validator network), but all have been absorbed by node operator bonds. PrismaRisk noted slashing losses at 1.15% of consensus rewards -- higher than some competitors but well within bond absorption capacity. No slashing event has impacted rETH value. | 9 | 9 | Non-Improvable (optimal) | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P1] [Docs - Responsibilities](https://docs.rocketpool.net/guides/node/responsibilities) |
 | ST-IC-07 | Are validators diverse geographically and by operator? | Yes. 4,000+ node operators running ~17,000+ minipools. The permissionless model ensures natural diversification -- anyone can run a validator. No single operator dominates stake due to per-minipool capital requirements. Saturn I lowers the bond to 4 ETH, expected to further increase operator diversity. Geographic distribution spans globally due to permissionless nature, though specific regional breakdown is not published. | 9 | 9 | Non-Improvable (optimal) | [P1] [Node Operators](https://rocketpool.net/node-operators), [P1] [Saturn Info](https://saturn.rocketpool.net/) |
 | ST-IC-08 | Can any single infra failure block withdrawals or cause losses? | No single component is a permanent SPOF. Users have direct on-chain rETH burn path through the protocol contract. If the oDAO goes offline, exchange rate updates pause but existing rETH can still be traded on secondary markets. RocketVault is non-upgradeable, preventing upgrade-related fund access issues. The oDAO is distributed across 18 entities. | 9 | 9 | Non-Improvable (optimal) | [P0] [RocketVault](https://etherscan.io/address/0x3bdc69c4e5e13e52a65f5583c23efb9636b469d6), [P1] [oDAO Docs](https://docs.rocketpool.net/guides/odao/overview) |
+| ST-IC-09 | How robust is the cross-chain messaging or bridge verification setup? | N/A — Rocket Pool operates exclusively on Ethereum mainnet with no cross-chain bridge dependency for core protocol operations. rETH is minted and burned natively on Ethereum. | N/A | N/A | N/A | - |
+| ST-IC-10 | Are rate limits or circuit breakers enforced on cross-chain escrow releases or minting? | N/A — No cross-chain escrow or bridge minting exists in the core Rocket Pool protocol. rETH is minted on Ethereum mainnet only. | N/A | N/A | N/A | - |
+| ST-IC-11 | Is the off-chain verification infrastructure resilient to data-source manipulation? | N/A — Rocket Pool has no off-chain bridge verification component. The oDAO oracle system (off-chain balance reporting) is assessed under ST-IC-02 and protected by RPIP-61 (2% rate cap per update) and 51% consensus requirement across 18 members. | N/A | N/A | N/A | - |
 
-**Infra Counterparty Subtotal (7 scored questions, 1 N/A):**
+**Infra Counterparty Subtotal (7 scored questions, 4 N/A):**
 - Raw scores: 7x9 = 63/63
 - Adjusted: (63/63) x 45 = 45.0/45
 
@@ -158,7 +161,7 @@
 
 ---
 
-**Strategy Total: 40.7 + 45.0 + 45.0 + 45.0 + 31.7 + 39.0 = 246.4/270 (91.3%)**
+**Strategy Total: 45.0 + 45.0 + 45.0 + 45.0 + 31.7 + 39.0 = 250.7/270 (92.9%)**
 
 ---
 
@@ -221,7 +224,7 @@
 | O-FR-01 | Is there a backstop reserve or safety module for user losses? | Node operator bonds (4-8 ETH per validator) serve as the primary first-loss buffer for rETH holders. If slashing occurs, operator bonds are burned proportionally before rETH value is affected. This is enforced on-chain and creates a structural backstop without requiring discretionary activation. The pDAO treasury could also be deployed via governance vote, though it is very small. | 9 | 9 | Non-Improvable (optimal) | [P1] [Docs - Node Responsibilities](https://docs.rocketpool.net/guides/node/responsibilities) |
 | O-FR-02 | How large and liquid are the backstop reserves and treasury relative to TVL? | Operator bonds: ~4,000+ operators with bonds of 4-8 ETH per validator = substantial ETH buffer representing 6-8% of rETH TVL. This is held in ETH (liquid, non-volatile relative to protocol). The pDAO treasury holds ~87,660 RPL (~$200k at current prices) -- extremely small. However, the operator bond structure itself provides >5% TVL in liquid reserves (ETH-denominated). The key backstop is the structural bond mechanism, not the pDAO treasury. | 9 | 9 | Non-Improvable (optimal) | [P2] [Treasury Report](https://dao.rocketpool.net/t/pdao-2026-01-15-2026-02-12-treasury-report/3891), estimated from operator count and bond requirements |
 | O-FR-03 | What is the estimated operational runway? | Now partially verifiable. pDAO treasury: ~87,660 RPL (~$200k at current RPL prices of ~$2.25). Monthly RPL inflation to treasury: ~5,680 RPL (~$12.8k/month). IMC claims: ~22,807 RPL/period (~$51k). GMC claims: ~5,809 RPL/period (~$13k). At current RPL prices, the treasury is very small in USD terms. However, the team has been operational since 2017 with mainnet since 2021 -- demonstrating 4+ years of sustainable operations. Specific operating costs (team salaries, infrastructure) for Rocket Pool Pty Ltd are not publicly disclosed. Cannot verify ">24 months runway based on disclosed costs" as required for score 9. | 3 | 9 | Source Missing | [P2] [Treasury Report](https://dao.rocketpool.net/t/pdao-2026-01-15-2026-02-12-treasury-report/3891), [P3] [CoinGecko RPL](https://www.coingecko.com/en/coins/rocket-pool) |
-| O-FR-04 | How have TVL, revenue and buffers behaved in past stress events? | Mixed but resilient. TVL has been declining -- rETH supply ~340k-378k (down from higher levels). However, during major market stress events (3AC, FTX, SVB), the protocol continued operating normally without depositor haircuts or emergency measures. The rETH exchange rate continued increasing monotonically through all stress periods. RPL price volatility is a concern for treasury but does not affect rETH backing. Operator bond structure remained intact through all events. | 9 | 9 | Non-Improvable (optimal) | [P3] [CoinGecko rETH History](https://www.coingecko.com/en/coins/rocket-pool-eth) |
+| O-FR-04 | How have TVL, revenue and buffers behaved in past stress events, including composability contagion? | Mixed but resilient. TVL has been declining -- rETH supply ~340k-378k (down from higher levels). However, during major market stress events (3AC, FTX, SVB), the protocol continued operating normally without depositor haircuts or emergency measures. The rETH exchange rate continued increasing monotonically through all stress periods. RPL price volatility is a concern for treasury but does not affect rETH backing. Operator bond structure remained intact through all events. **Composability contagion (v0.1-gamma):** rETH is widely composed across DeFi — used as collateral on Aave, Compound, MakerDAO, and integrated into numerous yield strategies. During all major stress events (3AC June 2022, FTX Nov 2022, SVB Mar 2023), rETH maintained its peg and no contagion-driven bad debt materialized at any external protocol. This is a demonstrated composability resilience record. | 9 | 9 | Non-Improvable (optimal) | [P3] [CoinGecko rETH History](https://www.coingecko.com/en/coins/rocket-pool-eth) |
 | O-FR-05 | Can the protocol remain safe if team disappears? | Yes. Core protocol contracts are on-chain and non-custodial. RocketVault is deliberately non-upgradeable. rETH burn path is permissionless. oDAO operates independently (18 external members). Node operators run independently. On-chain pDAO governance allows protocol changes without team. | 9 | 9 | Non-Improvable (optimal) | [P0] [RocketVault](https://etherscan.io/address/0x3bdc69c4e5e13e52a65f5583c23efb9636b469d6), [P1] [oDAO Docs](https://docs.rocketpool.net/guides/odao/overview) |
 
 **Financial Resilience Subtotal: 39/45 = (39/45) x 67.5 = 58.5/67.5 (86.7%)**
@@ -239,18 +242,39 @@
 | **Security** | Smart Contract Security (11 Q) | 11 | 0 | 85 | 99 | 154.5 | 180 | 85.9% |
 | | Key Management (7 of 8 Q scored) | 7 | 1 | 49 | 63 | 140.0 | 180 | 77.8% |
 | | **Security Subtotal** | | | | | **294.5** | **360** | **81.8%** |
-| **Strategy** | Protocol Mechanics (7 of 9 Q scored) | 7 | 2 | 57 | 63 | 40.7 | 45 | 90.5% |
+| **Strategy** | Protocol Mechanics (7 of 9 Q scored) | 7 | 2 | 63 | 63 | 45.0 | 45 | 100.0% |
 | | Collateral (4 Q) | 4 | 0 | 36 | 36 | 45.0 | 45 | 100.0% |
 | | Infra Counterparty (7 of 8 Q scored) | 7 | 1 | 63 | 63 | 45.0 | 45 | 100.0% |
 | | Protocol Counterparty (4 of 5 Q scored) | 4 | 1 | 36 | 36 | 45.0 | 45 | 100.0% |
 | | Liquidity (9 Q) | 9 | 0 | 57 | 81 | 31.7 | 45 | 70.4% |
 | | Market (5 Q) | 5 | 0 | 39 | 45 | 39.0 | 45 | 86.7% |
-| | **Strategy Subtotal** | | | | | **246.4** | **270** | **91.3%** |
+| | **Strategy Subtotal** | | | | | **250.7** | **270** | **92.9%** |
 | **Operations** | Governance (3 of 4 Q scored) | 3 | 1 | 27 | 27 | 67.5 | 67.5 | 100.0% |
 | | Team & Legal (7 of 9 Q scored) | 7 | 2 | 51 | 63 | 54.6 | 67.5 | 81.0% |
 | | Documentation (6 Q) | 6 | 0 | 48 | 54 | 60.0 | 67.5 | 88.9% |
 | | Financial Resilience (5 Q) | 5 | 0 | 39 | 45 | 58.5 | 67.5 | 86.7% |
 | | **Operations Subtotal** | | | | | **240.6** | **270** | **89.1%** |
-| **TOTAL** | | | | | | **781.5** | **900** | **86.8%** |
+| **TOTAL** | | | | | | **785.8** | **900** | **87.3%** |
+
+**Validation:**
+- Smart Contract Security: 9+9+9+9+9+9+9+9+9+1+3 = 85/99. (85/99) x 180 = 154.545 = 154.5 (confirmed)
+- Key Management: 9+9+9+3+9+9+1 = 49/63. (49/63) x 180 = 140.0 (confirmed)
+- Security: 154.5 + 140.0 = 294.5 (confirmed)
+- Protocol Mechanics: 9+9+9+9+9+9+9 = 63/63. (63/63) x 45 = 45.0 (confirmed)
+- Collateral: 36/36 x 45 = 45.0 (confirmed)
+- Infra Counterparty: 63/63 x 45 = 45.0 (confirmed)
+- Protocol Counterparty: 36/36 x 45 = 45.0 (confirmed)
+- Liquidity: 9+3+9+9+9+9+3+3+3 = 57/81. (57/81) x 45 = 31.667 = 31.7 (confirmed)
+- Market: 9+9+9+3+9 = 39/45 x 45 = 39.0 (confirmed)
+- Strategy: 45.0 + 45.0 + 45.0 + 45.0 + 31.7 + 39.0 = 250.7 (confirmed)
+- Governance: 27/27 x 67.5 = 67.5 (confirmed)
+- Team & Legal: 51/63 x 67.5 = 54.643 = 54.6 (confirmed)
+- Documentation: 48/54 x 67.5 = 60.0 (confirmed)
+- Financial Resilience: 39/45 x 67.5 = 58.5 (confirmed)
+- Operations: 67.5 + 54.6 + 60.0 + 58.5 = 240.6 (confirmed)
+- Total: 294.5 + 250.7 + 240.6 = 785.8 (confirmed)
+- Grade: BB+ (785-810 range) -- confirmed
+- All percentages <= 100%: confirmed
+- No score exceeds max: confirmed
 
 ---

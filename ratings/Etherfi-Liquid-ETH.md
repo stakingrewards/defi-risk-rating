@@ -1,9 +1,9 @@
 # Ether.fi - Liquid ETH Yield Vault Risk Rating
 
-**Rating Date**: 2026-03-04
+**Rating Date**: 2026-04-29
 **Final Grade**: BB+
-**Total Score**: 800.9/900 points
-**Framework**: Staking Rewards DeFi Protocol Rating Framework v1.0-alpha
+**Total Score**: 789.7/900 points
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-gamma
 
 ---
 
@@ -15,7 +15,7 @@
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| S-SC-01 | Have all core contracts that hold or route funds been independently audited? | Yes. BoringVault infrastructure audited by: (1) Spearbit -- foundational Arctic architecture review (Tier-0), (2) 0xMacro -- 33+ sequential audit engagements (SevenSeas-4 through SevenSeas-33, March 2024 to March 2025) covering core vault, decoders, sanitizers, and protocol integrations for Aave, Morpho, Pendle, Uniswap, Odos, Spectra, Resolv, Euler, etc., (3) Secure3, (4) Hexens. Multiple independent auditors covering all fund-custody/routing contracts. >=2 independent external firms with public reports. | 9 | 9 | Non-Improvable (optimal) | [P1] [Veda Audits](https://docs.veda.tech/audits), [P1] [0xMacro Library](https://0xmacro.com/library), [P1] [GitHub Audit Directory](https://github.com/Se7en-Seas/boring-vault/tree/main/audit) (spearbit-boring-vault-arctic-0.pdf, 0xmacro-boring-vault-arctic-0.pdf, 0xmacro-boring-vault-arctic-1.pdf) |
+| S-SC-01 | Have all core contracts that hold or route funds been independently audited, including deployment configuration? | Yes. BoringVault infrastructure audited by: (1) Spearbit -- foundational Arctic architecture review (Tier-0), (2) 0xMacro -- 33+ sequential audit engagements (SevenSeas-4 through SevenSeas-33, March 2024 to March 2025) covering core vault, decoders, sanitizers, and protocol integrations for Aave, Morpho, Pendle, Uniswap, Odos, Spectra, Resolv, Euler, etc., (3) Secure3, (4) Hexens. Multiple independent auditors covering all fund-custody/routing contracts. >=2 independent external firms with public reports. **Deployment configuration scope (v0.1-gamma):** 0xMacro's 33+ sequential audits explicitly cover DecoderAndSanitizer configurations (the Merkle-proof constraint system defining allowed strategist actions) for each protocol integration — this IS deployment configuration review. Accountant exchange rate bounds, Teller deposit/withdraw parameters, and multisig permission roles are reviewed as part of the module architecture. No bridge verifier setup applicable (mainnet-only). | 9 | 9 | Non-Improvable (optimal) | [P1] [Veda Audits](https://docs.veda.tech/audits), [P1] [0xMacro Library](https://0xmacro.com/library), [P1] [GitHub Audit Directory](https://github.com/Se7en-Seas/boring-vault/tree/main/audit) (spearbit-boring-vault-arctic-0.pdf, 0xmacro-boring-vault-arctic-0.pdf, 0xmacro-boring-vault-arctic-1.pdf) |
 | S-SC-02 | Who performed the most recent audit and what is their reputation tier? | 0xMacro performed the most recent audit (SevenSeas-33, March 7, 2025). **0xMacro is Tier-1 per the SR Auditor Tier list.** The foundational Arctic architecture was also reviewed by Spearbit (Tier-0). Per criteria: "Low (9): At least one most recent audit by a Tier-0 or Tier-1 auditor." 0xMacro is Tier-1, meeting the Low criteria. **CORRECTION from previous rating**: The prior rating incorrectly stated 0xMacro was "NOT listed on the SR Auditor Tier list" and scored this as 3. 0xMacro IS listed as Tier-1. | 9 | 9 | Non-Improvable (optimal) | [P1] [0xMacro SevenSeas-33 (March 2025)](https://0xmacro.com/library), SR Auditor Tier List: 0xMacro = Tier-1 |
 | S-SC-03 | Have upgrades to core contracts been followed by new audits? | Yes. The core BoringVault token contract is non-upgradeable. New decoders and integration modules are audited by 0xMacro before deployment (33+ separate engagements covering each new protocol integration, most recent March 2025). Each new decoder/sanitizer for protocol integrations receives a targeted audit before mainnet deployment. No evidence of unaudited integration deployments. | 9 | 9 | Non-Improvable (optimal) | [P1] [0xMacro audit library showing sequential audits SevenSeas-4 through SevenSeas-33](https://0xmacro.com/library) |
 | S-SC-04 | Have all critical and high-severity audit findings been fully remediated? | Yes. SevenSeas-4 (March 2024) found 4 Medium, 4 Low, 4 Code Quality, 2 Informational -- no critical/high. Subsequent audits show decreasing finding counts. No evidence of unresolved critical or high-severity findings in any public report. The Hats Finance competitive audit for the broader ether.fi protocol found medium and low severity issues with documented fixes. | 9 | 9 | Non-Improvable (optimal) | [P1] [0xMacro SevenSeas-4 findings](https://0xmacro.com/library), [P1] [Hats Finance Report](https://github.com/hats-finance/ether-fi-0x36c3b77853dec9c4a237a692623293223d4b9bc4/blob/master/report.md) |
@@ -85,7 +85,7 @@
 | ST-C-01 | Which assets are accepted as collateral? | eETH (ether.fi rebasing LST), weETH (wrapped non-rebasing), WETH accepted. All ETH-based assets. eETH represents staked + restaked ETH. ETH is the native Tier-0 chain asset. The collateral is ETH-denominated with restaking risk overlay. | 9 | 9 | Non-Improvable (optimal) | [P1] [ETH Yield Vault](https://etherfi.gitbook.io/etherfi/liquid/eth-yield-vault) |
 | ST-C-02 | How did collateral behave during past stress or depegs? | **Untested under severe stress.** weETH has maintained close peg to internal oracle rate under normal conditions. Chainlink weETH/ETH feed shows no major deviations. However, weETH has NOT been tested under a severe depeg event comparable to Lido's July 2025 stETH depeg. Per battle-tested vs untested principle, untested collateral cannot score Low (9). | 3 | 3 | Non-Improvable | [P0] [Chainlink weETH/ETH](https://data.chain.link/feeds/ethereum/mainnet/weeth-eth), No severe stress event documentation |
 | ST-C-03 | How is validator/slashing risk handled? | eETH inherits ether.fi's distributed validator network. Slashing penalties from validators or EigenLayer AVSs are socialized across all eETH depositors. Diversification across operators and restaking protocols. No material slashing events have affected ether.fi validators to date. | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/ether.fi-whitepaper/technical-documentation), [P2] [EigenLayer Risk Analysis](https://governance.ether.fi/t/eigenlayer-vs-symbiotic-risk-analysis/2246) |
-| ST-C-04 | What share of TVL relies on bridged or wrapped assets? | <10%. Core vault operates on Ethereum mainnet, accepting native WETH and weETH (thin wrapper, no bridge/custody risk per definition). No material bridged asset dependency. | 9 | 9 | Non-Improvable (optimal) | [P0] [Etherscan BoringVault](https://etherscan.io/address/0xf0bb20865277aBd641a307eCe5ee04E79073416C) |
+| ST-C-04 | What share of TVL relies on bridged or wrapped assets, and how robust is the bridge security? | <10%. Core vault operates on Ethereum mainnet, accepting native WETH and weETH (thin wrapper, no bridge/custody risk per definition). No material bridged asset dependency. **Bridge quality assessment (v0.1-gamma):** Not applicable — no bridged assets in vault TVL, no bridge verification or escrow release mechanisms. | 9 | 9 | Non-Improvable (optimal) | [P0] [Etherscan BoringVault](https://etherscan.io/address/0xf0bb20865277aBd641a307eCe5ee04E79073416C) |
 
 **Collateral Subtotal:**
 - 4 questions: 3 x 9 + 1 x 3 = 30/36
@@ -105,9 +105,12 @@
 | ST-IC-06 | Has the validator set experienced slashing? | No material slashing events affecting ether.fi validators. EigenLayer slashing not yet fully active at scale. | 9 | 9 | Non-Improvable (optimal) | [P2] [EigenLayer Risk Analysis](https://governance.ether.fi/t/eigenlayer-vs-symbiotic-risk-analysis/2246) |
 | ST-IC-07 | Are validators diverse? | Yes. Ether.fi uses diverse node operator set. Multiple professional operators. No single operator dominates. DKG model ensures key distribution. | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/ether.fi-whitepaper/technical-documentation) |
 | ST-IC-08 | Can single infra failure block withdrawals? | No. BoringOnChainQueue provides permissionless withdrawal. If Solver unavailable, users can wait for queue processing. Vault operates on Ethereum mainnet with no single infra SPOF. | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation) |
+| ST-IC-09 | How robust is the cross-chain messaging or bridge verification setup? | N/A — Liquid ETH vault operates exclusively on Ethereum mainnet with no cross-chain bridge dependency. Vault deposits and withdrawals are natively on Ethereum. | N/A | N/A | N/A | - |
+| ST-IC-10 | Are rate limits or circuit breakers enforced on cross-chain escrow releases or minting? | N/A — No cross-chain escrow or bridge minting exists. The vault operates on Ethereum mainnet only. | N/A | N/A | N/A | - |
+| ST-IC-11 | Is the off-chain verification infrastructure resilient to data-source manipulation? | N/A — No off-chain bridge verification component. The vault's on-chain Accountant contract handles pricing internally with exchange rate bounds. | N/A | N/A | N/A | - |
 
-**Infra Counterparty Subtotal:**
-- 8 questions: 7 x 9 + 1 x 3 = 66/72
+**Infra Counterparty Subtotal (8 scored questions, 3 N/A):**
+- 8 scored questions: 7 x 9 + 1 x 3 = 66/72
 - Adjusted: (66/72) x 45 = **41.3/45 (91.7%)**
 
 ---
@@ -175,13 +178,13 @@
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | O-G-01 | What governance model controls changes? | ETHFI token governance via Snapshot voting. 4-day voting window. 1M ETHFI quorum. Delegate voting supported. Protocol parameters controlled by Admin multisig with timelock (48h+). No single entity can unilaterally change core fund-custody logic. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Governance](https://etherfi.gitbook.io/gov/), [P2] [Snapshot](https://vote.ether.fi/info) |
-| O-G-02 | How concentrated is voting power? | ETHFI allocation: investors 33.74%, core contributors 21.47%, treasury 21.62%, user airdrops 19.27%. Delegate system helps distribute voting. Top-10 address concentration data not published. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [ETHFI Allocations](https://etherfi.gitbook.io/gov/ethfi-allocations) |
+| O-G-02 | How concentrated is voting power? | ETHFI allocation: investors 33.74%, core contributors 21.47%, treasury 21.62%, user airdrops 19.27%. Total insider allocation (investors + contributors) ~55%, exceeding 33% threshold for Low (9). Delegate system helps distribute voting but does not change underlying token concentration. No staker veto mechanism. **Platform-level score, consistent with eETH rating.** | 3 | 3 | Non-Improvable | [P1] [ETHFI Allocations](https://etherfi.gitbook.io/gov/ethfi-allocations) |
 | O-G-03 | Are timelocks and veto mechanisms in place? | Yes. Timelock at least 48 hours for contract/module changes. 4-day Snapshot voting window. Quorum requirements. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation) |
 | O-G-04 | Can strategy manager be replaced without blocking withdrawals? | Yes. Admin role can update strategist via RoleRegistry. Withdrawals handled by separate Queue/Solver system. Strategy changes do not block the BoringOnChainQueue exit mechanism. | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation) |
 
 **Governance Subtotal:**
-- 4 questions: 4 x 9 = 36/36
-- Adjusted: (36/36) x 67.5 = **67.5/67.5 (100.0%)**
+- 4 questions: 3x9 + 1x3 = 30/36
+- Adjusted: (30/36) x 67.5 = **56.3/67.5 (83.3%)**
 
 ---
 
@@ -229,7 +232,7 @@
 | O-FR-01 | Backstop reserve or safety module? | **Partial.** Treasury exists (~$104M across 4 addresses). $50M buyback proposal demonstrates treasury activity. However, no dedicated ring-fenced safety module with binding activation rules for user loss compensation exists. Treasury serves multiple purposes without specific loss-coverage commitments. **Platform-level score, consistent with eETH rating.** | 3 | 9 | **Improvable** | [P1] [ETHFI Allocations](https://etherfi.gitbook.io/gov/ethfi-allocations) |
 | O-FR-02 | How large are reserves relative to TVL? | **Insufficiently disclosed.** Treasury holds ~$104M across 4 identified addresses. The composition of liquid reserves (stablecoins, ETH) vs illiquid ETHFI token holdings is not publicly disclosed. The $104M total is known but the liquid/illiquid breakdown is unavailable. | 3 | 9 | **Source Missing** | [P0] Treasury addresses provided: 0x7D4bBE471369a066186c18bAF33622796A08d5Cd, 0x7A6A41F353B3002751d94118aA7f4935dA39bB53, 0x5f0E7A424d306e9E310be4f5Bb347216e473Ae55, 0xD022d6bb8B6C1C357ec77D930Dc6A0aD40FFC90b |
 | O-FR-03 | Estimated operational runway? | Strong. $32.3M raised. Broader ether.fi ecosystem TVL in the billions. Revenue from platform fees across all products. Runway comfortably >24 months. | 9 | 9 | Non-Improvable (optimal) | [P3] [Tracxn](https://tracxn.com/d/companies/ether.fi/__ybuswctFLX6Yyk0tndtj8aoDimNowhN3z_XQDPgnARo), [P3] [DeFiLlama](https://defillama.com/protocol/ether.fi) |
-| O-FR-04 | How have TVL/revenue/buffers behaved in stress? | **Untested under severe stress.** Vault TVL has decreased from ~$444M (Feb 2026) to ~$218M (Mar 2026), but this appears to be organic outflows during a broader market downturn, not a crisis-driven event. The vault has NOT been tested under a severe market stress event. Per battle-tested vs untested principle, untested protocols cannot score Low (9). | 3 | 3 | Non-Improvable | [P0] [Etherscan -- ~93,416 shares](https://etherscan.io/token/0xf0bb20865277aBd641a307eCe5ee04E79073416C), [P3] [DeFiLlama](https://defillama.com/protocol/ether.fi-liquid) |
+| O-FR-04 | How have TVL/revenue/buffers behaved in stress, including composability contagion? | **Untested under severe stress.** Vault TVL has decreased from ~$444M (Feb 2026) to ~$218M (Mar 2026), but this appears to be organic outflows during a broader market downturn, not a crisis-driven event. The vault has NOT been tested under a severe market stress event. Per battle-tested vs untested principle, untested protocols cannot score Low (9). **Composability contagion (v0.1-gamma):** liquidETH vault share has no secondary market and minimal external composability — contagion risk from the vault token itself is low. However, the underlying positions include weETH which is heavily composed across DeFi, so a severe eETH/weETH incident would impact the vault's underlying collateral. **Platform-level score, consistent with eETH rating.** | 3 | 3 | Non-Improvable | [P0] [Etherscan -- ~93,416 shares](https://etherscan.io/token/0xf0bb20865277aBd641a307eCe5ee04E79073416C), [P3] [DeFiLlama](https://defillama.com/protocol/ether.fi-liquid) |
 | O-FR-05 | Can protocol remain safe if team disappears? | Mostly yes. Non-upgradeable core BoringVault. Permissionless withdrawal queue. Strategist role could be frozen (no new rebalances) but existing positions remain. Some reliance on Solver for optimal execution. Protocol can run in degraded mode with users exiting via queue. | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation) |
 
 **Financial Resilience Subtotal:**
@@ -238,7 +241,7 @@
 
 ---
 
-**Operations Total: 67.5 + 67.5 + 67.5 + 40.5 = 243.0/270 (90.0%)**
+**Operations Total: 56.3 + 67.5 + 67.5 + 40.5 = 231.8/270 (85.8%)**
 
 ---
 
@@ -256,11 +259,11 @@
 | | Liquidity | 9 | 0 | 57 | 81 | 31.7 | 45 | 70.4% |
 | | Market | 4 | 1 | 30 | 36 | 37.5 | 45 | 83.3% |
 | | **Strategy Subtotal** | | | | | **227.9** | **270** | **84.4%** |
-| **Operations** | Governance | 4 | 0 | 36 | 36 | 67.5 | 67.5 | 100.0% |
+| **Operations** | Governance | 4 | 0 | 30 | 36 | 56.3 | 67.5 | 83.3% |
 | | Team & Legal | 9 | 0 | 81 | 81 | 67.5 | 67.5 | 100.0% |
 | | Documentation | 6 | 0 | 54 | 54 | 67.5 | 67.5 | 100.0% |
 | | Financial Resilience | 5 | 0 | 27 | 45 | 40.5 | 67.5 | 60.0% |
-| | **Operations Subtotal** | | | | | **243.0** | **270** | **90.0%** |
-| **TOTAL** | | **82** | **1** | | | **800.9** | **900** | **89.0%** |
+| | **Operations Subtotal** | | | | | **231.8** | **270** | **85.8%** |
+| **TOTAL** | | **82** | **1** | | | **789.7** | **900** | **87.7%** |
 
 ---

@@ -1,15 +1,15 @@
 # Ether.fi - Liquid ETH Yield Vault Risk Rating
 
 **Rating Date**: 2026-04-29
-**Final Grade**: BB+
-**Total Score**: 789.7/900 points
+**Final Grade**: BB-
+**Total Score**: 753.2/900 points
 **Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-gamma
 
 ---
 
 ## Detailed Analysis
 
-### SECURITY (40% Weight) - Score: 330.0/360 (91.7%)
+### SECURITY (40% Weight) - Score: 315.0/360 (87.5%)
 
 #### Smart Contract Security (20% weight, 180 max points)
 
@@ -40,19 +40,19 @@
 | S-KM-01 | Who controls admin and upgrade keys? | Admin role held by joint Veda + ether.fi multisig. Defines whitelisted protocols, assets, and strategist parameters. Module changes subject to timelock (48h+). Changes documented via on-chain transactions. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation) |
 | S-KM-02 | Can any single key move user funds or upgrade custody contracts? | No single key can move user funds. The core BoringVault is non-upgradeable. Strategy execution requires the Strategist role, constrained to Merkle-proof-verified actions on admin-whitelisted protocols only via DecoderAndSanitizer validation. Admin module changes require multisig + 48h timelock. The multisig appears to have fewer than 4 signers (per Exponential assessment), so threshold may be 2-of-3 rather than the >=3/>=5 required for Low (9). Scoring 9 because the specific question asks "Can any single key..." and the answer is genuinely no -- multisig consensus is required for all critical actions, and the non-upgradeable core provides structural protection. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation), [P3] [Exponential DeFi](https://exponential.fi/protocols/etherfi/) |
 | S-KM-03 | How decentralized and robust is the multisig? | **Material concern.** Per Exponential DeFi assessment, the admin multisig consists of fewer than 4 signers, suggesting 2-of-3 or similar small configuration. Signer identities not publicly disclosed with ENS names or organizational affiliations. Independence cannot be confirmed from public information. Per independence verification rule, if signer identities are unknown, score Mid (3) at best. The 48-hour timelock mitigates but does not substitute for multisig robustness. **Platform-level score, consistent with eETH rating.** | 3 | 9 | **Improvable** | [P3] [Exponential DeFi](https://exponential.fi/protocols/etherfi/), [P1] Protocol documentation -- signer identities not disclosed |
-| S-KM-04 | How constrained are pause, blocklist and withdrawal-control permissions? | Pause is scope-limited: Accountant exchange rate bounds (automatic), Pauser role (manual by Hypernative/trusted entities). Protocol-wide only, not address-selective. No address-level withdrawal blocking capability. BoringOnChainQueue provides permissionless withdrawal. Pause rules documented. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation) |
+| S-KM-04 | How constrained are pause, blocklist and withdrawal-control permissions? | Partially constrained. Accountant exchange rate bounds provide an automatic scope-limited control, and BoringOnChainQueue provides permissionless withdrawal with no address-level blocking capability. However, per Low (9) criteria the pause must be time-bound, scope-limited, AND require multisig with public rules: the Pauser role is exercisable manually by single parties (Hypernative and designated "trusted entities" not publicly enumerated) rather than a multisig quorum, and no time-bound is documented. **Platform-level score, consistent with eETH rating (also Mid 3); cross-protocol consistency with RocketPool rETH (council-quorum-gated pause, scores 3) and Lido stETH (time-bound multisig pause, scores 9).** Mid (3), Improvable -- publishing the full Pauser set, quorum requirements, and time-bounds would lift this to 9. | 3 | 9 | Improvable | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation) |
 | S-KM-05 | Are all user assets held in non-custodial smart contracts? | Yes. 100% held in BoringVault contract (0xf0bb20865277aBd641a307eCe5ee04E79073416C). ERC-4626-style shares minted. Withdrawal queue is permissionless. No off-chain custody. Verified on Etherscan -- contract holds ~$218M in various DeFi positions and tokens. | 9 | 9 | Non-Improvable (optimal) | [P0] [Etherscan BoringVault](https://etherscan.io/address/0xf0bb20865277aBd641a307eCe5ee04E79073416C) |
 | S-KM-06 | Are user funds fully segregated from treasury? | Yes. Vault assets in BoringVault contract, separate from ether.fi treasury addresses (0x7D4bBE471369a066186c18bAF33622796A08d5Cd and 3 others, totaling ~$104M). Clear on-chain segregation. | 9 | 9 | Non-Improvable (optimal) | [P0] [Etherscan BoringVault](https://etherscan.io/address/0xf0bb20865277aBd641a307eCe5ee04E79073416C), [P1] [Deployed Contracts](https://etherfi.gitbook.io/etherfi/contracts-and-integrations/deployed-contracts) |
 | S-KM-07 | What are the whitelisted protocols? | On-chain enforced via Merkle root validation. Whitelisted protocols include: Pendle, Aave V2/V3, Morpho Blue, Balancer, Aura, Uniswap V3, Convex, Curve, Odos, Spectra, Resolv, Euler, and others (per audit scope of SevenSeas-31 through SevenSeas-33). DecoderAndSanitizer validates each interaction. Additions/removals require Admin multisig + timelock. Public on-chain change log. | 9 | 9 | Non-Improvable (optimal) | [P1] [ETH Yield Vault](https://etherfi.gitbook.io/etherfi/liquid/eth-yield-vault), [P1] [0xMacro SevenSeas-31 to 33 audit scope](https://0xmacro.com/library) |
 | S-KM-08 | Is there a tested incident playbook? | **Partial.** September 2024 domain incident demonstrated rapid response. Formal incident response policy exists (effective November 24, 2024). Partnerships with Seal911, Doppel, Hypernative. However, no comprehensive public playbook for key rotation, signer replacement, or admin-key compromise has been published. No evidence of tabletop exercises. **Platform-level score, consistent with eETH rating.** | 3 | 9 | **Improvable** | [P1] [Sep 24 Incident Report](https://etherfi.gitbook.io/etherfi/security/sep-24-incident-attempted-domain-account-takeover), [P1] [Security Documentation](https://etherfi.gitbook.io/etherfi/security) |
 
 **Key Management Subtotal:**
-- 8 questions: 6 x 9 + 2 x 3 = 60/72
-- Adjusted: (60/72) x 180 = **150.0/180 (83.3%)**
+- 8 questions: 5 x 9 + 3 x 3 = 54/72
+- Adjusted: (54/72) x 180 = **135.0/180 (75.0%)**
 
 ---
 
-**Security Total: 180.0 + 150.0 = 330.0/360 (91.7%)**
+**Security Total: 180.0 + 135.0 = 315.0/360 (87.5%)**
 
 ---
 
@@ -171,7 +171,7 @@
 
 ---
 
-### OPERATIONS (30% Weight) - Score: 243.0/270 (90.0%)
+### OPERATIONS (30% Weight) - Score: 210.3/270 (77.9%)
 
 #### Governance (7.5% weight, 67.5 max points)
 
@@ -196,15 +196,15 @@
 | O-TL-02 | Is the protocol dependent on a single developer? | No. Multiple teams: ether.fi core team, Veda (infrastructure), Nonce Capital (strategy). Distributed development across components. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Veda](https://veda.tech/) |
 | O-TL-03 | What legal entity operates the protocol? | Ether.Fi SEZC (Special Economic Zone Company), organized under laws of the Cayman Islands. Clear legal entity with jurisdiction disclosure. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Terms of Use](https://etherfi.gitbook.io/etherfi/ether.fi-legal/terms-of-use) |
 | O-TL-04 | Known investigations or regulatory actions? | No known regulatory enforcement actions. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | No adverse findings |
-| O-TL-05 | On-call and incident response process? | Yes. September 2024 incident demonstrated rapid response. Partnerships with Seal911, Doppel, Hypernative. Formal incident response policy (Nov 2024). **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Sep 24 Incident Report](https://etherfi.gitbook.io/etherfi/security/sep-24-incident-attempted-domain-account-takeover) |
+| O-TL-05 | On-call and incident response process? | Demonstrated in practice, but without published SLAs. September 2024 incident demonstrated rapid response; partnerships with Seal911, Doppel, Hypernative; formal incident response policy (Nov 2024). However, Low (9) requires documented on-call runbooks with defined escalation and response SLAs -- no SLA documentation is publicly available. **Platform-level score, consistent with eETH rating (also Mid 3); same standard applied to StakeWise osETH and RocketPool rETH.** Mid (3), Improvable -- publishing response SLAs/runbooks would lift this to 9. | 3 | 9 | Improvable | [P1] [Sep 24 Incident Report](https://etherfi.gitbook.io/etherfi/security/sep-24-incident-attempted-domain-account-takeover) |
 | O-TL-06 | Timely support for critical issues? | Yes. Help center (help.ether.fi). September 2024 incident resolved same day. Active governance forum. Discord community. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Help Center](https://help.ether.fi/) |
 | O-TL-07 | Major investors disclosed? | Yes. $32.3M raised. Bullish Capital, CoinFund, OKX Ventures, Foresight Ventures, Consensys, Bankless Ventures. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P4] [CoinDesk Series A](https://www.coindesk.com/business/2024/02/28/liquid-restaking-protocol-etherfi-raises-23m-series-a) |
 | O-TL-08 | Does strategy manager manage similar products creating conflicts? | **Limited information.** Nonce Capital is identified as a blockchain venture studio (founded 2019 per Crunchbase). Unlike Seven Seas Capital (which has extensive public documentation of managing Sommelier vaults and other DeFi strategies), Nonce Capital's DeFi vault management history is not well-documented publicly. However, the product page clearly identifies them as the strategy manager, and no direct conflicting mandates have been identified. Scoring 9 as no disclosed conflicts exist and the question scores High (1) only when "undisclosed or unmanaged conflicts" exist -- here there is simply limited information about other mandates, not evidence of conflicts. | 9 | 9 | Non-Improvable (optimal) | [P0] [Product page](https://www.ether.fi/app/liquid/eth), [P3] [Crunchbase](https://www.crunchbase.com/organization/nonce-capital) |
 | O-TL-09 | Has strategy manager been involved in products with collateral loss? | **No known loss events.** Nonce Capital's public track record is limited compared to Seven Seas Capital. No documented collateral loss events found in public sources. However, the limited public history means this assessment has a narrower evidence base. Per criteria, "No known uncompensated collateral loss events linked to manager" scores Low (9). | 9 | 9 | Non-Improvable (optimal) | [P3] [Crunchbase](https://www.crunchbase.com/organization/nonce-capital), Web search -- no loss events found |
 
 **Team & Legal Subtotal:**
-- 9 questions: 9 x 9 = 81/81
-- Adjusted: (81/81) x 67.5 = **67.5/67.5 (100.0%)**
+- 9 questions: 8 x 9 + 1 x 3 = 75/81
+- Adjusted: (75/81) x 67.5 = **62.5/67.5 (92.6%)**
 
 ---
 
@@ -215,13 +215,13 @@
 | O-DT-01 | Up-to-date documentation? | Yes. Comprehensive GitBook docs covering whitepaper, Liquid technical documentation, risks section. Veda architecture documentation. Regular updates for new features and integrations. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Whitepaper](https://etherfi.gitbook.io/etherfi/ether.fi-whitepaper), [P1] [Liquid Docs](https://etherfi.gitbook.io/etherfi/liquid) |
 | O-DT-02 | Documented how collateral is used and when loss occurs? | Yes. Risks section covers smart contract, key management, regulatory risks. Product page explicitly discloses leverage risk and impermanent loss risk. Technical documentation covers Merkle constraints, exchange rate bounds, role separation. | 9 | 9 | Non-Improvable (optimal) | [P1] [Risks](https://etherfi.gitbook.io/etherfi/ether.fi-whitepaper/risks), [P0] [Product page risk disclosures](https://www.ether.fi/app/liquid/eth) |
 | O-DT-03 | Contract addresses documented in one place? | Yes. Deployed Contracts page lists mainnet addresses. BoringVault address (0xf0bb20865277aBd641a307eCe5ee04E79073416C) documented. **Platform-level score, consistent with eETH rating.** | 9 | 9 | Non-Improvable (optimal) | [P1] [Deployed Contracts](https://etherfi.gitbook.io/etherfi/contracts-and-integrations/deployed-contracts) |
-| O-DT-04 | Roles, permissions and timelocks documented? | Yes. Technical documentation covers Admin, Strategist, Pauser roles with responsibilities. Merkle-proof constraints, timelock durations, exchange rate bounds all documented. | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation) |
+| O-DT-04 | Roles, permissions and timelocks documented? | Partially. Technical documentation covers Admin, Strategist, Pauser roles with responsibilities; Merkle-proof constraints, timelock durations, and exchange rate bounds are documented. However, a public change history of role modifications is not maintained -- Low (9) requires BOTH a central up-to-date role registry AND all role changes in the last 12 months logged and publicly explained. **Platform-level score, consistent with eETH rating (also Mid 3).** Mid (3), Improvable -- publishing a role-change log would lift this to 9. | 3 | 9 | Improvable | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation) |
 | O-DT-05 | Proof-of-reserves published? | Yes. Full on-chain transparency. BoringVault holdings verifiable on Etherscan. Underlying DeFi positions traceable via on-chain transactions. Share price verifiable. ~93,416 liquidETH shares at ~$2,333/share. | 9 | 9 | Non-Improvable (optimal) | [P0] [Etherscan BoringVault](https://etherscan.io/address/0xf0bb20865277aBd641a307eCe5ee04E79073416C) |
 | O-DT-06 | Contracts verified on block explorers? | Yes. Core BoringVault contract verified on Etherscan with Solidity 0.8.21 source code readable. Not a proxy. Supporting contracts also verified. | 9 | 9 | Non-Improvable (optimal) | [P0] [Etherscan BoringVault -- verified](https://etherscan.io/address/0xf0bb20865277aBd641a307eCe5ee04E79073416C) |
 
 **Documentation Subtotal:**
-- 6 questions: 6 x 9 = 54/54
-- Adjusted: (54/54) x 67.5 = **67.5/67.5 (100.0%)**
+- 6 questions: 5 x 9 + 1 x 3 = 48/54
+- Adjusted: (48/54) x 67.5 = **60.0/67.5 (88.9%)**
 
 ---
 
@@ -231,17 +231,17 @@
 |------|----------|----------------|---------|-----------|----------------|----------|
 | O-FR-01 | Backstop reserve or safety module? | **Partial.** Treasury exists (~$104M across 4 addresses). $50M buyback proposal demonstrates treasury activity. However, no dedicated ring-fenced safety module with binding activation rules for user loss compensation exists. Treasury serves multiple purposes without specific loss-coverage commitments. **Platform-level score, consistent with eETH rating.** | 3 | 9 | **Improvable** | [P1] [ETHFI Allocations](https://etherfi.gitbook.io/gov/ethfi-allocations) |
 | O-FR-02 | How large are reserves relative to TVL? | **Insufficiently disclosed.** Treasury holds ~$104M across 4 identified addresses. The composition of liquid reserves (stablecoins, ETH) vs illiquid ETHFI token holdings is not publicly disclosed. The $104M total is known but the liquid/illiquid breakdown is unavailable. | 3 | 9 | **Source Missing** | [P0] Treasury addresses provided: 0x7D4bBE471369a066186c18bAF33622796A08d5Cd, 0x7A6A41F353B3002751d94118aA7f4935dA39bB53, 0x5f0E7A424d306e9E310be4f5Bb347216e473Ae55, 0xD022d6bb8B6C1C357ec77D930Dc6A0aD40FFC90b |
-| O-FR-03 | Estimated operational runway? | Strong. $32.3M raised. Broader ether.fi ecosystem TVL in the billions. Revenue from platform fees across all products. Runway comfortably >24 months. | 9 | 9 | Non-Improvable (optimal) | [P3] [Tracxn](https://tracxn.com/d/companies/ether.fi/__ybuswctFLX6Yyk0tndtj8aoDimNowhN3z_XQDPgnARo), [P3] [DeFiLlama](https://defillama.com/protocol/ether.fi) |
+| O-FR-03 | Estimated operational runway? | Likely strong but not verifiable from disclosed costs. $32.3M raised; broader ether.fi ecosystem TVL in the billions with platform fee revenue across all products. However, specific operating costs are not publicly disclosed, so a ">24 months runway based on disclosed costs" (Low 9 requirement) cannot be verified -- only inferred from fundraising and scale. **Platform-level score, consistent with eETH rating (also Mid 3, Source Missing); same standard applied to RocketPool rETH.** Mid (3), Source Missing -- publishing an operating cost/runway disclosure would lift this to 9. | 3 | 9 | Source Missing | [P3] [Tracxn](https://tracxn.com/d/companies/ether.fi/__ybuswctFLX6Yyk0tndtj8aoDimNowhN3z_XQDPgnARo), [P3] [DeFiLlama](https://defillama.com/protocol/ether.fi) |
 | O-FR-04 | How have TVL/revenue/buffers behaved in stress, including composability contagion? | **Untested under severe stress.** Vault TVL has decreased from ~$444M (Feb 2026) to ~$218M (Mar 2026), but this appears to be organic outflows during a broader market downturn, not a crisis-driven event. The vault has NOT been tested under a severe market stress event. Per battle-tested vs untested principle, untested protocols cannot score Low (9). **Composability contagion (v0.1-gamma):** liquidETH vault share has no secondary market and minimal external composability — contagion risk from the vault token itself is low. However, the underlying positions include weETH which is heavily composed across DeFi, so a severe eETH/weETH incident would impact the vault's underlying collateral. **Platform-level score, consistent with eETH rating.** | 3 | 3 | Non-Improvable | [P0] [Etherscan -- ~93,416 shares](https://etherscan.io/token/0xf0bb20865277aBd641a307eCe5ee04E79073416C), [P3] [DeFiLlama](https://defillama.com/protocol/ether.fi-liquid) |
 | O-FR-05 | Can protocol remain safe if team disappears? | Mostly yes. Non-upgradeable core BoringVault. Permissionless withdrawal queue. Strategist role could be frozen (no new rebalances) but existing positions remain. Some reliance on Solver for optimal execution. Protocol can run in degraded mode with users exiting via queue. | 9 | 9 | Non-Improvable (optimal) | [P1] [Technical Documentation](https://etherfi.gitbook.io/etherfi/liquid/technical-documentation) |
 
 **Financial Resilience Subtotal:**
-- 5 questions: 2 x 9 + 3 x 3 = 27/45
-- Adjusted: (27/45) x 67.5 = **40.5/67.5 (60.0%)**
+- 5 questions: 1 x 9 + 4 x 3 = 21/45
+- Adjusted: (21/45) x 67.5 = **31.5/67.5 (46.7%)**
 
 ---
 
-**Operations Total: 56.3 + 67.5 + 67.5 + 40.5 = 231.8/270 (85.8%)**
+**Operations Total: 56.3 + 62.5 + 60.0 + 31.5 = 210.3/270 (77.9%)**
 
 ---
 
@@ -250,8 +250,8 @@
 | Category | Subcategory | Scored Q | N/A Q | Raw Score | Max Raw | Adj Points | Max Points | Percentage |
 |----------|-------------|----------|-------|-----------|---------|------------|------------|------------|
 | **Security** | Smart Contract Security | 11 | 0 | 99 | 99 | 180.0 | 180 | 100.0% |
-| | Key Management | 8 | 0 | 60 | 72 | 150.0 | 180 | 83.3% |
-| | **Security Subtotal** | **19** | **0** | | | **330.0** | **360** | **91.7%** |
+| | Key Management | 8 | 0 | 54 | 72 | 135.0 | 180 | 75.0% |
+| | **Security Subtotal** | **19** | **0** | | | **315.0** | **360** | **87.5%** |
 | **Strategy** | Protocol Mechanics | 9 | 0 | 63 | 81 | 35.0 | 45 | 77.8% |
 | | Collateral | 4 | 0 | 30 | 36 | 37.5 | 45 | 83.3% |
 | | Infra Counterparty | 8 | 0 | 66 | 72 | 41.3 | 45 | 91.7% |
@@ -260,10 +260,10 @@
 | | Market | 4 | 1 | 30 | 36 | 37.5 | 45 | 83.3% |
 | | **Strategy Subtotal** | | | | | **227.9** | **270** | **84.4%** |
 | **Operations** | Governance | 4 | 0 | 30 | 36 | 56.3 | 67.5 | 83.3% |
-| | Team & Legal | 9 | 0 | 81 | 81 | 67.5 | 67.5 | 100.0% |
-| | Documentation | 6 | 0 | 54 | 54 | 67.5 | 67.5 | 100.0% |
-| | Financial Resilience | 5 | 0 | 27 | 45 | 40.5 | 67.5 | 60.0% |
-| | **Operations Subtotal** | | | | | **231.8** | **270** | **85.8%** |
-| **TOTAL** | | **82** | **1** | | | **789.7** | **900** | **87.7%** |
+| | Team & Legal | 9 | 0 | 75 | 81 | 62.5 | 67.5 | 92.6% |
+| | Documentation | 6 | 0 | 48 | 54 | 60.0 | 67.5 | 88.9% |
+| | Financial Resilience | 5 | 0 | 21 | 45 | 31.5 | 67.5 | 46.7% |
+| | **Operations Subtotal** | | | | | **210.3** | **270** | **77.9%** |
+| **TOTAL** | | **82** | **1** | | | **753.2** | **900** | **83.7%** |
 
 ---

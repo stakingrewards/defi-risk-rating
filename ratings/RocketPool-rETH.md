@@ -2,14 +2,14 @@
 
 **Rating Date**: 2026-04-29
 **Final Grade**: BB+
-**Total Score**: 785.8/900 points
+**Total Score**: 798.8/900 points
 **Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-gamma
 
 ---
 
 ## Detailed Analysis
 
-### SECURITY (40% Weight) -- Score: 294.5/360 (81.8%)
+### SECURITY (40% Weight) -- Score: 311.2/360 (86.4%)
 
 #### Smart Contract Security (20% weight, 180 max points)
 
@@ -25,11 +25,11 @@
 | S-SC-08 | Were there reductions to the timelock delay that weaken governance protections? | No reductions. The trajectory has been toward stronger governance protections: Houston (July 2024) introduced on-chain pDAO governance with voting delays (>=1 week), challenge periods, and security council. Saturn I (Feb 2026) adds RPIP-60 mandatory 1-week upgrade delay with security council veto. Governance constraints have only been strengthened over time. | 9 | 9 | Non-Improvable (optimal) | [P1] [RPIP-33](https://rpips.rocketpool.net/RPIPs/RPIP-33), [P1] [RPIP-60](https://rpips.rocketpool.net/RPIPs/RPIP-60), [P1] [Saturn Info](https://saturn.rocketpool.net/) |
 | S-SC-09 | Does the protocol run an active bug-bounty via a reputable platform? | Yes. Active Immunefi bug bounty last updated February 17, 2026. Max payout: $150,000 for critical smart contract vulnerabilities. 77 assets in scope. Payouts in RPL. Requires runnable PoC. Max payout >=100k threshold met. Historical payout: critical frontrunning vulnerability paid $100,000 (2020). Note: max payout decreased from previously reported $500k to $150k but still exceeds threshold. | 9 | 9 | Non-Improvable (optimal) | [P1] [Immunefi](https://immunefi.com/bug-bounty/rocketpool/) -- updated Feb 17, 2026, 77 assets, $150k max |
 | S-SC-10 | Are real-time security monitoring and alerting systems in place? | No evidence of third-party real-time security monitoring (e.g., Hypernative, Blockaid) for the protocol. Web search confirmed no Rocket Pool listing on Hypernative's client page. The Smartnode stack has built-in alerting for node operators (Alertmanager-based, Discord notifications for health events), but this is node-level monitoring, not protocol-level invariant monitoring with 24/7 on-call response. No protocol-level monitoring dashboard or provider has been publicly confirmed. | 1 | 9 | Improvable | [P1] [Smartnode Alerting Docs](https://docs.rocketpool.net/guides/node/maintenance/alerting), searched [Hypernative site](https://www.hypernative.io/) -- no Rocket Pool listing found |
-| S-SC-11 | Are automatic safety controls (pause, circuit breakers) triggered by monitoring alerts? | Partial. Houston introduced a security council with the ability to propose and execute emergency changes including pausing the protocol. The security council requires quorum (>=51%) among members. Saturn I adds: RPIP-60 security council veto (33% quorum) and RPIP-61 balance submission guardrails (automatic 2% cap on rETH exchange rate changes per update). RPIP-61 represents an on-chain automatic safety control protecting the rETH rate. However, protocol-level pause remains a manual trigger by security council members, not automated from monitoring alerts. | 3 | 9 | Improvable | [P1] [RPIP-33 Security Council](https://rpips.rocketpool.net/RPIPs/RPIP-33), [P1] [RPIP-60](https://rpips.rocketpool.net/RPIPs/RPIP-60), [P1] [RPIP-61](https://rpips.rocketpool.net/RPIPs/RPIP-61) |
+| S-SC-11 | Are automatic safety controls (pause, circuit breakers) triggered by monitoring alerts? | Yes. RPIP-61 balance submission guardrails (live with Saturn I) automatically cap rETH exchange rate changes to 2% per update -- a genuine on-chain circuit breaker with clear, documented trigger conditions protecting holders from oracle manipulation or inflation-style attacks, which is the main automated risk vector for an LST. rETH has no automated capital allocation mechanisms requiring additional circuit-breaker coverage. The Houston security council additionally provides a quorum-gated protocol pause and RPIP-60 upgrade veto (33% quorum) as manual backstops. **Cross-protocol consistency:** scored identically to StakeWise osETH (9), whose KeeperRewards APY cap is the same class of automatic on-chain rate protection; Rocket Pool additionally has a council pause capability that osETH lacks. | 9 | 9 | Non-Improvable (optimal) | [P1] [RPIP-61](https://rpips.rocketpool.net/RPIPs/RPIP-61), [P1] [RPIP-33 Security Council](https://rpips.rocketpool.net/RPIPs/RPIP-33), [P1] [RPIP-60](https://rpips.rocketpool.net/RPIPs/RPIP-60) |
 
-**Smart Contract Security Subtotal: 85/99 (85.9%)**
-- Raw scores: S-SC-01(9) + S-SC-02(9) + S-SC-03(9) + S-SC-04(9) + S-SC-05(9) + S-SC-06(9) + S-SC-07(9) + S-SC-08(9) + S-SC-09(9) + S-SC-10(1) + S-SC-11(3) = 85/99
-- Adjusted to weight: (85/99) x 180 = 154.5/180
+**Smart Contract Security Subtotal: 91/99 (91.9%)**
+- Raw scores: S-SC-01(9) + S-SC-02(9) + S-SC-03(9) + S-SC-04(9) + S-SC-05(9) + S-SC-06(9) + S-SC-07(9) + S-SC-08(9) + S-SC-09(9) + S-SC-10(1) + S-SC-11(9) = 91/99
+- Adjusted to weight: (91/99) x 180 = 165.5/180
 
 ---
 
@@ -44,19 +44,19 @@
 | S-KM-05 | Are all user assets held in non-custodial smart contracts? | Yes. 100% of user assets held in non-custodial on-chain contracts. ETH is deposited into RocketDepositPool, matched with node operator bonds to create Beacon Chain validators. Validator withdrawal credentials are held by protocol contracts. RocketVault holds ETH/token balances on-chain. Node operators run their own validators but cannot unilaterally access staker funds -- slashing penalties are absorbed by operator bonds before affecting rETH. No off-chain custody. | 9 | 9 | Non-Improvable (optimal) | [P0] [RocketVault](https://etherscan.io/address/0x3bdc69c4e5e13e52a65f5583c23efb9636b469d6), [P0] [rETH Contract](https://etherscan.io/address/0xae78736cd615f374d3085123a210448e74fc6393) |
 | S-KM-06 | Are user funds fully segregated from treasury and operational wallets? | Yes. Clear on-chain segregation: staked ETH on Beacon Chain validators (withdrawal credentials held by minipool contracts), pDAO treasury funded by RPL inflation (15% allocation), separate from staker deposits. The RocketVault contract holds network balances separately. Operational wallets (team-controlled oDAO nodes compromised in May 2022) were separate from protocol funds -- the compromise did not affect user deposits. pDAO treasury reports published monthly on governance forum confirm separate treasury accounting. | 9 | 9 | Non-Improvable (optimal) | [P0] [RocketVault](https://etherscan.io/address/0x3bdc69c4e5e13e52a65f5583c23efb9636b469d6), [P2] [May 2022 Post-Mortem](https://dao.rocketpool.net/t/post-mortem-security-incident-26-05/701), [P2] [Treasury Report](https://dao.rocketpool.net/t/pdao-2026-01-15-2026-02-12-treasury-report/3891) |
 | S-KM-07 | What are the whitelisted protocols the vault strategy can interact with? | N/A -- rETH is a liquid staking token, not a vault strategy. The protocol only interacts with the Ethereum Beacon Chain for validator staking. | N/A | N/A | N/A | - |
-| S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | No publicly documented playbook. The May 2022 oDAO node compromise demonstrated an effective ad-hoc response (incident contained, post-mortem published within days), but there is no formal, publicly available incident response playbook covering key rotation procedures, signer replacement steps, or emergency pause scope limits. The guardian multisig charter discusses emergency procedures at a high level but does not constitute a comprehensive, tested playbook. No evidence of tabletop exercises or simulations. | 1 | 9 | Improvable | [P2] [May 2022 Post-Mortem](https://dao.rocketpool.net/t/post-mortem-security-incident-26-05/701), [P2] [Guardian Multisig Charter](https://dao.rocketpool.net/t/pdao-guardian-multisig-charter/1025) |
+| S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | No formally documented and recently tested playbook with tabletop exercises. However, the May 2022 oDAO node compromise demonstrated an effective real-world response to an actual key-compromise incident: the compromise was contained, affected nodes were rotated, and a post-mortem was published within days. The guardian multisig charter documents emergency procedures at a high level. **Cross-protocol consistency:** this matches the Mid (3) profile applied to StakeWise osETH (demonstrated ad-hoc signer rotations and crisis response without a formal playbook) and Etherfi eETH (demonstrated response, no comprehensive tested playbook) -- demonstrated real-world key-compromise response capability without a formal, recently tested playbook. Improvable via publication of a formal incident playbook with tabletop exercises. | 3 | 9 | Improvable | [P2] [May 2022 Post-Mortem](https://dao.rocketpool.net/t/post-mortem-security-incident-26-05/701), [P2] [Guardian Multisig Charter](https://dao.rocketpool.net/t/pdao-guardian-multisig-charter/1025) |
 
 **Key Management Subtotal (7 scored questions, 1 N/A):**
-- Raw scores: S-KM-01(9) + S-KM-02(9) + S-KM-03(9) + S-KM-04(3) + S-KM-05(9) + S-KM-06(9) + S-KM-08(1) = 49/63
-- Adjusted to weight: (49/63) x 180 = 140.0/180
+- Raw scores: S-KM-01(9) + S-KM-02(9) + S-KM-03(9) + S-KM-04(3) + S-KM-05(9) + S-KM-06(9) + S-KM-08(3) = 51/63
+- Adjusted to weight: (51/63) x 180 = 145.7/180
 
 ---
 
-**Security Total: 154.5 + 140.0 = 294.5/360 (81.8%)**
+**Security Total: 165.5 + 145.7 = 311.2/360 (86.4%)**
 
 ---
 
-### STRATEGY (30% Weight) -- Score: 246.4/270 (91.3%)
+### STRATEGY (30% Weight) -- Score: 247.0/270 (91.5%)
 
 #### Protocol Mechanics (5% weight, 45 max points)
 
@@ -97,7 +97,7 @@
 |------|----------|----------------|---------|-----------|----------------|----------|
 | ST-IC-01 | Which chains, bridges, oracles, wallets and CEXs does the strategy depend on? | Ethereum mainnet (Tier-0 chain). Custom oracle system via oDAO (~18 members with 51% consensus), now constrained by RPIP-61 balance submission guardrails. No external bridges for core staking. No CEX dependency. Chainlink provides rETH/ETH price feed for external integrations but the protocol itself uses oDAO for its exchange rate. All critical dependencies are Tier-0. | 9 | 9 | Non-Improvable (optimal) | [P0] Ethereum Mainnet, [P1] [oDAO Docs](https://docs.rocketpool.net/guides/odao/overview), [P1] [RPIP-61](https://rpips.rocketpool.net/RPIPs/RPIP-61) |
 | ST-IC-02 | How redundant and battle-tested are the oracle and bridge setups? | oDAO: 51% consensus of ~18 members provides redundancy. May 2022 demonstrated resilience when 2 oDAO nodes were compromised without affecting protocol operations. Saturn I adds RPIP-61 guardrail (max 2% rate change per update) as an additional safety layer. No external bridge dependency. Oracle setup is battle-tested over 4+ years. | 9 | 9 | Non-Improvable (optimal) | [P2] [May 2022 Post-Mortem](https://dao.rocketpool.net/t/post-mortem-security-incident-26-05/701), [P1] [RPIP-61](https://rpips.rocketpool.net/RPIPs/RPIP-61) |
-| ST-IC-03 | Are off-chain infrastructure providers certified by standard IT security audits? | N/A -- Rocket Pool is primarily on-chain with no critical off-chain infrastructure providers. The oDAO members run their own nodes, and the permissionless node operator model means no central off-chain keeper or relayer is required. | N/A | N/A | N/A | - |
+| ST-IC-03 | Are off-chain infrastructure providers certified by standard IT security audits? | The oDAO oracle network (~18 members) constitutes critical off-chain infrastructure: members run off-chain daemons that observe the Beacon Chain and submit balance data determining the rETH exchange rate -- directly analogous to StakeWise's 11-operator oracle network (scored under this question). Several oDAO members are established organizations (Coinbase Ventures, Lighthouse/Sigma Prime, Prysm, Nimbus/Status), but SOC 2 / ISO27001 certification status for their oDAO node operations is not centrally disclosed or publicly verifiable. Permissionless node operators are excluded from certification requirements by design (bond-collateralized, consistent with the treatment of Lido's permissionless CSM operators). **Cross-protocol consistency:** scored as Source Missing Mid (3), matching Etherfi eETH (certifications not centrally disclosed) and the standard applied to Lido/StakeWise oracle and operator sets. | 3 | 9 | Source Missing | [P1] [oDAO Docs](https://docs.rocketpool.net/guides/odao/overview), [P4] [CoinDesk oDAO membership](https://www.coindesk.com/business/2023/04/03/coinbase-ventures-joins-liquid-staking-protocol-rocket-pools-oracle-dao/) -- no certification disclosures found |
 | ST-IC-04 | How did these infra components behave in past outages or chain incidents? | Resilient track record over 4+ years. May 2022 oDAO compromise: 2 nodes compromised, protocol continued operating normally. No infrastructure failure has caused user fund losses. Protocol operated through FTX collapse (Nov 2022), banking crisis (Mar 2023), and all major Ethereum network events without disruption. Deployed >6 months with no chain-level incidents causing user impact. | 9 | 9 | Non-Improvable (optimal) | [P2] [May 2022 Post-Mortem](https://dao.rocketpool.net/t/post-mortem-security-incident-26-05/701) |
 | ST-IC-05 | Has the base chain recently halted block production? | No. Ethereum has had no chain-level halts >30 minutes in the last 12+ months. Tier-0 reliability. | 9 | 9 | Non-Improvable (optimal) | Ethereum Tier-0 status |
 | ST-IC-06 | Has the validator set experienced slashing events that could impact staked collateral? | Minor slashing events across the broader Rocket Pool validator set have occurred (inherent to any 17,000+ validator network), but all have been absorbed by node operator bonds. PrismaRisk noted slashing losses at 1.15% of consensus rewards -- higher than some competitors but well within bond absorption capacity. No slashing event has impacted rETH value. | 9 | 9 | Non-Improvable (optimal) | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P1] [Docs - Responsibilities](https://docs.rocketpool.net/guides/node/responsibilities) |
@@ -107,9 +107,9 @@
 | ST-IC-10 | Are rate limits or circuit breakers enforced on cross-chain escrow releases or minting? | N/A — No cross-chain escrow or bridge minting exists in the core Rocket Pool protocol. rETH is minted on Ethereum mainnet only. | N/A | N/A | N/A | - |
 | ST-IC-11 | Is the off-chain verification infrastructure resilient to data-source manipulation? | N/A — Rocket Pool has no off-chain bridge verification component. The oDAO oracle system (off-chain balance reporting) is assessed under ST-IC-02 and protected by RPIP-61 (2% rate cap per update) and 51% consensus requirement across 18 members. | N/A | N/A | N/A | - |
 
-**Infra Counterparty Subtotal (7 scored questions, 4 N/A):**
-- Raw scores: 7x9 = 63/63
-- Adjusted: (63/63) x 45 = 45.0/45
+**Infra Counterparty Subtotal (8 scored questions, 3 N/A):**
+- Raw scores: 7x9 + ST-IC-03(3) = 66/72
+- Adjusted: (66/72) x 45 = 41.3/45
 
 ---
 
@@ -140,8 +140,8 @@
 | ST-L-05 | How does exit liquidity behave during volatility and network congestion? | Battle-tested. During the June 2022 3AC crisis, rETH maintained the tightest peg among major LSTs. PrismaRisk noted rETH "exhibited low volatility since the Shappella upgrade." Balancer metastable pool honors true exchange rate, reducing slippage. Secondary market exits remained functional through all historical stress events. rETH's smaller TVL means less concentrated exit pressure than stETH during stress. | 9 | 9 | Non-Improvable (optimal) | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P3] [CoinGecko Price History](https://www.coingecko.com/en/coins/rocket-pool-eth) |
 | ST-L-06 | Do withdrawals rely on unstaking, vesting, or bridge exits longer than stated period? | Direct burn via deposit pool is instant (when funded). Validator exits subject to Ethereum's exit queue (typically hours to days). Protocol does not promise a specific withdrawal timeline. Less than ~10% of situations would involve extended durations; most users can exit via secondary markets immediately. RPIP-71 proposes forced exits to guarantee redemption. | 9 | 9 | Non-Improvable (optimal) | [P1] [Docs](https://docs.rocketpool.net/guides/staking/overview.html) |
 | ST-L-07 | Does redemption depend on secondary-market liquidity? | Partial dependency. Primary path is direct burn via protocol (when deposit pool has ETH). When deposit pool is depleted, users depend on secondary markets. PrismaRisk found 73% of rETH liquidity concentrated on Balancer. RPIP-71 proposes guaranteed protocol-level redemption via forced exits. Currently, secondary markets are an important but not sole exit path. | 3 | 9 | Improvable | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P2] [RPIP-71](https://dao.rocketpool.net/t/rpip-71-reth-withdrawal-liquidity-via-eip-7002-i-e-forced-exits/3622) |
-| ST-L-08 | What is the liquidity depth of collateral and receipt tokens? | Moderate. PrismaRisk found 1% slippage at ~$38M for rETH. With current TVL, approximately 3% of TVL can be absorbed without major impact. Balancer metastable pool is the primary venue with Uniswap V3 and Curve providing additional depth. rETH has "comparable liquidity depth in relation to its marketcap" despite smaller absolute TVL than stETH. ~3% range suggests Mid (3). | 3 | 3 | Non-Improvable | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH) |
-| ST-L-09 | What is the risk of bank-run scenarios under full utilization? | **Untested under bank-run conditions.** The deposit pool can be depleted, forcing reliance on secondary markets and validator exits. rETH maintained its peg well during general market stress (3AC, FTX, SVB), but has NOT experienced an actual deposit-pool-depletion bank-run event comparable to the July 2025 stETH stress event. Cross-protocol consistency: Lido stETH scored 3 after actually surviving a bank-run-like event with 235k+ stETH in queue and 16+ day waits. rETH, which has not been tested under comparable conditions, cannot score higher. The operator bond structure provides buffer against slashing cascades, but the structural vulnerability of deposit pool depletion is acknowledged by the protocol itself (RPIP-71 addresses this). | 3 | 9 | Improvable | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P2] [RPIP-71](https://dao.rocketpool.net/t/rpip-71-reth-withdrawal-liquidity-via-eip-7002-i-e-forced-exits/3622) |
+| ST-L-08 | What is the liquidity depth of collateral and receipt tokens? | Moderate. PrismaRisk found 1% slippage at ~$38M for rETH. With current TVL, approximately 3% of TVL can be absorbed without major impact. Balancer metastable pool is the primary venue with Uniswap V3 and Curve providing additional depth. rETH has "comparable liquidity depth in relation to its marketcap" despite smaller absolute TVL than stETH. ~3% range suggests Mid (3). **Scoring note:** this question measures secondary-market venue depth relative to TVL; in-protocol redemption paths are assessed separately under ST-L-02/ST-L-07/ST-L-09. Venue depth is not structural -- it can improve through deeper incentivized pools, additional DEX/CEX integrations, TVL-relative depth growth, and especially RPIP-71 (guaranteed protocol redemption via forced exits), which would anchor tight arbitrage the way Lido's withdrawal queue does. Potential is therefore 9 (Improvable), consistent with the classification of market-condition questions across the framework. | 3 | 9 | Improvable | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P2] [RPIP-71](https://dao.rocketpool.net/t/rpip-71-reth-withdrawal-liquidity-via-eip-7002-i-e-forced-exits/3622) |
+| ST-L-09 | What is the risk of bank-run scenarios under full utilization? | **Untested under bank-run conditions.** The deposit pool can be depleted, forcing reliance on secondary markets and validator exits. rETH maintained its peg well during general market stress (3AC, FTX, SVB), but has NOT experienced an actual deposit-pool-depletion bank-run event comparable to the July 2025 stETH stress event. Cross-protocol note: Lido stETH scores 9 here after demonstrating survival of an actual bank-run-scale event (July 2025: 235k+ stETH queued, 16+ day waits, all requests processed, zero permanent depositor losses) per the demonstrated-history principle. rETH remains untested under comparable deposit-pool-depletion conditions and carries a structural dependency on voluntary node-operator exits until forced-exit capability ships (RPIP-71), so the untested-protocol cap of Mid (3) applies -- the same cap applied to Etherfi eETH. The operator bond structure provides buffer against slashing cascades, but the structural vulnerability of deposit pool depletion is acknowledged by the protocol itself (RPIP-71 addresses this). | 3 | 9 | Improvable | [P1] [PrismaRisk Assessment](https://hackmd.io/@PrismaRisk/rETH), [P2] [RPIP-71](https://dao.rocketpool.net/t/rpip-71-reth-withdrawal-liquidity-via-eip-7002-i-e-forced-exits/3622) |
 
 **Liquidity Subtotal: 57/81 = (57/81) x 45 = 31.7/45 (70.4%)**
 
@@ -161,7 +161,7 @@
 
 ---
 
-**Strategy Total: 45.0 + 45.0 + 45.0 + 45.0 + 31.7 + 39.0 = 250.7/270 (92.9%)**
+**Strategy Total: 45.0 + 45.0 + 41.3 + 45.0 + 31.7 + 39.0 = 247.0/270 (91.5%)**
 
 ---
 
@@ -239,40 +239,40 @@
 
 | Category | Subcategory | Scored Q | N/A Q | Raw Score | Max Raw | Adj Points | Max Points | Percentage |
 |----------|-------------|----------|-------|-----------|---------|------------|------------|------------|
-| **Security** | Smart Contract Security (11 Q) | 11 | 0 | 85 | 99 | 154.5 | 180 | 85.9% |
-| | Key Management (7 of 8 Q scored) | 7 | 1 | 49 | 63 | 140.0 | 180 | 77.8% |
-| | **Security Subtotal** | | | | | **294.5** | **360** | **81.8%** |
+| **Security** | Smart Contract Security (11 Q) | 11 | 0 | 91 | 99 | 165.5 | 180 | 91.9% |
+| | Key Management (7 of 8 Q scored) | 7 | 1 | 51 | 63 | 145.7 | 180 | 81.0% |
+| | **Security Subtotal** | | | | | **311.2** | **360** | **86.4%** |
 | **Strategy** | Protocol Mechanics (7 of 9 Q scored) | 7 | 2 | 63 | 63 | 45.0 | 45 | 100.0% |
 | | Collateral (4 Q) | 4 | 0 | 36 | 36 | 45.0 | 45 | 100.0% |
-| | Infra Counterparty (7 of 8 Q scored) | 7 | 1 | 63 | 63 | 45.0 | 45 | 100.0% |
+| | Infra Counterparty (8 of 11 Q scored) | 8 | 3 | 66 | 72 | 41.3 | 45 | 91.7% |
 | | Protocol Counterparty (4 of 5 Q scored) | 4 | 1 | 36 | 36 | 45.0 | 45 | 100.0% |
 | | Liquidity (9 Q) | 9 | 0 | 57 | 81 | 31.7 | 45 | 70.4% |
 | | Market (5 Q) | 5 | 0 | 39 | 45 | 39.0 | 45 | 86.7% |
-| | **Strategy Subtotal** | | | | | **250.7** | **270** | **92.9%** |
+| | **Strategy Subtotal** | | | | | **247.0** | **270** | **91.5%** |
 | **Operations** | Governance (3 of 4 Q scored) | 3 | 1 | 27 | 27 | 67.5 | 67.5 | 100.0% |
 | | Team & Legal (7 of 9 Q scored) | 7 | 2 | 51 | 63 | 54.6 | 67.5 | 81.0% |
 | | Documentation (6 Q) | 6 | 0 | 48 | 54 | 60.0 | 67.5 | 88.9% |
 | | Financial Resilience (5 Q) | 5 | 0 | 39 | 45 | 58.5 | 67.5 | 86.7% |
 | | **Operations Subtotal** | | | | | **240.6** | **270** | **89.1%** |
-| **TOTAL** | | | | | | **785.8** | **900** | **87.3%** |
+| **TOTAL** | | | | | | **798.8** | **900** | **88.8%** |
 
 **Validation:**
-- Smart Contract Security: 9+9+9+9+9+9+9+9+9+1+3 = 85/99. (85/99) x 180 = 154.545 = 154.5 (confirmed)
-- Key Management: 9+9+9+3+9+9+1 = 49/63. (49/63) x 180 = 140.0 (confirmed)
-- Security: 154.5 + 140.0 = 294.5 (confirmed)
+- Smart Contract Security: 9+9+9+9+9+9+9+9+9+1+9 = 91/99. (91/99) x 180 = 165.455 = 165.5 (confirmed)
+- Key Management: 9+9+9+3+9+9+3 = 51/63. (51/63) x 180 = 145.714 = 145.7 (confirmed)
+- Security: 165.5 + 145.7 = 311.2 (confirmed)
 - Protocol Mechanics: 9+9+9+9+9+9+9 = 63/63. (63/63) x 45 = 45.0 (confirmed)
 - Collateral: 36/36 x 45 = 45.0 (confirmed)
-- Infra Counterparty: 63/63 x 45 = 45.0 (confirmed)
+- Infra Counterparty: 7x9 + 3 = 66/72. (66/72) x 45 = 41.25 = 41.3 (confirmed)
 - Protocol Counterparty: 36/36 x 45 = 45.0 (confirmed)
 - Liquidity: 9+3+9+9+9+9+3+3+3 = 57/81. (57/81) x 45 = 31.667 = 31.7 (confirmed)
 - Market: 9+9+9+3+9 = 39/45 x 45 = 39.0 (confirmed)
-- Strategy: 45.0 + 45.0 + 45.0 + 45.0 + 31.7 + 39.0 = 250.7 (confirmed)
+- Strategy: 45.0 + 45.0 + 41.3 + 45.0 + 31.7 + 39.0 = 247.0 (confirmed)
 - Governance: 27/27 x 67.5 = 67.5 (confirmed)
 - Team & Legal: 51/63 x 67.5 = 54.643 = 54.6 (confirmed)
 - Documentation: 48/54 x 67.5 = 60.0 (confirmed)
 - Financial Resilience: 39/45 x 67.5 = 58.5 (confirmed)
 - Operations: 67.5 + 54.6 + 60.0 + 58.5 = 240.6 (confirmed)
-- Total: 294.5 + 250.7 + 240.6 = 785.8 (confirmed)
+- Total: 311.2 + 247.0 + 240.6 = 798.8 (confirmed)
 - Grade: BB+ (785-810 range) -- confirmed
 - All percentages <= 100%: confirmed
 - No score exceeds max: confirmed

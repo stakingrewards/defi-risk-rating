@@ -1,19 +1,19 @@
 # Morpho - Steakhouse USDG Vault Risk Rating
 
-**Rating Date**: 2026-07-22
+**Rating Date**: 2026-08-09 (re-rating following Steakhouse team responses + independent on-chain re-verification; previous rating 2026-07-22, CCC+/587.5)
 **Final Grade**: CCC+
-**Total Score**: 587.5/900 points
+**Total Score**: 644.2/900 points
 **Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-gamma
 
 ---
 
 ## Detailed Analysis
 
-### SECURITY (40% Weight) -- Score: 238.2/360 (66.2%)
+### SECURITY (40% Weight) -- Score: 278.2/360 (77.3%)
 
 #### Smart Contract Security (20% weight, 180 max points)
 
-**NOTE: Smart Contract Security is platform-level. The VaultV2 and Morpho Blue contracts deployed on Robinhood Chain are the same immutable, audited bytecode used across all Morpho V2 deployments. These scores match the Morpho Steakhouse Prime Instant V2 peers. The Robinhood Chain *deployment configuration* (hardcoded oracle, single-EOA owner) is a separate concern scored under ST-IC-02 and Key Management, not here.**
+**NOTE: Smart Contract Security is platform-level. The VaultV2 and Morpho Blue contracts deployed on Robinhood Chain are the same immutable, audited bytecode used across all Morpho V2 deployments. These scores match the Morpho Steakhouse Prime Instant V2 peers. The Robinhood Chain *deployment configuration* (the USDe/USDG meta-oracle, the Owner/Supervisor structure) is a separate concern scored under ST-IC-02 and Key Management, not here.**
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
@@ -26,8 +26,8 @@
 | S-SC-07 | Has any confirmed rug-pull event occurred? | No rug-pull events. Morpho is a nonprofit (ADDMO); Steakhouse has a multi-year clean curation track record. No credible allegations. | 9 | 9 | Non-Improvable (optimal) | [P1] [Morpho Legal Notice](https://morpho.org/legal-notice/) |
 | S-SC-08 | Were there reductions to the timelock delay that weaken governance protections? | No reductions. Deployed with 7-day timelocks on fund-routing/gate/cap/abdicate functions; 0-second base on fee/allocator/penalty functions is the original configuration (not a reduction). Per Morpho V2 design, decreasing a function's timelock is itself subject to that function's current timelock, preventing instant reduction of the 7-day fund-safety timelocks. | 9 | 9 | Non-Improvable (optimal) | [P0] Morpho V2 API (18 per-function timelocks verified), [P1] [V2 Docs](https://docs.morpho.org/learn/concepts/vault-v2/) |
 | S-SC-09 | Does the protocol run an active bug-bounty via a reputable platform? | Yes. Cantina ($2.5M max, covers Morpho V2 contracts) and Immunefi ($2.5M Morpho Blue). Both Tier-0 platforms; V2 contracts in scope. | 9 | 9 | Non-Improvable (optimal) | [P1] [Cantina Bounty](https://cantina.xyz/bounties/35a5f0a1-2ffd-432c-8f3b-77d169add8c3), [P1] [Immunefi](https://immunefi.com/bug-bounty/morpho/) |
-| S-SC-10 | Are real-time security monitoring and alerting systems in place? | Morpho monitoring bots + Chainalysis exist at the platform level, but responses require manual human intervention and no automated protective action covers this vault's allocator flows. On a 3-week-old chain, monitoring maturity for these specific markets is unverified. | 3 | 9 | **Improvable** | [P1] [Security Framework](https://morpho.org/blog/morpho-blue-security-framework-building-the-most-secure-lending-protocol/) |
-| S-SC-11 | Are automatic safety controls (pause, circuit breakers) triggered by monitoring alerts? | No automatic on-chain circuit breakers by design. The Sentinel can only revoke pending timelocked actions; it cannot pause the protocol or halt allocation. Morpho Blue market isolation provides containment. | 3 | 3 | Non-Improvable | [P1] [Security Framework](https://morpho.org/blog/morpho-blue-security-framework-building-the-most-secure-lending-protocol/), [P0] Sentinel = 1-of-7 Safe (RPC) |
+| S-SC-10 | Are real-time security monitoring and alerting systems in place? | Morpho monitoring bots + Chainalysis exist at the platform level, but configuration details specific to this vault's allocator flows and collateral-depeg scenarios are not publicly verifiable. Steakhouse's 2026-08-09 response states it runs real-time alerting today and recommended follow-up for configuration specifics; pending that disclosure, this remains unverified rather than confirmed. | 3 | 9 | **Improvable** | [P1] [Security Framework](https://morpho.org/blog/morpho-blue-security-framework-building-the-most-secure-lending-protocol/), [P2] Steakhouse team response (2026-08-09) |
+| S-SC-11 | Are automatic safety controls (pause, circuit breakers) triggered by monitoring alerts? | No automatic (alert-triggered) on-chain circuit breakers by design; the immutable vault has no pause. Per Morpho's documented Sentinel role, the 1-of-7 Sentinel Safe can do more than revoke pending timelocked actions -- it can also deallocate any adapter's assets back to idle and instantly decrease absolute/relative caps, a real de-risking lever, but these remain manually-triggered (Sentinel-invoked) rather than automatically triggered by monitoring alerts. Morpho Blue market isolation provides additional containment. | 3 | 3 | Non-Improvable | [P1] [Security Framework](https://morpho.org/blog/morpho-blue-security-framework-building-the-most-secure-lending-protocol/), [P1] [Morpho V2 Roles](https://docs.morpho.org/curate/concepts/roles/) (Sentinel: deallocate to idle, decrease caps, revoke pending actions), [P0] Sentinel = 1-of-7 Safe (RPC) |
 
 **Smart Contract Security Subtotal: 158.2/180 (87.9%)**
 - 9 questions scored 9 (sum = 81), 2 questions scored 3 (sum = 6)
@@ -38,47 +38,47 @@
 
 #### Key Management & Permissions (20% weight, 180 max points)
 
-**NOTE: This is the primary driver of the low Security score and the biggest difference from the mainnet Steakhouse V2 peers. On-chain verification (Robinhood Chain RPC, chainId 4663 confirmed) shows the vault Owner (`0x337feFE4...`) has NO contract code and nonce 1 -- it is a single EOA, not a multisig or DAO. The Sentinel (`0x5642BCd5...`) IS a deployed 1-of-7 Safe. The recurring "curator" addresses from the Morpho API (0x0A0e..., 0x827e...) also have no code on Robinhood Chain (they are the mainnet Steakhouse multisig addresses, mirrored as EOAs here).**
+**NOTE (updated 2026-08-09): Re-verification on Robinhood Chain RPC + Morpho GraphQL API shows the Owner structure has changed since the original 2026-07-22 rating. `vault.owner()` now resolves to a Supervisor contract (`0xCa50D23F...`), not directly to an EOA -- confirmed on-chain: it exposes `owner()`, `TIMELOCK()` = 1,209,600s (14 days, immutable), `getGuardians(vault)` = 1 registered guardian (`0x8fadb7fc...`, an EOA), and `pendingSupervisorOwner()` = 0 (no pending change). Calling `Supervisor.owner()` returns `0x337feFE4...` -- the same address Steakhouse has confirmed is an **MPC wallet**, not a single EOA (MPC and EOA addresses are indistinguishable via `eth_getCode`/nonce alone, which is why the original rating's on-chain check could not tell them apart). The Sentinel (`0x5642BCd5...`) remains a deployed 1-of-7 Safe. Per the Morpho API, the three withdrawal-relevant gates are **permanently abdicated** (`receiveSharesGate.abdicated = true`, `sendSharesGate.abdicated = true`, `receiveAssetsGate.abdicated = true`); only `sendAssetsGate` (deposit-side) remains settable, `abdicated = false`. Per Morpho's documented Sentinel role, it can also deallocate any adapter's assets to idle and instantly decrease absolute/relative caps, not only revoke pending timelocked actions. No MPC threshold or independent-signer count has been disclosed, so S-KM-01/03 remain capped at Mid pending that disclosure.**
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| S-KM-01 | Who controls admin and upgrade keys for contracts holding user funds? | High risk. The vault Owner is a single EOA (`0x337feFE4...`, verified: eth_getCode = 0 bytes, nonce 1) -- the top admin role of a ~$170M vault is held by one key, not a diversified multisig or governance. | 1 | 9 | **Improvable** | [P0] RPC eth_getCode/getTransactionCount on 0x337feFE4...; vault.owner() = 0x337feFE4... |
-| S-KM-02 | Can any single key move user funds or upgrade custody contracts? | Mid. Despite the single-EOA owner, no single key can move user funds or upgrade custody: VaultV2/Morpho Blue are immutable, users have permissionless ERC-4626 redemption, adapter/gate/cap changes carry 7-day timelocks, the forceDeallocate penalty is capped, and the 1-of-7 Sentinel can revoke pending actions. The owner can instantly change only fee/allocator/penalty parameters (yield, not principal). Not High -- Deal Breaker does not trigger. | 3 | 9 | **Improvable** | [P0] Morpho V2 API (timelocks), RPC (immutable vault, Sentinel 1-of-7), [P1] [V2 Docs](https://docs.morpho.org/learn/concepts/vault-v2/) |
-| S-KM-03 | How decentralized and robust is the multisig for critical actions? | High risk. Critical actions are initiated by the single-EOA Owner (1-of-1 effective control). The Sentinel is a 1-of-7 Safe but can only veto/reduce, not initiate. No multisig controls the critical-action path. | 1 | 9 | **Improvable** | [P0] RPC: owner is EOA; Sentinel getThreshold()=1, getOwners()=7 |
-| S-KM-04 | How constrained are pause, blocklist and withdrawal-control permissions? | Mid. Gates are currently all null (open) -- withdrawals are permissionless with no address censorship today. The immutable vault has no pause. But the single-EOA Owner could set restrictive gates (address-level control is a V2 feature) subject to a 7-day timelock and Sentinel revoke. Control rests with a single key rather than a multisig. | 3 | 9 | **Improvable** | [P0] Morpho V2 API gatesConfig (all null), timelocks=604800s on gate functions |
+| S-KM-01 | Who controls admin and upgrade keys for contracts holding user funds? | Mid. Admin rights trace to an MPC wallet (`0x337feFE4...`, Steakhouse-confirmed, threshold-signed rather than a single naked key) wrapped by a Supervisor contract with an immutable 14-day ownership-transfer timelock. Not a single entity/person holding a naked key, but no MPC provider, threshold, or independent-signer count has been disclosed, so "diversified multisig or governance" (Low) cannot yet be confirmed. | 3 | 9 | **Source Missing** | [P0] RPC: vault.owner()=0xCa50D23F... (contract, TIMELOCK=1,209,600s); Supervisor.owner()=0x337feFE4...; [P2] Steakhouse team disclosure (MPC wallet, 2026-08-09) |
+| S-KM-02 | Can any single key move user funds or upgrade custody contracts? | Low. No single key can move user funds or upgrade custody: VaultV2/Morpho Blue are immutable, users have permissionless ERC-4626 redemption, adapter/gate/cap changes carry 7-day timelocks, the forceDeallocate penalty is capped, the 1-of-7 Sentinel can revoke pending actions, and vault-ownership transfer itself now requires the Supervisor's immutable 14-day timelock. Matches the identical mechanics already scored Low on the Ethena x Steakhouse USDG sibling. Deal Breaker passes at Low. | 9 | 9 | Non-Improvable (optimal) | [P0] Morpho V2 API (timelocks, gatesConfig abdicated), [P0] RPC (Supervisor TIMELOCK=1,209,600s, Sentinel 1-of-7) |
+| S-KM-03 | How decentralized and robust is the multisig for critical actions? | Mid. Critical actions trace to the same MPC-wallet owner (via the Supervisor), which is confirmed threshold-signed rather than 1-of-1, and any ownership change is gated by a 14-day timelock and a registered guardian. But no MPC threshold or independent-signer identities have been disclosed, so independence and threshold cannot be confirmed for Low -- capped at Mid per the framework's independence-verification rule, consistent with how the same gap is treated on sibling Steakhouse Robinhood Chain vaults. | 3 | 9 | **Source Missing** | [P0] RPC: Supervisor.owner()=0x337feFE4... (MPC, Steakhouse-confirmed), getGuardians=1, TIMELOCK=1,209,600s; Sentinel getThreshold()=1/getOwners()=7 |
+| S-KM-04 | How constrained are pause, blocklist and withdrawal-control permissions? | Low. No pause exists on the immutable vault. The three withdrawal-relevant gates (`receiveSharesGate`, `sendSharesGate`, `receiveAssetsGate`) are **permanently abdicated** (API-verified: `abdicated: true` for all three) -- address-level withdrawal censorship can never be introduced on this vault. Only the non-critical deposit-side `sendAssetsGate` remains settable, behind a 7-day timelock. Rules public via the Morpho API. | 9 | 9 | Non-Improvable (optimal) | [P0] Morpho V2 API (gatesConfig: receiveSharesGate/sendSharesGate/receiveAssetsGate abdicated=true; sendAssetsGate abdicated=false, timelock=604800s) |
 | S-KM-05 | Are all user assets held in non-custodial smart contracts? | Yes. 100% of vault assets are held in non-custodial on-chain Morpho contracts. USDG's fiat reserves at Paxos are the issuer's custody (assessed as counterparty risk), not the vault's custody. | 9 | 9 | Non-Improvable (optimal) | [P1] [V2 Docs](https://docs.morpho.org/learn/concepts/vault-v2/), [P0] Morpho V2 API |
 | S-KM-06 | Are user funds fully segregated from treasury and operational wallets? | Yes. On-chain segregation; performance and management fees are 0% (fee recipients = zero address). No co-mingling with treasury/ops wallets. | 9 | 9 | Non-Improvable (optimal) | [P0] Morpho V2 API (performanceFee=0, managementFee=0, recipients=0x0) |
-| S-KM-07 | What are the whitelisted protocols the vault strategy can interact with? | Mid. On-chain enforced adapter/cap whitelist (one MarketV1 adapter routing to whitelisted USDe/syrupUSDG/spUSDG markets); adapter additions and cap increases require 7-day timelocks. But changes are controlled by the single-EOA Owner (not a multisig), and relative caps are set to 100% (no hard concentration limit). | 3 | 9 | **Improvable** | [P0] Morpho V2 API (1 adapter, caps: relativeCap=1e18=100%), RPC |
-| S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | No published, tested playbook for this vault's novel single-EOA-owner + 1-of-7-Sentinel structure on a new chain. Key-rotation/signer-loss procedures for the EOA owner are undocumented. | 3 | 9 | **Improvable** | [P2] [Supervisor V2 Blog](https://kitchen.steakhouse.financial/p/launching-supervisor-v2-and-migration) |
+| S-KM-07 | What are the whitelisted protocols the vault strategy can interact with? | Mid. On-chain enforced adapter/cap whitelist (one MarketV1 adapter routing to whitelisted USDe/syrupUSDG/spUSDG markets); adapter additions and cap increases require 7-day timelocks. Changes are controlled by the MPC-wallet/Supervisor owner (not a disclosed multisig), and relative caps remain 100% on-chain (no hard concentration limit) -- an off-chain curator reallocation bot enforcing tighter limits would not change this score, since the enforceable on-chain parameter is still 100% and the framework requires on-chain/governance enforcement, not discretionary off-chain policy. | 3 | 9 | **Improvable** | [P0] Morpho V2 API (1 adapter, caps: relativeCap=1e18=100%), RPC |
+| S-KM-08 | Is there a tested incident playbook for admin-key compromise or signer loss? | No published, tested playbook for this vault's MPC-wallet-plus-Supervisor owner, its 1 registered guardian, or the 1-of-7 Sentinel on a new chain. Key-rotation/signer-loss procedures are undocumented. | 3 | 9 | **Improvable** | [P0] RPC (getGuardians(vault)=1), [P2] [Supervisor V2 Blog](https://kitchen.steakhouse.financial/p/launching-supervisor-v2-and-migration) |
 
-**Key Management Subtotal: 80.0/180 (44.4%)**
-- S-KM scores: 1, 3, 1, 3, 9, 9, 3, 3
-- 2 questions scored 9 (S-KM-05, S-KM-06 = 18), 4 questions scored 3 (S-KM-02/04/07/08 = 12), 2 questions scored 1 (S-KM-01/03 = 2)
-- Raw sum = 18 + 12 + 2 = 32 out of max 72
-- Weighted = (32/72) x 180 = 80.0
+**Key Management Subtotal: 120.0/180 (66.7%)**
+- S-KM scores: 3, 9, 3, 9, 9, 9, 3, 3
+- 4 questions scored 9 (S-KM-02/04/05/06 = 36), 4 questions scored 3 (S-KM-01/03/07/08 = 12)
+- Raw sum = 36 + 12 = 48 out of max 72
+- Weighted = (48/72) x 180 = 120.0
 
 ---
 
-### **Security Total: 238.2/360 (66.2%)**
+### **Security Total: 278.2/360 (77.3%)**
 
 | Subcategory | Current | Max | Current % |
 |-------------|---------|-----|-----------|
 | Smart Contract Security | 158.2 | 180 | 87.9% |
-| Key Management | 80.0 | 180 | 44.4% |
-| **Security Total** | **238.2** | **360** | **66.2%** |
+| Key Management | 120.0 | 180 | 66.7% |
+| **Security Total** | **278.2** | **360** | **77.3%** |
 
 ---
 
-### STRATEGY (30% Weight) -- Score: 148.3/270 (54.9%)
+### STRATEGY (30% Weight) -- Score: 150.0/270 (55.6%)
 
-**NOTE: Strategy is materially weaker than the mainnet Steakhouse USDC vaults because the collateral is synthetic/credit stablecoins at 91.5% LLTV (not blue-chip BTC/ETH), the dominant USDe market is priced by a hardcoded 1:1 oracle, and the vault runs on a 3-week-old centralized L2 with no stress history.**
+**NOTE: Strategy is materially weaker than the mainnet Steakhouse USDC vaults because the collateral is synthetic/credit stablecoins at 91.5% LLTV (not blue-chip BTC/ETH), the dominant USDe market's oracle has a 16-hour correction lag (challengeable meta-oracle, not a permanently hardcoded feed -- see ST-IC-02), and the vault runs on a new centralized L2 with no stress history.**
 
 #### Protocol Mechanics (5% weight, 45 max points)
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | ST-PM-01 | What are the sources of yield and is it aligned with the mandate? | Yield is borrower interest from lending USDG against USDe/syrupUSDG/spUSDG. Mandate-aligned (USDG lending); on-chain markets show ~90% utilization = organic borrower demand. Net APY ~2.72% (the headline ~7% Robinhood Earn figure includes app-level incentives outside the vault). | 9 | 9 | Non-Improvable (optimal) | [P0] Morpho V2 API (markets, utilization), [P2] [Steakhouse: Robinhood](https://kitchen.steakhouse.financial/p/robinhood-charts-a-new-course-onchain) |
-| ST-PM-02 | Under which conditions does net yield become negative or cause loss? | Mid. With 91.5% LLTV (~8.5% buffer) and a hardcoded 1:1 oracle on USDe, a plausible single-shock event -- USDe depeg, a Maple credit event impairing syrupUSDG -- can cause bad debt socialized to lenders. Loss is not limited to rare tail shocks. | 3 | 3 | Non-Improvable | [P0] Morpho V2 API (LLTV 91.5%), [P0] USDe oracle hardcoded 1:1 (RPC) |
+| ST-PM-02 | Under which conditions does net yield become negative or cause loss? | Mid. With 91.5% LLTV (~8.5% buffer) and a 16-hour oracle-correction lag on the USDe market (the meta-oracle's primary is hardcoded 1:1 until a >0.5% deviation persists 16 hours), a plausible single-shock event -- USDe depeg, a Maple credit event impairing syrupUSDG -- can cause bad debt socialized to lenders within that window. Loss is not limited to rare tail shocks. | 3 | 3 | Non-Improvable | [P0] Morpho V2 API (LLTV 91.5%), [P0] meta-oracle config verified via RPC (EIP-1167 proxy, deviation threshold 0.5%, 16h challenge) |
 | ST-PM-03 | Is leverage or rehypothecation used and up to what effective level? | No. The vault is a 1.0x lender; no leverage or rehypothecation of depositor funds. | 9 | 9 | Non-Improvable (optimal) | Analytical assessment; [P0] Morpho V2 API |
 | ST-PM-04 | Are there automated mechanics to prevent Liquidation Events? | N/A -- the vault is a lender, not a borrower. Liquidation risk applies to borrowers. | N/A | N/A | N/A | [P1] [Liquidation](https://docs.morpho.org/learn/concepts/liquidation/) |
 | ST-PM-05 | Has this strategy or a close variant ever experienced negative yield? | No permanent-loss events for comparable Steakhouse stablecoin-lending vaults (USDC/USDT) since Jan 2024. No confirmed permanent loss in USDe/syrup/spUSDG-collateralized USDG lending. Deal Breaker passes. (Forward risk from the collateral/oracle is captured in ST-PM-02, ST-C, ST-IC-02.) | 9 | 9 | Non-Improvable (optimal) | [P1] [Steakhouse Docs](https://www.steakhouse.financial/docs) |
@@ -100,7 +100,7 @@
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | ST-C-01 | Which assets are accepted as collateral and how are they risk rated? | Mid. Collateral = USDe (Ethena synthetic dollar; largest market), syrupUSDG (Maple institutional-credit receipt), spUSDG (Spark savings). These are higher-risk yield-bearing/synthetic assets, not blue-chip large-caps. They are tiered with on-chain caps, but the 91.5% LLTV is aggressive (not conservative), and USDe/Maple carry protocol/credit risk. spUSDG (Spark, Tier-0) is the safest of the three. | 3 | 3 | Non-Improvable | [P0] Morpho V2 API markets (USDe/syrup/spUSDG at 91.5% LLTV) |
-| ST-C-02 | How did each collateral behave versus its underlying during past stress or depegs? | Mid. USDe has shown modest (<~2%) historical deviations that recovered; syrupUSDG and spUSDG are new tokens with little peg history. Combined with a hardcoded 1:1 USDe oracle that cannot detect a depeg, deviation behavior is a real concern rather than a resolved one. The Low criterion is a 12-month clean-peg-history test — reachable once syrupUSDG/spUSDG accrue a clean track record and USDe deviations stay within bounds. | 3 | 9 | Time-Based | Market data (USDe history); [P0] USDe oracle hardcoded 1:1 (RPC) |
+| ST-C-02 | How did each collateral behave versus its underlying during past stress or depegs? | Mid. Within the last 12 months USDe suffered a documented stress dislocation (Oct 10-11, 2025 liquidation cascade): ~$0.65 prints on Binance (venue-specific order-book failure) while primary/on-chain venues held near $1 with recovery within hours. syrupUSDG and spUSDG are new tokens with little peg history. The USDe market oracle is a challengeable meta-oracle (16-hour correction lag, not a permanently blind hardcoded feed), but that lag still leaves a real detection gap during fast-moving stress. The Low criterion is a 12-month clean-peg-history test — reachable once syrupUSDG/spUSDG accrue a clean track record and USDe deviations stay within bounds. | 3 | 9 | Time-Based | [P4] [CoinDesk Oct 11 2025](https://www.coindesk.com/markets/2025/10/11/ethena-s-usde-briefly-loses-peg-during-usd19b-crypto-liquidation-cascade), [P0] meta-oracle config verified via RPC |
 | ST-C-03 | How is validator or slashing risk handled for staking-based collaterals? | N/A -- the collateral tokens are not staking LSTs. USDe's backing includes staked ETH within Ethena, but depositors do not bear direct slashing risk on the vault collateral. | N/A | N/A | N/A | Vault architecture |
 | ST-C-04 | What share of TVL relies on bridged or wrapped assets, and how robust is the bridge security? | Mid. The collateral and loan tokens are protocol/receipt tokens (USDe, syrupUSDG, spUSDG) and a regulated stablecoin (USDG) -- categories partly excluded from the strict "bridged/wrapped" definition. However, on a 3-week-old L2 their native-vs-bridged representation could not be verified; conservative Mid pending confirmation of native issuance. | 3 | 9 | **Source Missing** | [P0] RPC (USDG is a proxy on Robinhood Chain; issuance mechanism unverified) |
 
@@ -116,7 +116,7 @@
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | ST-IC-01 | Which chains, bridges, oracles, wallets and CEXs does the strategy depend on? | Mid. Critical dependencies are disclosed but include non-Tier-0/1 components: Robinhood Chain (a new Arbitrum Orbit L2 not on the SR chain list) and custom fixed-price/exchange-rate Morpho oracles (not a named Tier-0/1 oracle provider). USDG (Paxos) is disclosed. Low becomes reachable if Robinhood Chain earns Tier-0/1 status on the SR list as it matures and markets migrate to Tier-0/1 price feeds (the mainnet peer scores 9 with Ethereum + Chainlink-sourced feeds). | 3 | 9 | Time-Based | [P0] Morpho V2 API, RPC (chainId 4663), [P4] [L2Beat Robinhood](https://l2beat.com/scaling/projects/robinhood) |
-| ST-IC-02 | How redundant are oracle setups, and can oracle values be corrected under abnormal conditions? | High risk. The dominant USDe/USDG market uses a HARDCODED 1:1 oracle (`0xE64849bd...`, a 45-byte contract returning exactly 1e24 = fixed USDe = 1 USDG), verified on-chain -- it cannot be updated or corrected, and USDe CAN depeg materially. Per the mandatory hardcoded-oracle check, this is High (1). syrupUSDG/spUSDG use exchange-rate oracles that track protocol NAV (not market/credit markdowns). No redundancy; single immutable oracle per market. | 1 | 3 | **Improvable** | [P0] USDe oracle price()=1e24, 45-byte code (RPC); syrup/spUSDG oracles read exchange rate |
+| ST-IC-02 | How redundant are oracle setups, and can oracle values be corrected under abnormal conditions? | Mid — corrected from the original rating's High(1) verdict. The USDe/USDG market oracle (`0xE64849bd...`) is NOT an uncorrectable constant: its 45-byte code is an EIP-1167 proxy delegating to a Steakhouse **MetaOracleDeviationTimelock** implementation (`0x6a16d6fe1ba26e6ba52fda03972b1fe2e31ca72`, independently confirmed via bytecode inspection). The active primary is a hardcoded 1:1 USDe=USDG price (`price()` = exactly 1e24), but a permissionless challenge switches pricing to a live "USDE / USD" backup feed (`0xd9B1f2958298F25bf1289B5aaB7fB6d1B7416c95`, independently confirmed: Chainlink-style interface, `description()`="USDE / USD", `decimals()`=8, `latestAnswer()`≈$0.99992) once a >0.5% deviation persists for 16 hours (24h heal-back), matching the identical meta-oracle documented on the same chain in the internal [Ethena x Steakhouse USDG rating](Morpho-Ethena-Steakhouse-USDG-Rating.md). The correction path defeats the automatic High(1) verdict of the mandatory hardcoded-oracle check, but a 16-hour liquidation-blind window on a depeggable synthetic at 91.5% LLTV, plus zero redundancy per market, caps this at Mid. Structural: the EIP-1167 proxy and its underlying deviation/threshold/timelock parameters are non-upgradeable, so the hardcoded primary and the 16-hour window cannot be tightened within this market. syrupUSDG/spUSDG use separate exchange-rate oracles tracking protocol NAV (not market/credit markdowns), unaffected by this finding. | 3 | 3 | Non-Improvable | [P0] RPC: oracle bytecode = canonical EIP-1167 minimal proxy (45 bytes) with embedded implementation 0x6a16d6fe1ba26e6ba52fda03972b1fe2e31ca72; price()=1e24; backup feed 0xd9B1f295... verified live (description/decimals/latestAnswer); [P1] internal [Ethena x Steakhouse USDG Rating](Morpho-Ethena-Steakhouse-USDG-Rating.md) (identical oracle, full deviation/threshold/timelock config); syrup/spUSDG oracles read exchange rate |
 | ST-IC-03 | Are off-chain infrastructure providers certified by standard IT security audits? | Mid. No public SOC 2 Type II / ISO 27001 for Morpho Labs or Steakhouse. The Robinhood Chain sequencer operator's IT certifications for this chain are not disclosed. Paxos is a regulated issuer. | 3 | 9 | **Source Missing** | [P1] [Security Framework](https://morpho.org/blog/morpho-blue-security-framework-building-the-most-secure-lending-protocol/) |
 | ST-IC-04 | How did these infra components behave in past outages or chain incidents? | Mid. Robinhood Chain is <6 months old (mainnet July 1, 2026) with no incidents during its short operational period -- per the new-protocol guidance, a data gap scores Mid rather than High. | 3 | 9 | Time-Based | [P4] [thirdweb: Robinhood Chain](https://blog.thirdweb.com/robinhood-chain-inside-the-ethereum-l2-bringing-tokenized-stocks-to-120-countries/) |
 | ST-IC-05 | Has the base chain recently halted block production or experienced consensus failure? | Mid. Robinhood Chain is ~3 weeks old with a single centralized sequencer; no halt >30 min has occurred yet, but there is essentially no track record to support a Low score. | 3 | 9 | Time-Based | [P4] [thirdweb: Robinhood Chain](https://blog.thirdweb.com/robinhood-chain-inside-the-ethereum-l2-bringing-tokenized-stocks-to-120-countries/), [P4] [L2Beat](https://l2beat.com/scaling/projects/robinhood) |
@@ -127,10 +127,10 @@
 | ST-IC-10 | Are rate limits or circuit breakers enforced on cross-chain escrow releases or minting? | N/A -- no cross-chain escrow/minting performed by the vault. | N/A | N/A | N/A | Vault architecture |
 | ST-IC-11 | Is the off-chain verification infrastructure resilient to data-source manipulation? | N/A -- the vault relies on no off-chain verifiers; oracle data is consumed on-chain. | N/A | N/A | N/A | Vault architecture |
 
-**Infrastructure Counterparty Subtotal: 13.3/45 (29.6%)**
-- 6 scored (ST-IC-06/07/09/10/11 = N/A): 5 scored 3 (sum = 15), 1 scored 1
-- Raw sum = 16 out of max 54
-- Weighted = (16/54) x 45 = 13.3
+**Infrastructure Counterparty Subtotal: 15.0/45 (33.3%)**
+- 6 scored (ST-IC-06/07/09/10/11 = N/A): 6 scored 3 (ST-IC-01/02/03/04/05/08)
+- Raw sum = 18 out of max 54
+- Weighted = (18/54) x 45 = 15.0
 
 ---
 
@@ -140,7 +140,7 @@
 |------|----------|----------------|---------|-----------|----------------|----------|
 | ST-PC-01 | Into which external protocols, CEXs or RWA platforms is collateral deployed? | Mid. Collateral value depends on external protocols: Spark (Tier-0, spUSDG), Ethena (untiered but major, >$5B, USDe -- dominant exposure), and Maple (untiered, syrupUSDG; predecessor product had a 2022 credit default). Mix of Tier-0 and untiered/higher-risk venues; the largest exposure is a synthetic dollar. | 3 | 3 | Non-Improvable | [P0] Morpho V2 API markets, [P2] [Steakhouse: Robinhood](https://kitchen.steakhouse.financial/p/robinhood-charts-a-new-course-onchain) |
 | ST-PC-02 | Are revenue-share or incentive arrangements documented and do they create conflicts? | Low risk. Vault performance and management fees are 0% (verified). Steakhouse is the publicly disclosed curator and the Robinhood partnership is publicly announced. No hidden vault-level rebates. | 9 | 9 | Non-Improvable (optimal) | [P0] Morpho V2 API (fees=0), [P1] [Morpho: Robinhood](https://morpho.org/blog/robinhood-chooses-morpho-to-power-new-earn-product) |
-| ST-PC-03 | Are there hard limits and rebalancing rules per counterparty? | Mid. On-chain caps exist (absolute caps ~$200-500M; increases require 7-day timelock), but relative caps are set to 100%, so the vault can allocate up to 100% to a single market -- no hard concentration limit. | 3 | 9 | **Improvable** | [P0] Morpho V2 API caps (relativeCap = 1e18 = 100%) |
+| ST-PC-03 | Are there hard limits and rebalancing rules per counterparty? | Mid. On-chain caps exist (absolute caps ~$200-500M; increases require 7-day timelock), but relative caps are set to 100%, so the vault can allocate up to 100% to a single market -- no hard concentration limit. Steakhouse's 2026-08-09 response asked whether evidence of caps enforced inside the curator's off-chain reallocation bots would change this score: it would not, on its own -- this question requires limits "enforced on-chain or by automatic policy," and an off-chain bot is discretionary and reversible (the on-chain relativeCap parameter itself remains 100% regardless of bot behavior). Reaching Low would require the on-chain cap parameters themselves to be tightened, or a documented, verifiable on-chain automatic-policy mechanism. | 3 | 9 | **Improvable** | [P0] Morpho V2 API caps (relativeCap = 1e18 = 100%) |
 | ST-PC-04 | How quickly and safely can positions be unwound from each counterparty? | Mid. Unwind depends on borrower repayment at ~90% utilization; forceDeallocate provides an in-kind backstop (capped penalty). New-chain secondary liquidity is thin; no discretionary approvals needed. The mainnet peer scores Low on identical unwind mechanics with mature liquidity and stress-tested exit paths — achievable here as liquidity deepens and exits are demonstrated. | 3 | 9 | Time-Based | [P0] Morpho V2 API (utilization, forceDeallocatableLiquidity ~$5.1M), [P1] [V2 Docs](https://docs.morpho.org/learn/concepts/vault-v2/) |
 | ST-PC-05 | Are third-party validators, custody providers or asset managers disclosed? | Low risk. On-chain lending with no third-party custody of vault assets. Curator (Steakhouse), collateral protocols (Ethena/Maple/Spark), and USDG issuer/custodian (Paxos/DBS/Standard Chartered) are all disclosed. Deal Breaker passes. | 9 | 9 | Non-Improvable (optimal) | [P1] [Morpho: Robinhood](https://morpho.org/blog/robinhood-chooses-morpho-to-power-new-earn-product), [P1] [USDG/Paxos](https://docs.paxos.com/guides/stablecoin/usdg) |
 
@@ -165,7 +165,7 @@
 | ST-L-06 | Do withdrawals rely on unstaking, vesting, or bridge exits longer than stated period? | No structural lockups, vesting, or bridge exits on the vault position; exit depends on borrower repayment, not time-locks. forceDeallocate provides an in-kind backstop. | 9 | 9 | Non-Improvable (optimal) | [P1] [V2 Docs](https://docs.morpho.org/learn/concepts/vault-v2/) |
 | ST-L-07 | Does redemption depend on secondary-market liquidity and is it sufficient? | Primary redemption is via ERC-4626 (always available); no secondary-market dependency for exit. | 9 | 9 | Non-Improvable (optimal) | Vault mechanics |
 | ST-L-08 | What is the liquidity depth of collateral and receipt tokens? | Mid. USDG and the collateral tokens (USDe/syrup/spUSDG) have thin on-chain secondary depth on a 3-week-old L2; immediate vault liquidity is ~$25M of $170M. Depth supports staggered rather than near-total exits. | 3 | 3 | Non-Improvable | [P0] Morpho V2 API, [P4] [SteakhouseFi on Robinhood Chain](https://cryptobriefing.com/steakhousefi-vaults-robinhood-chain-users/) |
-| ST-L-09 | What is the risk of bank-run scenarios under full utilization? | Mid. A run would cause queues and rate spikes; thin ~15% buffer and the hardcoded-oracle USDe risk mean some discounting is possible, but the rate model and market isolation constrain permanent loss. Untested. | 3 | 3 | Non-Improvable | [P1] [Risk Docs](https://docs.morpho.org/learn/resources/risks) |
+| ST-L-09 | What is the risk of bank-run scenarios under full utilization? | Mid. A run would cause queues and rate spikes; thin ~15% buffer and the USDe oracle's 16-hour correction lag mean some discounting is possible during a fast-moving depeg, but the rate model and market isolation constrain permanent loss. Untested. | 3 | 3 | Non-Improvable | [P1] [Risk Docs](https://docs.morpho.org/learn/resources/risks) |
 
 **Liquidity Subtotal: 28.3/45 (62.9%)**
 - 4 questions scored 9 (sum = 36), 5 questions scored 3 (sum = 15)
@@ -181,7 +181,7 @@
 | ST-M-01 | How has the LST or receipt token peg performed under market stress? | Mid. The vault share (USDG-denominated ERC-4626) is ~3 weeks old and has not been tested under redemption stress on this new chain. | 3 | 9 | Time-Based | [P0] Morpho V2 API (sharePrice, vault age) |
 | ST-M-02 | How likely can adverse crypto market moves cause permanent losses due to directional exposure? | Low. The vault lends USDG against stablecoin collateral -- dollar-denominated throughout, no directional BTC/ETH beta for lenders. The risk is collateral depeg/credit (captured in ST-C/ST-IC-02), not market direction. | 9 | 9 | Non-Improvable (optimal) | Vault mechanics |
 | ST-M-03 | Are interest rate/incentive models robust during TVL shifts or volatility spikes? | Low. Immutable Adaptive Curve IRM per market; rates rise with utilization; no governance manipulation. Current ~90% utilization is below the >=95% prolonged-stress threshold. | 9 | 9 | Non-Improvable (optimal) | [P1] [Risk Docs](https://docs.morpho.org/learn/resources/risks) |
-| ST-M-04 | Have historic scenarios with high market volatility been explicitly modeled? | Mid. Morpho liquidation is formally verified and Steakhouse does scenario/secondary-liquidity modeling, but the key tail -- a USDe depeg priced by a hardcoded 1:1 oracle -- is not liquidation-protected, leaving an effectively unbounded loss path unmitigated. | 3 | 9 | **Improvable** | [P1] [Formal Verification](https://morpho.org/blog/formally-verifying-morpho-blue-with-certorav/), [P0] USDe oracle (RPC) |
+| ST-M-04 | Have historic scenarios with high market volatility been explicitly modeled? | Mid. Morpho liquidation is formally verified and Steakhouse does scenario/secondary-liquidity modeling, but the key tail -- a USDe depeg during the meta-oracle's 16-hour challenge window at 91.5% LLTV -- is not liquidation-protected during that window, leaving the dominant loss path unmitigated by modeling (bounded to 16 hours rather than unbounded, but still unmitigated). | 3 | 9 | **Improvable** | [P1] [Formal Verification](https://morpho.org/blog/formally-verifying-morpho-blue-with-certorav/), [P0] meta-oracle config (RPC) |
 | ST-M-05 | Can sharp price moves trigger forced liquidations that crystallize losses? | Low (borrower-side). The vault has no leverage and is not itself liquidated; lenders benefit from liquidations. The collateral-depeg/bad-debt path is captured in ST-IC-02/ST-PM-02. | 9 | 9 | Non-Improvable (optimal) | [P1] [Liquidation](https://docs.morpho.org/learn/concepts/liquidation/) |
 
 **Market Subtotal: 33.0/45 (73.3%)**
@@ -191,35 +191,35 @@
 
 ---
 
-### **Strategy Total: 148.3/270 (54.9%)**
+### **Strategy Total: 150.0/270 (55.6%)**
 
 | Subcategory | Current | Max | Current % |
 |-------------|---------|-----|-----------|
 | Protocol Mechanics | 31.7 | 45 | 70.4% |
 | Collateral | 15.0 | 45 | 33.3% |
-| Infra Counterparty | 13.3 | 45 | 29.6% |
+| Infra Counterparty | 15.0 | 45 | 33.3% |
 | Protocol Counterparty | 27.0 | 45 | 60.0% |
 | Liquidity | 28.3 | 45 | 62.9% |
 | Market | 33.0 | 45 | 73.3% |
-| **Strategy Total** | **148.3** | **270** | **54.9%** |
+| **Strategy Total** | **150.0** | **270** | **55.6%** |
 
 ---
 
-### OPERATIONS (30% Weight) -- Score: 201.0/270 (74.4%)
+### OPERATIONS (30% Weight) -- Score: 216.0/270 (80.0%)
 
 #### Governance (7.5% weight, 67.5 max points)
 
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
-| O-G-01 | What governance model controls protocol changes and upgrades? | Mid. Core contracts (VaultV2, Morpho Blue) are immutable, so fund-custody logic cannot be upgraded. But the top admin (Owner) is a single EOA controlling vault parameters (via 7-day timelocks + Sentinel veto) -- not on-chain tokenholder governance and not even a multisig. | 3 | 9 | **Improvable** | [P0] RPC (owner EOA), Morpho V2 API |
+| O-G-01 | What governance model controls protocol changes and upgrades? | Low. Core contracts (VaultV2, Morpho Blue) are immutable, so fund-custody logic cannot be upgraded by anyone. The top admin (Owner) is an MPC wallet (Steakhouse-confirmed) wrapped by a Supervisor contract with an immutable 14-day timelock on any ownership transfer and a registered guardian -- no single entity can unilaterally change core fund-custody logic, and even changing who controls parameters requires the 14-day delay. | 9 | 9 | Non-Improvable (optimal) | [P0] RPC (Supervisor TIMELOCK=1,209,600s, getGuardians=1), Morpho V2 API |
 | O-G-02 | How concentrated is voting power among top holders or delegates? | N/A -- no governance token or on-chain voting for this vault; the Owner is an EOA (concentration captured under S-KM-01/03). | N/A | N/A | N/A | [P0] RPC (owner EOA) |
 | O-G-03 | Are mechanisms in place to limit major changes like timelocks and veto? | Low. Critical functions (adapters, gates, caps, abdicate) carry 7-day timelocks (>=24h); the 1-of-7 Sentinel can veto any pending action. Fee/allocator functions have 0-second base timelocks (yield, not principal). | 9 | 9 | Non-Improvable (optimal) | [P0] Morpho V2 API (18 timelocks verified) |
 | O-G-04 | Can the protocol replace the strategy manager without blocking user withdrawals? | Low. The Owner can appoint a new curator/allocators; withdrawals remain permissionless via ERC-4626 + forceDeallocate throughout. | 9 | 9 | Non-Improvable (optimal) | [P1] [V2 Docs](https://docs.morpho.org/learn/concepts/vault-v2/) |
 
-**Governance Subtotal: 52.5/67.5 (77.8%)**
-- 2 questions scored 9 (sum = 18), 1 question scored 3, 1 question N/A (O-G-02)
-- Raw sum = 21 out of max 27
-- Weighted = (21/27) x 67.5 = 52.5
+**Governance Subtotal: 67.5/67.5 (100.0%)**
+- 3 questions scored 9 (O-G-01/03/04, sum = 27), 1 question N/A (O-G-02)
+- Raw sum = 27 out of max 27
+- Weighted = (27/27) x 67.5 = 67.5
 
 ---
 
@@ -279,15 +279,15 @@
 
 ---
 
-### **Operations Total: 201.0/270 (74.4%)**
+### **Operations Total: 216.0/270 (80.0%)**
 
 | Subcategory | Current | Max | Current % |
 |-------------|---------|-----|-----------|
-| Governance | 52.5 | 67.5 | 77.8% |
+| Governance | 67.5 | 67.5 | 100.0% |
 | Team & Legal | 52.5 | 67.5 | 77.8% |
 | Documentation | 67.5 | 67.5 | 100.0% |
 | Financial Resilience | 28.5 | 67.5 | 42.2% |
-| **Operations Total** | **201.0** | **270** | **74.4%** |
+| **Operations Total** | **216.0** | **270** | **80.0%** |
 
 ---
 
@@ -296,21 +296,21 @@
 | Category | Subcategory | Raw Score | Max Raw | Adj Points | Max Points | Percentage |
 |----------|-------------|-----------|---------|------------|------------|------------|
 | **Security** | Smart Contract Security (11 Q) | 87 | 99 | 158.2 | 180 | 87.9% |
-| | Key Management (8 Q) | 32 | 72 | 80.0 | 180 | 44.4% |
-| | **Security Subtotal** | | | **238.2** | **360** | **66.2%** |
+| | Key Management (8 Q) | 48 | 72 | 120.0 | 180 | 66.7% |
+| | **Security Subtotal** | | | **278.2** | **360** | **77.3%** |
 | **Strategy** | Protocol Mechanics (9 of 10 Q scored) | 57 | 81 | 31.7 | 45 | 70.4% |
 | | Collateral (3 of 4 Q scored) | 9 | 27 | 15.0 | 45 | 33.3% |
-| | Infra Counterparty (6 of 11 Q scored) | 16 | 54 | 13.3 | 45 | 29.6% |
+| | Infra Counterparty (6 of 11 Q scored) | 18 | 54 | 15.0 | 45 | 33.3% |
 | | Protocol Counterparty (5 Q) | 27 | 45 | 27.0 | 45 | 60.0% |
 | | Liquidity (9 Q) | 51 | 81 | 28.3 | 45 | 62.9% |
 | | Market (5 Q) | 33 | 45 | 33.0 | 45 | 73.3% |
-| | **Strategy Subtotal** | | | **148.3** | **270** | **54.9%** |
-| **Operations** | Governance (3 of 4 Q scored) | 21 | 27 | 52.5 | 67.5 | 77.8% |
+| | **Strategy Subtotal** | | | **150.0** | **270** | **55.6%** |
+| **Operations** | Governance (3 of 4 Q scored) | 27 | 27 | 67.5 | 67.5 | 100.0% |
 | | Team & Legal (9 Q) | 63 | 81 | 52.5 | 67.5 | 77.8% |
 | | Documentation (6 Q) | 54 | 54 | 67.5 | 67.5 | 100.0% |
 | | Financial Resilience (5 Q) | 19 | 45 | 28.5 | 67.5 | 42.2% |
-| | **Operations Subtotal** | | | **201.0** | **270** | **74.4%** |
-| **TOTAL** | | | | **587.5** | **900** | **65.3%** |
+| | **Operations Subtotal** | | | **216.0** | **270** | **80.0%** |
+| **TOTAL** | | | | **644.2** | **900** | **71.6%** |
 
 ---
 

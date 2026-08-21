@@ -148,9 +148,9 @@
 | ST-PC-05 | Are third-party validators, custody providers or asset managers disclosed? | Low risk. On-chain lending with no third-party custody of vault assets. Curator (Steakhouse), collateral protocols (Ethena/Maple/Spark), and USDG issuer/custodian (Paxos/DBS/Standard Chartered) are all disclosed. Deal Breaker passes. | 9 | 9 | Non-Improvable (optimal) | [P1] [Morpho: Robinhood](https://morpho.org/blog/robinhood-chooses-morpho-to-power-new-earn-product), [P1] [USDG/Paxos](https://docs.paxos.com/guides/stablecoin/usdg) |
 
 **Protocol Counterparty Subtotal: 33.0/45 (73.3%)**
-- 2 questions scored 9 (sum = 18), 3 questions scored 3 (sum = 9)
-- Raw sum = 27 out of max 45
-- Weighted = (27/45) x 45 = 27.0
+- 3 questions scored 9 (sum = 27), 2 questions scored 3 (sum = 6)
+- Raw sum = 33 out of max 45
+- Weighted = (33/45) x 45 = 33.0
 
 ---
 

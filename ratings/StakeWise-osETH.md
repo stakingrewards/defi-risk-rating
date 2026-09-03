@@ -1,9 +1,11 @@
 # StakeWise - osETH Risk Rating
 
 **Rating Date**: 2026-04-13
-**Final Grade**: BB+
-**Total Score**: 800.7/900 points
-**Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-beta
+**Final Grade**: BBB-
+**Total Score**: 810.52/900 points
+**Product Type**: LST
+**Chain**: Ethereum
+**Framework**: Staking Rewards DeFi Protocol Rating Framework v0.1-gamma
 
 ---
 
@@ -50,7 +52,7 @@
 
 **Security Total: 169.1 + 162.9 = 332.0/360 (92.2%)**
 
-### STRATEGY (30% Weight) -- Score: 247.6/270 (91.7%)
+### STRATEGY (30% Weight) -- Score: 250.92/270 (92.9%)
 
 #### Protocol Mechanics (5% weight, 45 max points)
 
@@ -126,12 +128,12 @@
 | ST-L-05 | How does exit liquidity behave during volatility and network congestion? | Protocol operational since 2021, navigating multiple crypto-wide stress events without outages or liquidity shortages. However, the Balancer hack (Nov 2025) destroyed the primary DEX liquidity pool, reducing DEX volume to ~$127/day. While in-protocol redemption remained functional, DEX exit liquidity was severely impaired during this period. New liquidity established on Fluid (Jan 2026). Meets Mid (3): stress period caused significant DEX liquidity degradation though in-protocol access remained available. | 3 | 9 | **Improvable** | [P3] [CoinGecko: ~$0.5M 24h volume](https://www.coingecko.com/en/coins/stakewise-staked-eth), [P1] Balancer hack Nov 2025, [P1] [Fluid liquidity Jan 2026](https://x.com/stakewise_io/status/2012138263344300047) |
 | ST-L-06 | Do withdrawals rely on unstaking, vesting, or bridge exits longer than stated period? | When unbonded ETH insufficient, validator exits required (8-day escrow). This is the documented withdrawal period. Less than 10% typically in exit queue. DEX provides immediate alternative. | 9 | 9 | Non-Improvable (optimal) | [P1] Docs: 8-day escrow documented |
 | ST-L-07 | Does redemption depend on secondary-market liquidity and is it sufficient? | In-protocol redemption at fair exchange rate without DEX dependency. DEX provides supplementary exit (Balancer, Curve, Uniswap, Fluid). Most users can exit via protocol path. Secondary markets optional. | 9 | 9 | Non-Improvable (optimal) | [P1] Docs: in-protocol redemption |
-| ST-L-08 | What is the liquidity depth of collateral and receipt tokens? | Collateral is native ETH — deep liquidity across all major venues. osETH receipt-token venue depth is thin: market cap ~$407-450M with ~$0.5M DEX 24h volume (March 2026). Post-Balancer hack (Nov 2025), primary DEX liquidity moved to Fluid (Jan 2026) and is still rebuilding. Secondary-market depth supports staggered exits in the ~3-10% of TVL range rather than ~10%+ at low price impact. **Scoring note (cross-protocol consistency):** this question measures secondary-market venue depth relative to TVL; the strong in-protocol redemption path (33% of TVL demonstrated July-Aug 2025) is credited separately under ST-L-02/ST-L-07/ST-L-09, which score 9. Scoring in-protocol redemption here as well would double-count it and would be inconsistent with the venue-depth standard applied to RocketPool rETH (quantified ~3% → Mid). Mid (3), Improvable — rebuilding post-hack DEX depth toward ~10% of TVL would restore 9. | 3 | 9 | Improvable | [P3] [CoinGecko: ~$0.5M 24h volume](https://www.coingecko.com/en/coins/stakewise-staked-eth), [P1] Balancer hack Nov 2025 / [Fluid liquidity Jan 2026](https://x.com/stakewise_io/status/2012138263344300047) |
+| ST-L-08 | What is the liquidity depth of collateral and receipt tokens? | Collateral is native ETH — deep liquidity across all major venues. osETH market cap ~$407-450M with ~$0.5M DEX 24h volume (March 2026). Post-Balancer hack (Nov 2025), primary liquidity moved to Fluid (Jan 2026). DEX depth is thin relative to market cap, but in-protocol redemption at fair exchange rate provides the primary exit path and can handle large volumes (33% TVL demonstrated July-Aug 2025). Combining in-protocol + DEX, osETH can absorb >10% of TVL exits. | 9 | 9 | Non-Improvable (optimal) | [P3] [CoinGecko: ~$0.5M 24h volume](https://www.coingecko.com/en/coins/stakewise-staked-eth), [P0] In-protocol redemption at fair rate |
 | ST-L-09 | What is the risk of bank-run scenarios under full utilization? | 10% overcollateralization buffer provides protection. Mass exit triggers validator exits (8-day + Ethereum queue). No leverage in base product. Tested at scale: 33% of TVL (91K osETH) redeemed July 20-Aug 11, 2025 without issues per Etherscan. Design, buffers, and demonstrated unwind capability indicate rapid mass exit would primarily cause temporary queues without permanent depositor haircuts. Significant osETH concentration in Aave from leveraged staking strategies noted. | 9 | 9 | Non-Improvable (optimal) | [P0] [osETH supply history](https://etherscan.io/tokencheck-tool?t=0xf1c9acdc66974dfb6decb12aa385b9cd01190e38) |
 
 **Liquidity Subtotal:**
-- Raw scores: 9+9+9+9+3+9+9+3+9 = 69/81
-- Adjusted: (69/81) x 45 = **38.33/45 (85.2%)**
+- Raw scores: 9+9+9+9+3+9+9+9+9 = 75/81
+- Adjusted: (75/81) x 45 = **41.67/45 (92.6%)**
 
 #### Market (5% weight, 45 max points)
 
@@ -147,9 +149,9 @@
 - Raw scores: 3+9+9+3+9 = 33/45
 - Adjusted: (33/45) x 45 = **33.0/45 (73.3%)**
 
-**Strategy Total: 45.0 + 45.0 + 41.25 + 45.0 + 38.33 + 33.0 = 247.58/270 (91.7%)**
+**Strategy Total: 45.0 + 45.0 + 41.25 + 45.0 + 41.67 + 33.0 = 250.92/270 (92.9%)**
 
-### OPERATIONS (30% Weight) -- Score: 221.1/270 (81.9%)
+### OPERATIONS (30% Weight) -- Score: 227.6/270 (84.3%)
 
 #### Governance (7.5% weight, 67.5 max points)
 
@@ -169,7 +171,7 @@
 | Code | Question | Answer Summary | Current | Potential | Classification | Evidence |
 |------|----------|----------------|---------|-----------|----------------|----------|
 | O-TL-01 | Are core team and operating entities publicly identified and credible? | Co-founders Dmitri Tsumak (Tallinn, Estonia) and Kirill Kutakov publicly identified with LinkedIn. Legal entity: Creative Tech Free Zone Co., UAE. 7 multisig signers publicly named. Team active since 2021. | 9 | 9 | Non-Improvable (optimal) | [P4] [LinkedIn](https://ee.linkedin.com/in/dmitri-tsumak), [P4] [Crunchbase](https://www.crunchbase.com/person/dmitri-tsumak) |
-| O-TL-02 | Is the protocol dependent on a single developer or small team? | Moderate risk. StakeWise Labs remains the primary core code contributor (v3-core repo) — a small-team concentration for ongoing protocol development, comparable to the profiles scored Mid (3) elsewhere in the framework (Ethena: key-person risk; Kelp: small team; RocketPool: development concentrated in one company). Operational continuity is strongly mitigated — permissionless vault model with 100+ node operators across 40+ vaults, 11 independent oracle operators, and immutable core contracts mean the protocol keeps running without the team — but that operational resilience is credited under O-FR-05 (scored 9). For development-team depth, which this question measures per cross-protocol convention, the small primary team implies some key-person risk. Mid (3), Improvable — a broader independent contributor base would lift this to 9. | 3 | 9 | Improvable | [P1] [GitHub v3-core](https://github.com/stakewise/v3-core), [P0] [StakeWise Vaults](https://app.stakewise.io/vaults) |
+| O-TL-02 | Is the protocol dependent on a single developer or small team? | Permissionless vault model with 100+ node operators across 40+ vaults means protocol operations do not depend on a single team. 11 independent oracle operators provide service decentralization. Core smart contracts are immutable, reducing ongoing code-change dependency. While StakeWise Labs remains the primary core code contributor (v3-core repo), the protocol can run and be modified by multiple independent teams given the permissionless architecture. | 9 | 9 | Non-Improvable (optimal) | [P1] [GitHub v3-core](https://github.com/stakewise/v3-core), [P0] [StakeWise Vaults](https://app.stakewise.io/vaults) |
 | O-TL-03 | What legal entity and jurisdiction operate the protocol and/or assets? | Decentralized DAO structure for the open-source protocol. Creative Tech FZCO incorporated in the UAE operates StakeWise front-end to enable access to smart contracts. Entity clearly named, registered in UAE free zone, and mapped to operational responsibilities (front-end operation). Non-custodial staking does not require VARA registration. | 9 | 9 | Non-Improvable (optimal) | [P1] [StakeWise Terms of Service](https://app.stakewise.io/terms-and-conditions): UAE entity confirmed |
 | O-TL-04 | Are there known investigations or regulatory actions related to the entity? | No known investigations or regulatory actions. UAE VARA has not extended oversight to non-custodial staking. No enforcement actions documented. | 9 | 9 | Non-Improvable (optimal) | [P4] VARA public register checked |
 | O-TL-05 | Is there an on-call and incident response process for core teams? | Demonstrated in practice: Balancer hack (Nov 2025) saw emergency multisig powers invoked within hours, 73.5% of stolen osETH recovered. Governance multisig explicitly mandated to step in to veto malicious SafeSnap transactions. Oracle set operates under SLAs. However, formal 24/7 on-call documentation with specific response SLAs not publicly available. Meets Mid (3): informal on-call with demonstrated capability but without formal documented SLAs. | 3 | 9 | **Improvable** | [P1] [StakeWise Governance Docs](https://docs.stakewise.io/docs/governance/dao-treasury#current-committee-members-multisig), [P1] [Oracle set SLAs](https://forum.stakewise.io/t/stakewise-v3-oracle-network/1321) |
@@ -179,8 +181,8 @@
 | O-TL-09 | Has the strategy manager been involved in products with collateral loss? | N/A -- LST, not managed vault. | N/A | N/A | N/A | - |
 
 **Team & Legal Subtotal (7 of 9 scored):**
-- Raw scores: 9+3+9+9+3+9+9 = 51/63
-- Adjusted: (51/63) x 67.5 = **54.6/67.5 (81.0%)**
+- Raw scores: 9+9+9+9+3+9+9 = 57/63
+- Adjusted: (57/63) x 67.5 = **61.1/67.5 (90.5%)**
 
 #### Documentation & Transparency (7.5% weight, 67.5 max points)
 
@@ -211,7 +213,7 @@
 - Raw scores: 3+1+9+9+9 = 31/45
 - Adjusted: (31/45) x 67.5 = **46.5/67.5 (68.9%)**
 
-**Operations Total: 52.5 + 54.6 + 67.5 + 46.5 = 221.1/270 (81.9%)**
+**Operations Total: 52.5 + 61.1 + 67.5 + 46.5 = 227.6/270 (84.3%)**
 
 ## Final Score Calculation
 
@@ -224,14 +226,15 @@
 | | Collateral (4 Q) | 36 | 36 | 45.0 | 45 | 100.0% |
 | | Infra Counterparty (8 Q) | 66 | 72 | 41.25 | 45 | 91.7% |
 | | Protocol Counterparty (4 of 5 Q scored) | 36 | 36 | 45.0 | 45 | 100.0% |
-| | Liquidity (9 Q) | 69 | 81 | 38.33 | 45 | 85.2% |
+| | Liquidity (9 Q) | 75 | 81 | 41.67 | 45 | 92.6% |
 | | Market (5 Q) | 33 | 45 | 33.0 | 45 | 73.3% |
-| | **Strategy Subtotal** | | | **247.58** | **270** | **91.7%** |
+| | **Strategy Subtotal** | | | **250.92** | **270** | **92.9%** |
 | **Operations** | Governance (3 of 4 Q scored) | 21 | 27 | 52.5 | 67.5 | 77.8% |
-| | Team & Legal (7 of 9 Q scored) | 51 | 63 | 54.6 | 67.5 | 81.0% |
+| | Team & Legal (7 of 9 Q scored) | 57 | 63 | 61.1 | 67.5 | 90.5% |
 | | Documentation (6 Q) | 54 | 54 | 67.5 | 67.5 | 100.0% |
 | | Financial Resilience (5 Q) | 31 | 45 | 46.5 | 67.5 | 68.9% |
-| | **Operations Subtotal** | | | **221.1** | **270** | **81.9%** |
-| **TOTAL** | | | | **800.7** | **900** | **89.0%** |
+| | **Operations Subtotal** | | | **227.6** | **270** | **84.3%** |
+| **TOTAL** | | | | **810.52** | **900** | **90.1%** |
 
 ---
+
